@@ -230,18 +230,6 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
 .form-danger-zone{margin:14px;background:rgba(217,83,79,.05);border:1px solid rgba(217,83,79,.15);border-radius:var(--r);padding:16px}
 .form-danger-title{font-size:11px;color:#e28b88;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
 
-/* ══ UPLOAD ══ */
-.upload-zone{
-  border:1px dashed rgba(201,168,76,.25);
-  background:rgba(201,168,76,.03);
-  border-radius:var(--r-sm);padding:14px;
-}
-.upload-file-row{display:flex;flex-direction:column;gap:8px}
-.upload-file-input{font-size:12px;color:var(--c3);padding:8px 0}
-.upload-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.upload-progress{font-size:11px;color:var(--or)}
-.img-prev{width:100%;max-height:140px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line);margin-top:10px;display:none}
-
 /* ══ STICKY FORM FOOTER ══ */
 .form-footer{
   flex-shrink:0;padding:12px 14px;
@@ -449,23 +437,6 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
           </div>
         </div>
         <div class="form-section">
-          <div class="form-section-head"><span class="form-section-icon">◈</span><span class="form-section-label">Photo</span></div>
-          <div class="form-fields">
-            <div class="fg full">
-              <div class="upload-zone">
-                <input id="a-photo-url" type="hidden">
-                <div class="upload-file-row">
-                  <input id="a-photo-file" type="file" accept="image/*" class="upload-file-input">
-                  <div class="upload-actions">
-                    <button class="btn btn-sm" type="button" onclick="uploadAboutImage()">↑ Uploader</button>
-                    <span class="upload-progress" id="a-upload-progress"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-section">
           <div class="form-section-head"><span class="form-section-icon">◈</span><span class="form-section-label">Points forts</span></div>
           <div class="form-fields">
             <div class="fg full"><label class="label">Un point fort par ligne</label><textarea id="a-highlights" class="area" style="min-height:130px" placeholder="Plans lisibles et pratiques&#10;Adapté aux chantiers africains&#10;Accompagnement de A à Z"></textarea></div>
@@ -516,7 +487,7 @@ const auth=getAuth(app);
 const db=getFirestore(app);
 
 const DEF={
-  about:{kicker:"À propos de l'architecte",name:'Architecte IA Africa',role:'Architecte concepteur · Plans africains modernes',bio:"Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé.",photoUrl:'',highlights:["Plans lisibles, pratiques et prêts pour l'exécution chantier.",'Conception pensée pour les climats, budgets et matériaux locaux.',"Accompagnement direct du choix du plan jusqu'à la livraison PDF."]},
+  about:{kicker:"À propos de l'architecte",name:'Architecte IA Africa',role:'Architecte concepteur · Plans africains modernes',bio:"Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé.",highlights:["Plans lisibles, pratiques et prêts pour l'exécution chantier.",'Conception pensée pour les climats, budgets et matériaux locaux.',"Accompagnement direct du choix du plan jusqu'à la livraison PDF."]},
   services:[
     {id:'studio-f2',section:'fixe',category:'eco',ribbon:'Populaire',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Studio Économique F2',description:'Plan complet 50 m² style traditionnel africain.',features:['Séjour + 1 chambre + cuisine + SDB','PDF haute résolution prêt maçon'],price:12000,oldPrice:30000,unit:'FCFA',delivery:'PDF envoyé sous 1h',delai:'1h',button:'Acheter maintenant',imageUrl:''},
     {id:'familiale-3ch',section:'fixe',category:'familial',ribbon:'Familial',ribbonClass:'rb-out',icon:'ico-home2',typeLabel:'Livraison rapide',type:'fixe',name:'Maison Familiale 3 Chambres',description:'Plan 90 m² pour famille de 4 à 6 personnes.',features:['3 chambres + séjour + cuisine','Véranda 15 m² incluse'],price:25000,oldPrice:50000,unit:'FCFA',delivery:'PDF envoyé sous 1h',delai:'1h',button:'Acheter maintenant',imageUrl:''},
@@ -532,7 +503,12 @@ const DEF={
 let config=clone(DEF),selIdx=0,curTab='home',editOpen=false,isDirty=false;
 
 function clone(o){return JSON.parse(JSON.stringify(o))}
-function merge(s){return s?{...DEF,...s,about:{...DEF.about,...s.about},services:Array.isArray(s.services)?s.services:DEF.services}:clone(DEF)}
+function stripMedia(cfg){
+  if(cfg.about)delete cfg.about.photoUrl;
+  (cfg.services||[]).forEach(s=>delete s.imageUrl);
+  return cfg;
+}
+function merge(s){return stripMedia(s?{...DEF,...s,about:{...DEF.about,...s.about},services:Array.isArray(s.services)?s.services:DEF.services}:clone(DEF))}
 function g(id){return document.getElementById(id)}
 function lines(v){return String(v||'').split('\n').map(x=>x.trim()).filter(Boolean)}
 function fmt(n){return Number(n||0).toLocaleString('fr-FR')}
@@ -582,6 +558,7 @@ async function loadRemote(){
 
 async function saveAll(){
   saveForm();saveAbout();
+  stripMedia(config);
   setSynced('','Enregistrement…');
   try{
     await setDoc(doc(db,COL,DOCID),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});
@@ -664,23 +641,6 @@ function renderEditForm(){
         <div class="fg full"><label class="label">Fonctionnalités — une par ligne</label><textarea id="s-features" class="area">${(s.features||[]).map(esc).join('\n')}</textarea></div>
       </div>
     </div>
-    <div class="form-section">
-      <div class="form-section-head"><span class="form-section-icon">◈</span><span class="form-section-label">Image</span></div>
-      <div class="form-fields">
-        <div class="fg full">
-          <div class="upload-zone">
-            <input id="s-image-url" type="hidden" value="${esc(s.imageUrl||'')}">
-            <div class="upload-file-row">
-              <input id="s-image-file" type="file" accept="image/*" class="upload-file-input">
-              <div class="upload-actions">
-                <button class="btn btn-sm" type="button" onclick="uploadServiceImage()">↑ Uploader</button>
-                <span class="upload-progress" id="s-upload-progress"></span>
-              </div>
-            </div>
-            <img id="s-image-preview" class="img-prev" alt="Aperçu" ${s.imageUrl?`src="${esc(s.imageUrl)}" style="display:block"`:''}></div>
-        </div>
-      </div>
-    </div>
     <div class="form-danger-zone">
       <div class="form-danger-title">Zone de danger</div>
       <button class="btn btn-red btn-full" onclick="deleteService()">✕ Supprimer ce service</button>
@@ -694,11 +654,11 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'
 function opt(pairs,cur){return pairs.map(([v,l])=>`<option value="${v}"${v===cur?' selected':''}>${l}</option>`).join('')}
 
 function bindFormInputs(){
-  const ids=['s-name','s-id','s-section','s-category','s-icon','s-type-label','s-price','s-old-price','s-unit','s-delai','s-type','s-delivery','s-ribbon','s-ribbon-class','s-button','s-description','s-features','s-image-url'];
+  const ids=['s-name','s-id','s-section','s-category','s-icon','s-type-label','s-price','s-old-price','s-unit','s-delai','s-type','s-delivery','s-ribbon','s-ribbon-class','s-button','s-description','s-features'];
   ids.forEach(id=>{
     const el=g(id);if(!el)return;
-    el.addEventListener('input',()=>{if(id==='s-image-url')updateImgPreview();setSynced('dirty','Modifications non enregistrées')});
-    el.addEventListener('change',()=>{if(id==='s-image-url')updateImgPreview();setSynced('dirty','Modifications non enregistrées')});
+    el.addEventListener('input',()=>setSynced('dirty','Modifications non enregistrées'));
+    el.addEventListener('change',()=>setSynced('dirty','Modifications non enregistrées'));
   });
 }
 
@@ -769,9 +729,9 @@ function saveForm(){
     features:lines(g('s-features').value),
     delivery:g('s-delivery').value.trim(),
     button:g('s-button').value.trim()||'Commander',
-    typeLabel:g('s-type-label').value.trim(),
-    imageUrl:g('s-image-url').value.trim()
+    typeLabel:g('s-type-label').value.trim()
   });
+  delete s.imageUrl;
   renderHome();renderServiceList();
 }
 
@@ -780,14 +740,13 @@ function saveAbout(){
   config.about={
     kicker:g('a-kicker').value.trim(),name:g('a-name').value.trim(),
     role:g('a-role').value.trim(),bio:g('a-bio').value.trim(),
-    photoUrl:g('a-photo-url').value.trim(),highlights:lines(g('a-highlights').value)
+    highlights:lines(g('a-highlights').value)
   };
 }
 
 function fillAbout(){
   const a=config.about;
   ['kicker','name','role','bio'].forEach(f=>{const el=g('a-'+f);if(el)el.value=a[f]||''});
-  const ph=g('a-photo-url');if(ph)ph.value=a.photoUrl||'';
   const hl=g('a-highlights');if(hl)hl.value=(a.highlights||[]).join('\n');
   ['a-kicker','a-name','a-role','a-bio','a-highlights'].forEach(id=>{
     const el=g(id);if(!el)return;
@@ -798,7 +757,7 @@ function fillAbout(){
 /* ── SERVICE ACTIONS ── */
 function addService(){
   saveForm();
-  config.services.push({id:'service-'+Date.now(),section:'fixe',category:'tout',ribbon:'Nouveau',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Nouveau service',description:'',features:['Avantage 1','Avantage 2'],price:10000,oldPrice:'',unit:'FCFA',delivery:'Livraison après confirmation',delai:'1h',button:'Commander',imageUrl:''});
+  config.services.push({id:'service-'+Date.now(),section:'fixe',category:'tout',ribbon:'Nouveau',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Nouveau service',description:'',features:['Avantage 1','Avantage 2'],price:10000,oldPrice:'',unit:'FCFA',delivery:'Livraison après confirmation',delai:'1h',button:'Commander'});
   selIdx=config.services.length-1;
   render();
   openService(selIdx);
@@ -816,39 +775,6 @@ function deleteService(){
   setSynced('dirty','Modifications non enregistrées');
 }
 
-function updateImgPreview(){
-  const url=g('s-image-url').value.trim();
-  const img=g('s-image-preview');if(!img)return;
-  img.style.display=url?'block':'none';
-  if(url)img.src=url;
-}
-
-/* ── UPLOAD ── */
-async function uploadImg(file,progressId,onDone){
-  if(!file){toast('Choisis une image');return}
-  if(!auth.currentUser){toast('Connexion admin requise');return}
-  const prog=g(progressId);
-  prog.textContent='Upload en cours…';
-  const fd=new FormData();fd.append('image',file);
-  try{
-    const token=await auth.currentUser.getIdToken();
-    const res=await fetch('/api/upload-image',{method:'POST',headers:{Authorization:'Bearer '+token},body:fd});
-    const data=await res.json();
-    if(!res.ok||!data.url)throw new Error(data.error||'Erreur');
-    prog.textContent='Uploadée ✓';
-    onDone(data.url);setSynced('dirty','Modifications non enregistrées');
-  }catch(e){prog.textContent='Erreur upload';toast('Upload impossible');console.warn(e)}
-}
-
-function uploadServiceImage(){
-  const f=g('s-image-file').files[0];
-  uploadImg(f,'s-upload-progress',url=>{const el=g('s-image-url');if(el){el.value=url;updateImgPreview()}});
-}
-function uploadAboutImage(){
-  const f=g('a-photo-file').files[0];
-  uploadImg(f,'a-upload-progress',url=>{const el=g('a-photo-url');if(el)el.value=url;saveAbout()});
-}
-
 /* ── AUTH WATCH ── */
 onAuthStateChanged(auth,async user=>{
   const ok=await isAdmin(user);
@@ -860,7 +786,7 @@ onAuthStateChanged(auth,async user=>{
 /* ── EXPORTS ── */
 window.loginAdmin=async(e)=>{e.preventDefault();g('auth-error').textContent='';try{await signInWithEmailAndPassword(auth,g('login-email').value.trim(),g('login-password').value)}catch(err){g('auth-error').textContent='Connexion impossible. Vérifie tes identifiants.';console.warn(err)}};
 window.logoutAdmin=()=>signOut(auth);
-['saveAll','addService','deleteService','openService','goToServices','goToAbout','goBack','showTab','uploadServiceImage','uploadAboutImage'].forEach(fn=>{window[fn]=eval(fn)});
+['saveAll','addService','deleteService','openService','goToServices','goToAbout','goBack','showTab'].forEach(fn=>{window[fn]=eval(fn)});
 </script>
 </body>
 </html>

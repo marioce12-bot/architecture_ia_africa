@@ -134,8 +134,6 @@ nav{
 .rb-out{border:1px solid var(--or);color:var(--or)}
 .rb-green{border:1px solid var(--vert);color:var(--vert)}
 .rb-blue{border:1px solid var(--bleu);color:var(--bleu)}
-/* Image optionnelle */
-.c-img{width:100%;height:160px;object-fit:cover;display:block;border-bottom:1px solid rgba(201,168,76,.1)}
 .c-body{padding:18px 20px;flex:1;display:flex;flex-direction:column}
 .c-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:rgba(201,168,76,.06);line-height:1;margin-bottom:8px;letter-spacing:-2px}
 .c-icon{width:28px;height:28px;color:var(--or);margin-bottom:10px}
@@ -185,7 +183,7 @@ nav{
 .tc-desc{font-size:11px;color:var(--muted);line-height:1.6}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.about-grid{max-width:760px;margin:0 auto}
 .about-card{background:var(--s2);border:1px solid rgba(201,168,76,.14);border-radius:var(--rl);padding:28px}
 .a-name{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--or);margin-bottom:3px}
 .a-role{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px}
@@ -193,10 +191,6 @@ nav{
 .a-list{list-style:none;display:flex;flex-direction:column;gap:10px}
 .a-list li{display:flex;gap:9px;font-size:12px;color:var(--txt);align-items:flex-start}
 .a-list svg{width:12px;height:12px;color:var(--or);flex-shrink:0;margin-top:3px}
-.about-photo{border:1px solid rgba(201,168,76,.14);border-radius:var(--rl);background:var(--s2);min-height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.about-photo img{width:100%;height:100%;object-fit:cover;border-radius:var(--rl)}
-.a-mono{font-family:'Playfair Display',serif;font-size:60px;font-weight:700;color:rgba(201,168,76,.1);letter-spacing:-4px}
-
 /* FOOTER */
 footer{padding:22px 20px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .f-brand{font-family:'Playfair Display',serif;font-size:13px;color:var(--or)}
@@ -299,7 +293,6 @@ footer{padding:22px 20px;border-top:1px solid rgba(255,255,255,.05);display:flex
   .hero-sub,.hero-btns{max-width:100%}
   .hero-btns{justify-content:center}
   .h-panel{max-width:480px;margin:0 auto;width:100%}
-  .about-grid{grid-template-columns:1fr;gap:24px}
   nav{padding:0 16px}
   .nav-links,.btn-nav{display:none}
   .ham{display:flex}
@@ -518,9 +511,6 @@ footer{padding:22px 20px;border-top:1px solid rgba(255,255,255,.05);display:flex
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Accompagnement direct du choix du plan jusqu'à la livraison PDF.</span></li>
       </ul>
     </div>
-    <div class="about-photo fi-in" style="transition-delay:.1s" id="about-photo">
-      <div class="a-mono">AIA</div>
-    </div>
   </div>
 </section>
 
@@ -654,7 +644,6 @@ const DEFAULT_SITE_CONFIG = {
     name:'Architecte IA Africa',
     role:'Architecte concepteur · Plans africains modernes',
     bio:"Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
-    photoUrl:'',
     highlights:[
       "Plans lisibles, pratiques et prêts pour l'exécution chantier.",
       "Conception pensée pour les climats, budgets et matériaux locaux.",
@@ -680,7 +669,7 @@ function mergeCfg(cfg){
   return {
     ...DEFAULT_SITE_CONFIG,...cfg,
     about:{...DEFAULT_SITE_CONFIG.about,...(cfg.about||{})},
-    services:Array.isArray(cfg.services)&&cfg.services.length?cfg.services:DEFAULT_SITE_CONFIG.services
+    services:Array.isArray(cfg.services)&&cfg.services.length?cfg.services.map(({imageUrl,...svc})=>svc):DEFAULT_SITE_CONFIG.services
   };
 }
 
@@ -689,13 +678,11 @@ function renderCard(s,idx){
   const price = Number(s.price)||0;
   const oldPrice = Number(s.oldPrice)||0;
   const feats = (s.features||[]).filter(Boolean).map(f=>`<li><span class="dot"></span>${esc(f)}</li>`).join('');
-  const img = s.imageUrl?`<img class="c-img" src="${esc(s.imageUrl)}" alt="${esc(s.name)}">`:'' ;
   const md = JSON.stringify({id:s.id,name:s.name,price,type:s.type||'fixe',delai:s.delai||'1h'}).replace(/"/g,'&quot;');
   return `
 <div class="card fi-in vis" data-cat="${esc(s.category||'tout')}">
   <div class="c-bar ${esc(s.barClass||'gold')}"></div>
   ${s.ribbon?`<div class="c-badge ${esc(s.ribbonClass||'rb-out')}">${esc(s.ribbon)}</div>`:''}
-  ${img}
   <div class="c-body">
     <div class="c-num">${String(idx+1).padStart(2,'0')}</div>
     <svg class="c-icon"><use href="#${esc(s.icon||'i-home')}"/></svg>
@@ -742,7 +729,6 @@ function renderAbout(cfg){
   document.getElementById('about-role').textContent   = a.role;
   document.getElementById('about-bio').textContent    = a.bio;
   document.getElementById('about-highlights').innerHTML = (a.highlights||[]).map(h=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${esc(h)}</span></li>`).join('');
-  document.getElementById('about-photo').innerHTML = a.photoUrl?`<img src="${esc(a.photoUrl)}" alt="${esc(a.name)}">`:'<div class="a-mono">AIA</div>';
 }
 
 function renderAll(cfg){renderServices(cfg);renderAbout(cfg)}
