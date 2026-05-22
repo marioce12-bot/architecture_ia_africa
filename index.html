@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -19,186 +18,506 @@ body{background:var(--noir);color:var(--creme);font-family:'Outfit',sans-serif;o
 .ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .ico svg{width:100%;height:100%}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;background:rgba(10,10,10,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.12)}
-.logo{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700;color:var(–or);letter-spacing:2px;display:flex;align-items:center;gap:10px}
-.logo em{color:var(–creme);font-style:normal}
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 48px;
+  background:rgba(10,10,10,.94);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(201,168,76,.12);
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+  color:var(--or);letter-spacing:2px;
+  display:flex;align-items:center;gap:10px;
+}
+.logo em{color:var(--creme);font-style:normal}
 .logo-ico{width:32px;height:32px}
 .nav-links{display:flex;gap:32px}
-.nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(–gris);text-decoration:none;transition:color .3s}
-.nav-links a:hover{color:var(–or)}
-.nav-cta{background:var(–or);color:var(–noir);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:8px}
-.nav-cta:hover{background:var(–or2);transform:translateY(-1px)}
+.nav-links a{
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gris);text-decoration:none;transition:color .3s;
+}
+.nav-links a:hover{color:var(--or)}
+.nav-cta{
+  background:var(--or);color:var(--noir);
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:10px 24px;border:none;cursor:pointer;transition:all .3s;
+  display:flex;align-items:center;gap:8px;
+}
+.nav-cta:hover{background:var(--or2);transform:translateY(-1px)}
 
-/* HERO */
-.hero{min-height:58vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:130px 24px 70px;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.12) 0%,transparent 70%),var(–noir);position:relative;overflow:hidden}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 50%,black 40%,transparent 80%)}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(201,168,76,.3);color:var(–or);font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:7px 20px;margin-bottom:28px;animation:up .7s ease both}
-.hero h1{font-family:‘Cormorant Garamond’,serif;font-size:clamp(36px,7vw,72px);font-weight:700;line-height:1.05;animation:up .8s ease .1s both}
-.hero h1 span{color:var(–or);display:block}
-.hero p{margin-top:18px;font-size:15px;color:#777;max-width:480px;line-height:1.75;animation:up .9s ease .2s both}
-.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:36px;animation:up 1s ease .3s both}
-.btn-or{background:var(–or);color:var(–noir);border:none;padding:14px 32px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn-or:hover{background:var(–or2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,168,76,.25)}
-.btn-out{background:transparent;color:var(–creme);border:1px solid rgba(255,255,255,.15);padding:14px 32px;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn-out:hover{border-color:var(–or);color:var(–or)}
+/* Hamburger mobile */
+.ham{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:36px;height:36px;cursor:pointer;padding:4px;
+  background:none;border:none;
+}
+.ham span{
+  display:block;height:2px;background:var(--or);
+  transition:all .3s;border-radius:2px;
+}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
-/* BANDE */
-.bande{display:flex;justify-content:center;flex-wrap:wrap;border-top:1px solid rgba(201,168,76,.15);border-bottom:1px solid rgba(201,168,76,.15);background:var(–noir2)}
-.bi{text-align:center;padding:20px 44px;border-right:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;gap:8px}
+.mob-menu{
+  display:none;position:fixed;top:60px;left:0;right:0;z-index:499;
+  background:rgba(10,10,10,.98);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(201,168,76,.12);
+  flex-direction:column;padding:16px 24px 20px;gap:0;
+}
+.mob-menu.open{display:flex}
+.mob-menu a{
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gris);text-decoration:none;
+  padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  transition:color .3s;
+}
+.mob-menu a:hover{color:var(--or)}
+.mob-menu .nav-cta{
+  margin-top:14px;justify-content:center;width:100%;
+}
+
+/* ── HERO ── */
+.hero{
+  min-height:58vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  padding:130px 24px 70px;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.12) 0%,transparent 70%),var(--noir);
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at 50% 50%,black 40%,transparent 80%);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(201,168,76,.3);color:var(--or);
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  padding:7px 20px;margin-bottom:28px;
+  animation:up .7s ease both;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,7vw,72px);font-weight:700;line-height:1.05;
+  animation:up .8s ease .1s both;
+}
+.hero h1 span{color:var(--or);display:block}
+.hero p{
+  margin-top:18px;font-size:15px;color:#777;
+  max-width:480px;line-height:1.75;
+  animation:up .9s ease .2s both;
+}
+.hero-ctas{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  margin-top:36px;animation:up 1s ease .3s both;
+}
+.btn-or{
+  background:var(--or);color:var(--noir);border:none;
+  padding:14px 32px;font-size:11px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;cursor:pointer;transition:all .3s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-or:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,168,76,.25)}
+.btn-out{
+  background:transparent;color:var(--creme);border:1px solid rgba(255,255,255,.15);
+  padding:14px 32px;font-size:11px;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-out:hover{border-color:var(--or);color:var(--or)}
+
+/* ── BANDE ── */
+.bande{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  border-top:1px solid rgba(201,168,76,.15);
+  border-bottom:1px solid rgba(201,168,76,.15);
+  background:var(--noir2);
+}
+.bi{
+  text-align:center;padding:20px 44px;
+  border-right:1px solid rgba(255,255,255,.05);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  flex:1 1 auto;min-width:140px;
+}
 .bi:last-child{border-right:none}
 .bi-ico{width:22px;height:22px}
-.bi-n{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;color:var(–or)}
+.bi-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--or)}
 .bi-l{font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase}
 
-/* SECTION */
+/* ── SECTION ── */
 .sec{padding:90px 24px;max-width:1200px;margin:0 auto}
-.sec-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(–or);margin-bottom:12px}
-.sec-h{font-family:‘Cormorant Garamond’,serif;font-size:clamp(26px,4vw,46px);font-weight:700;line-height:1.15;margin-bottom:48px}
-.sec-h span{color:var(–or)}
+.sec-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:12px}
+.sec-h{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(24px,4vw,46px);font-weight:700;line-height:1.15;margin-bottom:48px;
+}
+.sec-h span{color:var(--or)}
 
-/* TABS */
+/* ── TABS ── */
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px}
-.tab{padding:8px 22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,.08);background:transparent;color:#555;cursor:pointer;transition:all .3s}
-.tab:hover,.tab.on{border-color:var(–or);color:var(–or);background:rgba(201,168,76,.06)}
+.tab{
+  padding:8px 22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.08);background:transparent;color:#555;
+  cursor:pointer;transition:all .3s;
+}
+.tab:hover,.tab.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.06)}
 
-/* GRILLE */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:2px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.1)}
+/* ── GRILLE ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:2px;background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.1);
+}
 
-/* CARD */
-.card{background:var(–noir2);padding:36px 30px;position:relative;overflow:hidden;transition:background .4s,transform .4s}
-.card::before{content:’’;position:absolute;left:0;top:0;width:2px;height:0;background:var(–or);transition:height .4s}
+/* ── CARD ── */
+.card{
+  background:var(--noir2);padding:36px 30px;
+  position:relative;overflow:hidden;
+  transition:background .4s,transform .4s;
+}
+.card::before{
+  content:'';position:absolute;left:0;top:0;
+  width:2px;height:0;background:var(--or);transition:height .4s;
+}
 .card:hover::before{height:100%}
-.card:hover{background:var(–noir3);transform:translateY(-3px)}
-.c-ribbon{position:absolute;top:16px;right:16px;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 10px}
-.rb-gold{background:var(–or);color:var(–noir)}
-.rb-out{border:1px solid var(–or);color:var(–or)}
-.rb-green{border:1px solid var(–vert);color:var(–vert)}
-.rb-blue{border:1px solid var(–bleu);color:var(–bleu)}
-.c-num{font-family:‘Cormorant Garamond’,serif;font-size:56px;font-weight:700;color:rgba(201,168,76,.07);line-height:1;margin-bottom:12px}
+.card:hover{background:var(--noir3);transform:translateY(-3px)}
+.c-ribbon{
+  position:absolute;top:16px;right:16px;
+  font-size:9px;font-weight:600;letter-spacing:1px;
+  text-transform:uppercase;padding:3px 10px;
+}
+.rb-gold{background:var(--or);color:var(--noir)}
+.rb-out{border:1px solid var(--or);color:var(--or)}
+.rb-green{border:1px solid var(--vert);color:var(--vert)}
+.rb-blue{border:1px solid var(--bleu);color:var(--bleu)}
+.c-num{
+  font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;
+  color:rgba(201,168,76,.07);line-height:1;margin-bottom:12px;
+}
 .c-ico{width:36px;height:36px;margin-bottom:14px}
-.c-name{font-family:‘Cormorant Garamond’,serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.c-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:8px}
 .c-type{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;margin-bottom:12px}
-.type-fixe{background:rgba(39,174,96,.1);color:var(–vert);border:1px solid rgba(39,174,96,.2)}
-.type-custom{background:rgba(201,168,76,.1);color:var(–or);border:1px solid rgba(201,168,76,.2)}
+.type-fixe{background:rgba(39,174,96,.1);color:var(--vert);border:1px solid rgba(39,174,96,.2)}
+.type-custom{background:rgba(201,168,76,.1);color:var(--or);border:1px solid rgba(201,168,76,.2)}
 .c-desc{font-size:13px;color:#555;line-height:1.65;margin-bottom:18px}
 .c-feat{list-style:none;margin-bottom:22px}
-.c-feat li{font-size:12px;color:#666;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:8px}
+.c-feat li{
+  font-size:12px;color:#666;padding:5px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:center;gap:8px;
+}
 .c-feat li .check{width:12px;height:12px;flex-shrink:0}
 .c-price{display:flex;align-items:baseline;gap:5px;margin-bottom:16px}
 .p-from{font-size:10px;color:#333;text-transform:uppercase;letter-spacing:1px}
-.p-amount{font-family:‘Cormorant Garamond’,serif;font-size:26px;font-weight:700;color:var(–or)}
+.p-amount{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--or)}
 .p-unit{font-size:11px;color:#333}
 .p-old{font-size:12px;color:#333;text-decoration:line-through;margin-left:6px}
-.c-delivery{display:flex;align-items:center;gap:8px;font-size:11px;color:#444;margin-bottom:18px;padding:8px 12px;border:1px solid rgba(255,255,255,.05);background:var(–noir)}
+.c-delivery{
+  display:flex;align-items:center;gap:8px;font-size:11px;color:#444;
+  margin-bottom:18px;padding:8px 12px;
+  border:1px solid rgba(255,255,255,.05);background:var(--noir);
+}
 .c-delivery .d-ico{width:14px;height:14px;flex-shrink:0}
-.btn-buy{width:100%;padding:13px;border:none;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-buy{
+  width:100%;padding:13px;border:none;
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
 .btn-buy .b-ico{width:16px;height:16px}
-.btn-instant{background:var(–or);color:var(–noir)}
-.btn-instant:hover{background:var(–or2);box-shadow:0 6px 24px rgba(201,168,76,.2)}
-.btn-order{background:transparent;color:var(–or);border:1px solid var(–or)}
+.btn-instant{background:var(--or);color:var(--noir)}
+.btn-instant:hover{background:var(--or2);box-shadow:0 6px 24px rgba(201,168,76,.2)}
+.btn-order{background:transparent;color:var(--or);border:1px solid var(--or)}
 .btn-order:hover{background:rgba(201,168,76,.08)}
 
-/* COMMENT */
-.comment{background:var(–noir2);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);padding:80px 24px}
+/* ── COMMENT ── */
+.comment{
+  background:var(--noir2);
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  padding:80px 24px;
+}
 .comment-inner{max-width:1100px;margin:0 auto}
 .deux-cols{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.col-title{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(201,168,76,.2)}
-.col-title span{color:var(–or)}
+.col-title{
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+  margin-bottom:28px;padding-bottom:14px;
+  border-bottom:1px solid rgba(201,168,76,.2);
+}
+.col-title span{color:var(--or)}
 .etape{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
-.etape-n{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;color:rgba(201,168,76,.3);line-height:1;width:32px;flex-shrink:0}
+.etape-n{
+  font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;
+  color:rgba(201,168,76,.3);line-height:1;width:32px;flex-shrink:0;
+}
 .etape-body h4{font-size:14px;font-weight:600;margin-bottom:4px}
 .etape-body p{font-size:12px;color:#555;line-height:1.6}
-.etape-badge{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;margin-bottom:6px}
-.auto-b{background:rgba(39,174,96,.12);color:var(–vert);border:1px solid rgba(39,174,96,.2)}
-.manual-b{background:rgba(201,168,76,.1);color:var(–or);border:1px solid rgba(201,168,76,.2)}
+.etape-badge{
+  display:inline-block;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;padding:2px 8px;margin-bottom:6px;
+}
+.auto-b{background:rgba(39,174,96,.12);color:var(--vert);border:1px solid rgba(39,174,96,.2)}
+.manual-b{background:rgba(201,168,76,.1);color:var(--or);border:1px solid rgba(201,168,76,.2)}
 
-/* CONFIANCE */
+/* ── CONFIANCE ── */
 .confiance{max-width:1000px;margin:0 auto;padding:70px 24px;text-align:center}
-.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;margin-top:40px;background:rgba(201,168,76,.08)}
-.ti{background:var(–noir2);padding:28px 22px;text-align:center}
+.trust-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:2px;margin-top:40px;background:rgba(201,168,76,.08);
+}
+.ti{background:var(--noir2);padding:28px 22px;text-align:center}
 .ti-ico{width:32px;height:32px;margin:0 auto 14px}
 .ti-t{font-size:14px;font-weight:600;margin-bottom:6px}
 .ti-d{font-size:12px;color:#444;line-height:1.6}
 
-/* OVERLAY / MODAL */
-.overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.88);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+/* ── PHONE ROW ── */
+.phone-row{display:flex;gap:8px;align-items:stretch}
+.phone-code{
+  width:150px;flex-shrink:0;
+  padding:12px 10px;
+  background:var(--noir);border:1px solid rgba(255,255,255,.08);
+  color:var(--creme);font-family:'Outfit',sans-serif;font-size:12px;
+  outline:none;transition:border-color .3s;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:28px;
+}
+.phone-code:focus{border-color:var(--or)}
+.phone-code option{background:#111;color:var(--creme)}
+.phone-num{flex:1}
+
+/* ── OVERLAY / MODAL ── */
+.overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;padding:16px;
+}
 .overlay.open{display:flex}
-.modal{background:var(–noir2);width:100%;max-width:560px;border:1px solid rgba(201,168,76,.18);animation:modalIn .3s ease both;max-height:92vh;overflow-y:auto}
-.m-head{background:var(–noir);padding:24px 28px;border-bottom:1px solid rgba(201,168,76,.12);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1}
-.m-title{font-family:‘Cormorant Garamond’,serif;font-size:22px;font-weight:700}
-.m-close{background:none;border:none;color:#444;cursor:pointer;transition:color .3s;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
-.m-close:hover{color:var(–or)}
+.modal{
+  background:var(--noir2);width:100%;max-width:560px;
+  border:1px solid rgba(201,168,76,.18);
+  animation:modalIn .3s ease both;
+  max-height:92vh;overflow-y:auto;
+}
+.m-head{
+  background:var(--noir);padding:24px 28px;
+  border-bottom:1px solid rgba(201,168,76,.12);
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;z-index:1;
+}
+.m-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
+.m-close{
+  background:none;border:none;color:#444;cursor:pointer;transition:color .3s;
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+}
+.m-close:hover{color:var(--or)}
 .m-close svg{width:18px;height:18px}
-.m-body{padding:28px}
-.m-recap{display:flex;justify-content:space-between;align-items:center;background:var(–noir);padding:14px 18px;margin-bottom:24px;border-left:3px solid var(–or)}
+.m-body{padding:24px}
+.m-recap{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--noir);padding:14px 18px;margin-bottom:24px;
+  border-left:3px solid var(--or);gap:12px;
+}
 .m-recap-left .label{font-size:10px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.m-recap-left .pname{font-size:14px;font-weight:500}
-.m-recap-right{font-family:‘Cormorant Garamond’,serif;font-size:24px;font-weight:700;color:var(–or)}
-.m-delivery-info{padding:12px 14px;margin-bottom:20px;font-size:12px;display:flex;align-items:center;gap:10px}
+.m-recap-left .pname{font-size:13px;font-weight:500;flex:1}
+.m-recap-right{
+  font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;
+  color:var(--or);white-space:nowrap;flex-shrink:0;
+}
+.m-delivery-info{
+  padding:12px 14px;margin-bottom:20px;font-size:12px;
+  display:flex;align-items:center;gap:10px;
+}
 .del-auto{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.15);color:#888}
 .del-custom{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);color:#888}
 .fg{margin-bottom:16px}
 .fl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:7px;display:block}
-.fi,.fsel,.fta{width:100%;padding:12px 14px;background:var(–noir);border:1px solid rgba(255,255,255,.08);color:var(–creme);font-family:‘Outfit’,sans-serif;font-size:13px;outline:none;transition:border-color .3s}
-.fi:focus,.fsel:focus,.fta:focus{border-color:var(–or)}
-.fsel option{background:var(–noir)}
+.fi,.fsel,.fta{
+  width:100%;padding:12px 14px;
+  background:var(--noir);border:1px solid rgba(255,255,255,.08);
+  color:var(--creme);font-family:'Outfit',sans-serif;font-size:13px;
+  outline:none;transition:border-color .3s;
+}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--or)}
+.fsel{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:34px;
+}
+.fsel option{background:var(--noir)}
 .fta{resize:vertical;min-height:80px}
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sep{display:flex;align-items:center;gap:12px;margin:20px 0}
 .sep-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
-.sep-txt{font-size:10px;color:#333;letter-spacing:1px;text-transform:uppercase}
-.mtn-box{background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.2);padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.sep-txt{font-size:10px;color:#333;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.mtn-box{
+  background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.2);
+  padding:16px 18px;margin-bottom:20px;
+  display:flex;align-items:center;gap:14px;
+}
 .mtn-ico{width:36px;height:36px;flex-shrink:0}
 .mtn-label{font-size:11px;color:#888;margin-bottom:3px}
 .mtn-num{font-size:15px;font-weight:600;color:#FFC107}
-.btn-payer{width:100%;padding:15px;background:var(–or);color:var(–noir);border:none;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px}
-.btn-payer:hover{background:var(–or2)}
+.btn-payer{
+  width:100%;padding:15px;background:var(--or);color:var(--noir);border:none;
+  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-payer:hover{background:var(--or2)}
 .btn-payer svg{width:18px;height:18px}
-.m-note{text-align:center;margin-top:12px;font-size:10px;color:#333;display:flex;align-items:center;justify-content:center;gap:6px}
+.m-note{
+  text-align:center;margin-top:12px;font-size:10px;color:#333;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
 .m-note svg{width:12px;height:12px}
 
-/* SUCCESS */
-.success{text-align:center;padding:48px 28px}
+/* ── SUCCESS ── */
+.success{text-align:center;padding:40px 24px}
 .s-ico{width:56px;height:56px;margin:0 auto 20px;animation:bounce .5s ease}
-.s-title{font-family:‘Cormorant Garamond’,serif;font-size:28px;font-weight:700;margin-bottom:10px}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;margin-bottom:10px}
 .s-msg{font-size:14px;color:#777;line-height:1.7;margin-bottom:24px}
-.s-steps{text-align:left;background:var(–noir);padding:18px 20px;margin-bottom:24px}
-.s-step{display:flex;gap:12px;padding:7px 0;font-size:13px;color:#888;align-items:flex-start}
-.s-step-n{color:var(–or);font-weight:700;flex-shrink:0;width:20px}
-.num-box{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:16px 18px;margin-bottom:16px;text-align:center}
-.amount-box{background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.15);padding:14px 18px;margin-bottom:16px;text-align:center}
-.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;padding:14px;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;text-decoration:none;margin-top:16px;transition:background .3s}
+.s-steps{text-align:left;background:var(--noir);padding:18px 20px;margin-bottom:24px}
+.s-step{
+  display:flex;gap:12px;padding:7px 0;font-size:13px;color:#888;
+  align-items:flex-start;
+}
+.s-step-n{color:var(--or);font-weight:700;flex-shrink:0;width:20px}
+.num-box{
+  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);
+  padding:16px 18px;margin-bottom:16px;text-align:center;
+}
+.amount-box{
+  background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.15);
+  padding:14px 18px;margin-bottom:16px;text-align:center;
+}
+.wa-btn{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:#25D366;color:#fff;padding:14px;
+  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  text-decoration:none;margin-top:16px;transition:background .3s;
+}
 .wa-btn:hover{background:#1ea952}
 .wa-btn svg{width:20px;height:20px}
-.btn-close-s{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:var(–or);color:var(–noir);border:none;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .3s}
-.btn-close-s:hover{background:var(–or2)}
+.btn-close-s{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 32px;background:var(--or);color:var(--noir);border:none;
+  font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .3s;
+}
+.btn-close-s:hover{background:var(--or2)}
 
-/* FOOTER */
-footer{border-top:1px solid rgba(255,255,255,.04);padding:32px 24px;text-align:center;font-size:11px;color:#2a2a2a}
-footer strong{color:var(–or)}
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid rgba(255,255,255,.04);
+  padding:32px 24px;text-align:center;font-size:11px;color:#2a2a2a;
+}
+footer strong{color:var(--or)}
 .footer-icons{display:flex;justify-content:center;gap:16px;margin-top:10px;opacity:.3}
 .footer-icons svg{width:18px;height:18px}
 
-/* ANIMATIONS */
+/* ── ANIMATIONS ── */
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 @keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 .fi-in{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
 .fi-in.vis{opacity:1;transform:translateY(0)}
 
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:14px 28px}
+  .sec{padding:70px 20px}
+}
+
 @media(max-width:768px){
-nav{padding:14px 20px}.nav-links{display:none}
-.deux-cols{grid-template-columns:1fr}
-.fg-row{grid-template-columns:1fr}
+  /* Nav */
+  nav{padding:13px 20px}
+  .nav-links,.nav-cta{display:none}
+  .ham{display:flex}
+
+  /* Hero */
+  .hero{padding:100px 20px 60px}
+  .hero p{font-size:14px}
+  .btn-or,.btn-out{padding:13px 22px;font-size:10px}
+
+  /* Bande */
+  .bi{padding:16px 20px;min-width:calc(50% - 2px)}
+  .bi:nth-child(2n){border-right:none}
+  .bi:nth-child(3){border-right:1px solid rgba(255,255,255,.05)}
+
+  /* Section */
+  .sec{padding:60px 16px}
+  .sec-h{margin-bottom:32px}
+
+  /* Grid */
+  .grid{grid-template-columns:1fr}
+
+  /* Card */
+  .card{padding:28px 22px}
+
+  /* Process */
+  .deux-cols{grid-template-columns:1fr;gap:36px}
+  .comment{padding:60px 16px}
+
+  /* Modal */
+  .m-head{padding:18px 20px}
+  .m-body{padding:18px 16px}
+  .m-recap{flex-direction:column;align-items:flex-start;gap:8px}
+  .m-recap-right{font-size:20px}
+  .fg-row{grid-template-columns:1fr}
+
+  /* Phone row */
+  .phone-code{width:130px}
+
+  /* Trust */
+  .confiance{padding:50px 16px}
+}
+
+@media(max-width:480px){
+  /* Nav */
+  .logo{font-size:17px;letter-spacing:1px}
+  .logo-ico{width:26px;height:26px}
+
+  /* Bande */
+  .bi{padding:14px 16px;min-width:50%}
+  .bi-n{font-size:22px}
+
+  /* Tabs */
+  .tabs{gap:4px}
+  .tab{padding:7px 14px;font-size:10px}
+
+  /* Card */
+  .c-num{font-size:42px}
+  .card{padding:24px 18px}
+
+  /* Hero CTAs */
+  .hero-ctas{flex-direction:column;align-items:center}
+
+  /* Phone row */
+  .phone-row{flex-direction:column}
+  .phone-code{width:100%}
+
+  /* Modal */
+  .m-title{font-size:18px}
+  .m-recap-right{font-size:18px}
+  .s-title{font-size:20px}
+  .btn-payer{font-size:12px;padding:13px}
+  .success{padding:28px 16px}
 }
 </style>
-
 </head>
 <body>
 
-<!-- ── SVG DEFS (réutilisables) ── -->
-
+<!-- ── SVG DEFS ── -->
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
   <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/>
@@ -230,9 +549,6 @@ nav{padding:14px 20px}.nav-links{display:none}
   <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
   </symbol>
-  <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
-  </symbol>
   <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
   </symbol>
@@ -248,9 +564,6 @@ nav{padding:14px 20px}.nav-links{display:none}
   <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
   </symbol>
-  <symbol id="ico-pdf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="15" y2="11"/>
-  </symbol>
   <symbol id="ico-wa" viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </symbol>
@@ -264,12 +577,15 @@ nav{padding:14px 20px}.nav-links{display:none}
     <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
   </symbol>
   <symbol id="ico-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+  </symbol>
+  <symbol id="ico-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
   </symbol>
 </svg>
 
-<!-- NAV -->
-
+<!-- ── NAV ── -->
 <nav>
   <div class="logo">
     <svg class="logo-ico" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -288,15 +604,28 @@ nav{padding:14px 20px}.nav-links{display:none}
     <svg width="14" height="14"><use href="#ico-cart"/></svg>
     Commander
   </button>
+  <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
+<!-- Menu mobile -->
+<div class="mob-menu" id="mob-menu">
+  <a href="#boutique" onclick="closeMenu()">Boutique</a>
+  <a href="#comment" onclick="closeMenu()">Process</a>
+  <a href="#confiance" onclick="closeMenu()">Garanties</a>
+  <button class="nav-cta" onclick="closeMenu();document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
+    <svg width="14" height="14"><use href="#ico-cart"/></svg>
+    Commander
+  </button>
+</div>
 
+<!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="eyebrow">
-    <svg width="12" height="12"><use href="#ico-home" style="color:var(--or)"/></svg>
-    Boutique Officielle · Plans & Formations
+    <svg width="12" height="12" style="color:var(--or)"><use href="#ico-home"/></svg>
+    Boutique Officielle · Plans &amp; Formations
   </div>
   <h1>Ton plan de maison,<span>livré en 48h.</span></h1>
   <p>Plans fixes prêts à télécharger ou plans personnalisés dessinés sur mesure. Paie en MTN MoMo, reçois ton fichier rapidement.</p>
@@ -312,8 +641,7 @@ nav{padding:14px 20px}.nav-links{display:none}
   </div>
 </section>
 
-<!-- BANDE -->
-
+<!-- ── BANDE ── -->
 <div class="bande">
   <div class="bi">
     <svg class="bi-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
@@ -334,7 +662,6 @@ nav{padding:14px 20px}.nav-links{display:none}
 </div>
 
 <!-- ════ PLANS FIXES ════ -->
-
 <section class="sec" id="boutique">
   <p class="sec-tag fi-in">Plans prêts à télécharger</p>
   <h2 class="sec-h fi-in">Plans fixes.<br><span>Paiement — PDF rapide.</span></h2>
@@ -346,241 +673,235 @@ nav{padding:14px 20px}.nav-links{display:none}
   </div>
   <div class="grid">
 
-```
-<!-- 01 -->
-<div class="card fi-in" data-cat="eco">
-  <div class="c-ribbon rb-gold">Populaire</div>
-  <div class="c-num">01</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-home"/></svg>
-  <div class="c-type type-fixe">Livraison rapide</div>
-  <h3 class="c-name">Studio Économique F2</h3>
-  <p class="c-desc">Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Séjour + 1 chambre + cuisine + SDB</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Dimensions détaillées incluses</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 6–9 millions FCFA</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">12 000</span>
-    <span class="p-unit">FCFA</span><span class="p-old">30 000</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'studio-f2',name:'Studio Économique F2',price:12000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-  </button>
-</div>
+    <!-- 01 -->
+    <div class="card fi-in" data-cat="eco">
+      <div class="c-ribbon rb-gold">Populaire</div>
+      <div class="c-num">01</div>
+      <svg class="c-ico" style="color:var(--or)"><use href="#ico-home"/></svg>
+      <div class="c-type type-fixe">Livraison rapide</div>
+      <h3 class="c-name">Studio Économique F2</h3>
+      <p class="c-desc">Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.</p>
+      <ul class="c-feat">
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Séjour + 1 chambre + cuisine + SDB</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Dimensions détaillées incluses</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 6–9 millions FCFA</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
+      </ul>
+      <div class="c-price">
+        <span class="p-from">Dès</span><span class="p-amount">12 000</span>
+        <span class="p-unit">FCFA</span><span class="p-old">30 000</span>
+      </div>
+      <div class="c-delivery">
+        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      </div>
+      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'studio-f2',name:'Studio Économique F2',price:12000,type:'fixe',delai:'1h'})">
+        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
+      </button>
+    </div>
 
-<!-- 02 -->
-<div class="card fi-in" data-cat="familial">
-  <div class="c-ribbon rb-out">Familial</div>
-  <div class="c-num">02</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-home2"/></svg>
-  <div class="c-type type-fixe">Livraison rapide</div>
-  <h3 class="c-name">Maison Familiale 3 Chambres</h3>
-  <p class="c-desc">Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>3 chambres + séjour + cuisine</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Véranda 15 m² incluse</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 12–18 millions FCFA</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">25 000</span>
-    <span class="p-unit">FCFA</span><span class="p-old">50 000</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'familiale-3ch',name:'Maison Familiale 3 Chambres',price:25000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-  </button>
-</div>
+    <!-- 02 -->
+    <div class="card fi-in" data-cat="familial">
+      <div class="c-ribbon rb-out">Familial</div>
+      <div class="c-num">02</div>
+      <svg class="c-ico" style="color:var(--or)"><use href="#ico-home2"/></svg>
+      <div class="c-type type-fixe">Livraison rapide</div>
+      <h3 class="c-name">Maison Familiale 3 Chambres</h3>
+      <p class="c-desc">Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.</p>
+      <ul class="c-feat">
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>3 chambres + séjour + cuisine</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Véranda 15 m² incluse</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 12–18 millions FCFA</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
+      </ul>
+      <div class="c-price">
+        <span class="p-from">Dès</span><span class="p-amount">25 000</span>
+        <span class="p-unit">FCFA</span><span class="p-old">50 000</span>
+      </div>
+      <div class="c-delivery">
+        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      </div>
+      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'familiale-3ch',name:'Maison Familiale 3 Chambres',price:25000,type:'fixe',delai:'1h'})">
+        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
+      </button>
+    </div>
 
-<!-- 03 -->
-<div class="card fi-in" data-cat="villa">
-  <div class="c-ribbon rb-green">Luxe</div>
-  <div class="c-num">03</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-villa"/></svg>
-  <div class="c-type type-fixe">Livraison rapide</div>
-  <h3 class="c-name">Villa Traditionnelle 4 Chambres</h3>
-  <p class="c-desc">Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4 chambres + suite parentale</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Garage + grande terrasse</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 24–37 millions FCFA</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">45 000</span>
-    <span class="p-unit">FCFA</span><span class="p-old">90 000</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'villa-4ch',name:'Villa Traditionnelle 4 Chambres',price:45000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-  </button>
-</div>
+    <!-- 03 -->
+    <div class="card fi-in" data-cat="villa">
+      <div class="c-ribbon rb-green">Luxe</div>
+      <div class="c-num">03</div>
+      <svg class="c-ico" style="color:var(--or)"><use href="#ico-villa"/></svg>
+      <div class="c-type type-fixe">Livraison rapide</div>
+      <h3 class="c-name">Villa Traditionnelle 4 Chambres</h3>
+      <p class="c-desc">Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.</p>
+      <ul class="c-feat">
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4 chambres + suite parentale</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Garage + grande terrasse</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 24–37 millions FCFA</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
+      </ul>
+      <div class="c-price">
+        <span class="p-from">Dès</span><span class="p-amount">45 000</span>
+        <span class="p-unit">FCFA</span><span class="p-old">90 000</span>
+      </div>
+      <div class="c-delivery">
+        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      </div>
+      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'villa-4ch',name:'Villa Traditionnelle 4 Chambres',price:45000,type:'fixe',delai:'1h'})">
+        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
+      </button>
+    </div>
 
-<!-- 04 -->
-<div class="card fi-in" data-cat="tout">
-  <div class="c-ribbon rb-blue">Pack Complet</div>
-  <div class="c-num">04</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-library"/></svg>
-  <div class="c-type type-fixe">Livraison rapide</div>
-  <h3 class="c-name">Bibliothèque — Accès Illimité</h3>
-  <p class="c-desc">Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>+20 plans différents inclus</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Studios, F2, F3, villas, commerciales</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Toutes les mises à jour futures</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie, téléchargement illimité</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">60 000</span>
-    <span class="p-unit">FCFA</span><span class="p-old">120 000</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'bibliotheque',name:'Bibliothèque Accès Illimité',price:60000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>Accéder maintenant
-  </button>
-</div>
-```
+    <!-- 04 -->
+    <div class="card fi-in" data-cat="tout">
+      <div class="c-ribbon rb-blue">Pack Complet</div>
+      <div class="c-num">04</div>
+      <svg class="c-ico" style="color:var(--or)"><use href="#ico-library"/></svg>
+      <div class="c-type type-fixe">Livraison rapide</div>
+      <h3 class="c-name">Bibliothèque — Accès Illimité</h3>
+      <p class="c-desc">Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.</p>
+      <ul class="c-feat">
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>+20 plans différents inclus</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Studios, F2, F3, villas, commerciales</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Toutes les mises à jour futures</li>
+        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie, téléchargement illimité</li>
+      </ul>
+      <div class="c-price">
+        <span class="p-from">Dès</span><span class="p-amount">60 000</span>
+        <span class="p-unit">FCFA</span><span class="p-old">120 000</span>
+      </div>
+      <div class="c-delivery">
+        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+        <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      </div>
+      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'bibliotheque',name:'Bibliothèque Accès Illimité',price:60000,type:'fixe',delai:'1h'})">
+        <svg class="b-ico"><use href="#ico-cart"/></svg>Accéder maintenant
+      </button>
+    </div>
 
   </div>
 </section>
 
 <!-- ════ SUR MESURE ════ -->
-
 <section style="background:var(--noir2);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)">
-<section class="sec" id="sur-mesure" style="padding-bottom:0">
-  <p class="sec-tag fi-in">Plans Personnalisés</p>
-  <h2 class="sec-h fi-in">Sur mesure.<br><span>Je dessine pour toi.</span></h2>
-</section>
-<div style="max-width:1200px;margin:0 auto;padding:0 24px 90px">
-  <div class="grid">
+  <section class="sec" id="sur-mesure" style="padding-bottom:0">
+    <p class="sec-tag fi-in">Plans Personnalisés</p>
+    <h2 class="sec-h fi-in">Sur mesure.<br><span>Je dessine pour toi.</span></h2>
+  </section>
+  <div style="max-width:1200px;margin:0 auto;padding:0 24px 90px">
+    <div class="grid">
 
-```
-<!-- 05 -->
-<div class="card fi-in">
-  <div class="c-ribbon rb-out">Sur Mesure</div>
-  <div class="c-num">05</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>
-  <div class="c-type type-custom">Je dessine après commande</div>
-  <h3 class="c-name">Plan Personnalisé Standard</h3>
-  <p class="c-desc">Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Jusqu'à 3 chambres</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Surface jusqu'à 120 m²</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 révision incluse</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 48h</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">50 000</span><span class="p-unit">FCFA</span>
-  </div>
-  <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
-    <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
-    <span>Livraison <strong style="color:var(--or)">sous 48h</strong> après réception commande</span>
-  </div>
-  <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-std',name:'Plan Personnalisé Standard',price:50000,type:'custom',delai:'48h'})">
-    <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
-  </button>
-</div>
+      <!-- 05 -->
+      <div class="card fi-in">
+        <div class="c-ribbon rb-out">Sur Mesure</div>
+        <div class="c-num">05</div>
+        <svg class="c-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>
+        <div class="c-type type-custom">Je dessine après commande</div>
+        <h3 class="c-name">Plan Personnalisé Standard</h3>
+        <p class="c-desc">Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².</p>
+        <ul class="c-feat">
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Jusqu'à 3 chambres</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Surface jusqu'à 120 m²</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 révision incluse</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 48h</li>
+        </ul>
+        <div class="c-price">
+          <span class="p-from">Dès</span><span class="p-amount">50 000</span><span class="p-unit">FCFA</span>
+        </div>
+        <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
+          <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
+          <span>Livraison <strong style="color:var(--or)">sous 48h</strong> après réception commande</span>
+        </div>
+        <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-std',name:'Plan Personnalisé Standard',price:50000,type:'custom',delai:'48h'})">
+          <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
+        </button>
+      </div>
 
-<!-- 06 -->
-<div class="card fi-in">
-  <div class="c-ribbon rb-gold">Premium</div>
-  <div class="c-num">06</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-star"/></svg>
-  <div class="c-type type-custom">Je dessine après commande</div>
-  <h3 class="c-name">Plan Personnalisé Premium</h3>
-  <p class="c-desc">Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4+ chambres, surface illimitée</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Plan de masse + façades + coupe</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>2 révisions incluses</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 72h</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">100 000</span><span class="p-unit">FCFA</span>
-  </div>
-  <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
-    <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
-    <span>Livraison <strong style="color:var(--or)">sous 72h</strong> après réception commande</span>
-  </div>
-  <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-prem',name:'Plan Personnalisé Premium',price:100000,type:'custom',delai:'72h'})">
-    <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
-  </button>
-</div>
+      <!-- 06 -->
+      <div class="card fi-in">
+        <div class="c-ribbon rb-gold">Premium</div>
+        <div class="c-num">06</div>
+        <svg class="c-ico" style="color:var(--or)"><use href="#ico-star"/></svg>
+        <div class="c-type type-custom">Je dessine après commande</div>
+        <h3 class="c-name">Plan Personnalisé Premium</h3>
+        <p class="c-desc">Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.</p>
+        <ul class="c-feat">
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4+ chambres, surface illimitée</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Plan de masse + façades + coupe</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>2 révisions incluses</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 72h</li>
+        </ul>
+        <div class="c-price">
+          <span class="p-from">Dès</span><span class="p-amount">100 000</span><span class="p-unit">FCFA</span>
+        </div>
+        <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
+          <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
+          <span>Livraison <strong style="color:var(--or)">sous 72h</strong> après réception commande</span>
+        </div>
+        <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-prem',name:'Plan Personnalisé Premium',price:100000,type:'custom',delai:'72h'})">
+          <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
+        </button>
+      </div>
 
-<!-- 07 -->
-<div class="card fi-in">
-  <div class="c-ribbon rb-out">Formation</div>
-  <div class="c-num">07</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-grad"/></svg>
-  <div class="c-type type-fixe">Accès rapide</div>
-  <h3 class="c-name">Formation : Construis Sans Architecte</h3>
-  <p class="c-desc">Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Lire et comprendre un plan</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Superviser son chantier seul</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Éviter les arnaques maçons</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie + mises à jour</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">25 000</span><span class="p-unit">FCFA</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> sur ton email</span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'formation',name:'Formation : Construis Sans Architecte',price:25000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>S'inscrire maintenant
-  </button>
-</div>
+      <!-- 07 -->
+      <div class="card fi-in">
+        <div class="c-ribbon rb-out">Formation</div>
+        <div class="c-num">07</div>
+        <svg class="c-ico" style="color:var(--or)"><use href="#ico-grad"/></svg>
+        <div class="c-type type-fixe">Accès rapide</div>
+        <h3 class="c-name">Formation : Construis Sans Architecte</h3>
+        <p class="c-desc">Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.</p>
+        <ul class="c-feat">
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Lire et comprendre un plan</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Superviser son chantier seul</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Éviter les arnaques maçons</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie + mises à jour</li>
+        </ul>
+        <div class="c-price">
+          <span class="p-from">Dès</span><span class="p-amount">25 000</span><span class="p-unit">FCFA</span>
+        </div>
+        <div class="c-delivery">
+          <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+          <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> sur ton email</span>
+        </div>
+        <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'formation',name:'Formation : Construis Sans Architecte',price:25000,type:'fixe',delai:'1h'})">
+          <svg class="b-ico"><use href="#ico-cart"/></svg>S'inscrire maintenant
+        </button>
+      </div>
 
-<!-- 08 -->
-<div class="card fi-in">
-  <div class="c-ribbon rb-green">Mensuel</div>
-  <div class="c-num">08</div>
-  <svg class="c-ico" style="color:var(--or)"><use href="#ico-trophy"/></svg>
-  <div class="c-type type-fixe">Accès rapide</div>
-  <h3 class="c-name">Club des Bâtisseurs</h3>
-  <p class="c-desc">Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&A direct chaque mois.</p>
-  <ul class="c-feat">
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 plan de maison premium / mois</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 vidéo conseil chantier</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Q&A direct illimité</li>
-    <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Communauté privée WhatsApp</li>
-  </ul>
-  <div class="c-price">
-    <span class="p-from">Dès</span><span class="p-amount">5 000</span><span class="p-unit">FCFA/mois</span>
-  </div>
-  <div class="c-delivery">
-    <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-    <span>Accès au groupe envoyé <strong style="color:var(--vert)">sous 1h</strong></span>
-  </div>
-  <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'club',name:'Club des Bâtisseurs Mensuel',price:5000,type:'fixe',delai:'1h'})">
-    <svg class="b-ico"><use href="#ico-cart"/></svg>Rejoindre le Club
-  </button>
-</div>
-```
+      <!-- 08 -->
+      <div class="card fi-in">
+        <div class="c-ribbon rb-green">Mensuel</div>
+        <div class="c-num">08</div>
+        <svg class="c-ico" style="color:var(--or)"><use href="#ico-trophy"/></svg>
+        <div class="c-type type-fixe">Accès rapide</div>
+        <h3 class="c-name">Club des Bâtisseurs</h3>
+        <p class="c-desc">Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&amp;A direct chaque mois.</p>
+        <ul class="c-feat">
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 plan de maison premium / mois</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 vidéo conseil chantier</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Q&amp;A direct illimité</li>
+          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Communauté privée WhatsApp</li>
+        </ul>
+        <div class="c-price">
+          <span class="p-from">Dès</span><span class="p-amount">5 000</span><span class="p-unit">FCFA/mois</span>
+        </div>
+        <div class="c-delivery">
+          <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
+          <span>Accès au groupe envoyé <strong style="color:var(--vert)">sous 1h</strong></span>
+        </div>
+        <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'club',name:'Club des Bâtisseurs Mensuel',price:5000,type:'fixe',delai:'1h'})">
+          <svg class="b-ico"><use href="#ico-cart"/></svg>Rejoindre le Club
+        </button>
+      </div>
 
+    </div>
   </div>
-</div>
 </section>
 
-<!-- COMMENT -->
-
+<!-- ── COMMENT ── -->
 <section class="comment" id="comment">
   <div class="comment-inner">
     <p class="sec-tag fi-in" style="text-align:center">Process</p>
@@ -602,8 +923,7 @@ nav{padding:14px 20px}.nav-links{display:none}
   </div>
 </section>
 
-<!-- CONFIANCE -->
-
+<!-- ── CONFIANCE ── -->
 <section class="confiance" id="confiance">
   <p class="sec-tag fi-in">Garanties</p>
   <h2 class="sec-h fi-in" style="max-width:100%">Tu es entre <span>bonnes mains.</span></h2>
@@ -641,143 +961,219 @@ nav{padding:14px 20px}.nav-links{display:none}
 </footer>
 
 <!-- ════ MODAL ════ -->
-
 <div class="overlay" id="overlay" onclick="fermerOverlay(event)">
   <div class="modal" id="modal">
 
-```
-<!-- FORM -->
-<div id="step-form">
-  <div class="m-head">
-    <div class="m-title">Finaliser la commande</div>
-    <button class="m-close" onclick="fermerModal()">
-      <svg><use href="#ico-close"/></svg>
-    </button>
-  </div>
-  <div class="m-body">
-
-    <div class="m-recap">
-      <div class="m-recap-left">
-        <div class="label">Produit sélectionné</div>
-        <div class="pname" id="m-pname">—</div>
+    <!-- FORM -->
+    <div id="step-form">
+      <div class="m-head">
+        <div class="m-title">Finaliser la commande</div>
+        <button class="m-close" onclick="fermerModal()">
+          <svg><use href="#ico-close"/></svg>
+        </button>
       </div>
-      <div class="m-recap-right" id="m-prix">—</div>
-    </div>
+      <div class="m-body">
 
-    <div id="m-delivery-info" class="m-delivery-info del-auto">
-      <svg width="14" height="14" style="flex-shrink:0"><use href="#ico-clock"/></svg>
-      <span id="m-delivery-txt">—</span>
-    </div>
-
-    <div class="fg-row">
-      <div class="fg"><label class="fl">Prénom</label><input class="fi" id="f-prenom" placeholder="Kouassi"/></div>
-      <div class="fg"><label class="fl">Nom</label><input class="fi" id="f-nom" placeholder="Amon"/></div>
-    </div>
-    <div class="fg">
-      <label class="fl">Email (pour recevoir ton plan)</label>
-      <input class="fi" id="f-email" type="email" placeholder="ton@email.com"/>
-    </div>
-    <div class="fg">
-      <label class="fl">Ton numéro de téléphone</label>
-      <input class="fi" id="f-tel" type="tel" placeholder="+229 01 XX XX XX XX"/>
-    </div>
-
-    <!-- CHAMPS SUR MESURE -->
-    <div id="champs-custom" style="display:none">
-      <div class="sep"><div class="sep-line"></div><div class="sep-txt">Détails du plan</div><div class="sep-line"></div></div>
-      <div class="fg-row">
-        <div class="fg">
-          <label class="fl">Nombre de chambres</label>
-          <select class="fsel" id="f-chambres">
-            <option value="">Choisir...</option>
-            <option>1 chambre</option><option>2 chambres</option>
-            <option>3 chambres</option><option>4 chambres</option><option>5+ chambres</option>
-          </select>
+        <div class="m-recap">
+          <div class="m-recap-left">
+            <div class="label">Produit sélectionné</div>
+            <div class="pname" id="m-pname">—</div>
+          </div>
+          <div class="m-recap-right" id="m-prix">—</div>
         </div>
-        <div class="fg">
-          <label class="fl">Surface approximative</label>
-          <input class="fi" id="f-surface" placeholder="Ex: 80 m²"/>
+
+        <div id="m-delivery-info" class="m-delivery-info del-auto">
+          <svg width="14" height="14" style="flex-shrink:0"><use href="#ico-clock"/></svg>
+          <span id="m-delivery-txt">—</span>
         </div>
-      </div>
-      <div class="fg-row">
-        <div class="fg">
-          <label class="fl">Style souhaité</label>
-          <select class="fsel" id="f-style">
-            <option value="">Choisir...</option>
-            <option>Traditionnel africain</option>
-            <option>Moderne contemporain</option>
-            <option>Économique / Low-cost</option>
-            <option>Luxe / Villa</option>
-          </select>
+
+        <div class="fg-row">
+          <div class="fg"><label class="fl">Prénom</label><input class="fi" id="f-prenom" placeholder="Kouassi"/></div>
+          <div class="fg"><label class="fl">Nom</label><input class="fi" id="f-nom" placeholder="Amon"/></div>
         </div>
+
         <div class="fg">
-          <label class="fl">Dimensions du terrain</label>
-          <input class="fi" id="f-terrain" placeholder="Ex: 15m x 20m"/>
+          <label class="fl">Email (pour recevoir ton plan)</label>
+          <input class="fi" id="f-email" type="email" placeholder="ton@email.com"/>
         </div>
-      </div>
-      <div class="fg">
-        <label class="fl">Demandes particulières</label>
-        <textarea class="fta" id="f-notes" placeholder="Garage, bureau, boutique au RDC, piscine..."></textarea>
+
+        <!-- TÉLÉPHONE AVEC INDICATIF PAYS -->
+        <div class="fg">
+          <label class="fl">Numéro de téléphone</label>
+          <div class="phone-row">
+            <select class="phone-code" id="f-indicatif">
+              <optgroup label="Afrique de l'Ouest">
+                <option value="229" selected>🇧🇯 +229 Bénin</option>
+                <option value="228">🇹🇬 +228 Togo</option>
+                <option value="225">🇨🇮 +225 Côte d'Ivoire</option>
+                <option value="221">🇸🇳 +221 Sénégal</option>
+                <option value="223">🇲🇱 +223 Mali</option>
+                <option value="226">🇧🇫 +226 Burkina Faso</option>
+                <option value="227">🇳🇪 +227 Niger</option>
+                <option value="224">🇬🇳 +224 Guinée</option>
+                <option value="245">🇬🇼 +245 Guinée-Bissau</option>
+                <option value="231">🇱🇷 +231 Liberia</option>
+                <option value="232">🇸🇱 +232 Sierra Leone</option>
+                <option value="220">🇬🇲 +220 Gambie</option>
+                <option value="234">🇳🇬 +234 Nigeria</option>
+                <option value="233">🇬🇭 +233 Ghana</option>
+              </optgroup>
+              <optgroup label="Afrique Centrale">
+                <option value="237">🇨🇲 +237 Cameroun</option>
+                <option value="241">🇬🇦 +241 Gabon</option>
+                <option value="242">🇨🇬 +242 Congo</option>
+                <option value="243">🇨🇩 +243 RD Congo</option>
+                <option value="236">🇨🇫 +236 Centrafrique</option>
+                <option value="235">🇹🇩 +235 Tchad</option>
+                <option value="240">🇬🇶 +240 Guinée Éq.</option>
+              </optgroup>
+              <optgroup label="Afrique de l'Est">
+                <option value="254">🇰🇪 +254 Kenya</option>
+                <option value="255">🇹🇿 +255 Tanzanie</option>
+                <option value="256">🇺🇬 +256 Uganda</option>
+                <option value="250">🇷🇼 +250 Rwanda</option>
+                <option value="251">🇪🇹 +251 Éthiopie</option>
+                <option value="252">🇸🇴 +252 Somalie</option>
+                <option value="253">🇩🇯 +253 Djibouti</option>
+                <option value="291">🇪🇷 +291 Érythrée</option>
+              </optgroup>
+              <optgroup label="Afrique Australe">
+                <option value="27">🇿🇦 +27 Afrique du Sud</option>
+                <option value="263">🇿🇼 +263 Zimbabwe</option>
+                <option value="260">🇿🇲 +260 Zambie</option>
+                <option value="265">🇲🇼 +265 Malawi</option>
+                <option value="258">🇲🇿 +258 Mozambique</option>
+                <option value="264">🇳🇦 +264 Namibie</option>
+                <option value="267">🇧🇼 +267 Botswana</option>
+                <option value="268">🇸🇿 +268 Eswatini</option>
+                <option value="266">🇱🇸 +266 Lesotho</option>
+                <option value="261">🇲🇬 +261 Madagascar</option>
+                <option value="230">🇲🇺 +230 Maurice</option>
+              </optgroup>
+              <optgroup label="Afrique du Nord">
+                <option value="212">🇲🇦 +212 Maroc</option>
+                <option value="213">🇩🇿 +213 Algérie</option>
+                <option value="216">🇹🇳 +216 Tunisie</option>
+                <option value="20">🇪🇬 +20 Égypte</option>
+                <option value="218">🇱🇾 +218 Libye</option>
+                <option value="222">🇲🇷 +222 Mauritanie</option>
+              </optgroup>
+            </select>
+            <input class="fi phone-num" id="f-tel" type="tel" placeholder="01 52 37 76 40"/>
+          </div>
+        </div>
+
+        <!-- CHAMPS SUR MESURE -->
+        <div id="champs-custom" style="display:none">
+          <div class="sep"><div class="sep-line"></div><div class="sep-txt">Détails du plan</div><div class="sep-line"></div></div>
+          <div class="fg-row">
+            <div class="fg">
+              <label class="fl">Nombre de chambres</label>
+              <select class="fsel" id="f-chambres">
+                <option value="">Choisir...</option>
+                <option>1 chambre</option><option>2 chambres</option>
+                <option>3 chambres</option><option>4 chambres</option><option>5+ chambres</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">Surface approximative</label>
+              <input class="fi" id="f-surface" placeholder="Ex: 80 m²"/>
+            </div>
+          </div>
+          <div class="fg-row">
+            <div class="fg">
+              <label class="fl">Style souhaité</label>
+              <select class="fsel" id="f-style">
+                <option value="">Choisir...</option>
+                <option>Traditionnel africain</option>
+                <option>Moderne contemporain</option>
+                <option>Économique / Low-cost</option>
+                <option>Luxe / Villa</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label class="fl">Dimensions du terrain</label>
+              <input class="fi" id="f-terrain" placeholder="Ex: 15m x 20m"/>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="fl">Demandes particulières</label>
+            <textarea class="fta" id="f-notes" placeholder="Garage, bureau, boutique au RDC, piscine..."></textarea>
+          </div>
+        </div>
+
+        <div class="sep"><div class="sep-line"></div><div class="sep-txt">Paiement</div><div class="sep-line"></div></div>
+
+        <div class="mtn-box">
+          <svg class="mtn-ico" style="color:#FFC107"><use href="#ico-mtn"/></svg>
+          <div>
+            <div class="mtn-label">Paiement MTN MoMo Bénin</div>
+            <div class="mtn-num">0152377640</div>
+            <div style="font-size:11px;color:#555;margin-top:2px">Architecte IA Africa</div>
+          </div>
+        </div>
+
+        <button class="btn-payer" id="btn-payer" onclick="payer()">
+          <svg><use href="#ico-lock"/></svg>
+          <span id="btn-payer-txt">Voir les instructions de paiement</span>
+        </button>
+        <div class="m-note">
+          <svg><use href="#ico-shield"/></svg>
+          Paiement direct MTN MoMo · Confirmation WhatsApp
+        </div>
+
       </div>
     </div>
 
-    <div class="sep"><div class="sep-line"></div><div class="sep-txt">Paiement</div><div class="sep-line"></div></div>
-
-    <div class="mtn-box">
-      <svg class="mtn-ico" style="color:#FFC107"><use href="#ico-mtn"/></svg>
-      <div>
-        <div class="mtn-label">Paiement MTN MoMo Bénin</div>
-        <div class="mtn-num">0152377640</div>
-        <div style="font-size:11px;color:#555;margin-top:2px">Architecte IA Africa</div>
+    <!-- SUCCÈS / INSTRUCTIONS -->
+    <div id="step-success" style="display:none">
+      <div class="m-head">
+        <div class="m-title">Instructions de paiement</div>
+        <button class="m-close" onclick="fermerModal()"><svg><use href="#ico-close"/></svg></button>
+      </div>
+      <div class="success">
+        <svg class="s-ico" style="color:var(--or)"><use href="#ico-mtn"/></svg>
+        <div class="s-title" id="s-title">Payer via MTN MoMo</div>
+        <p class="s-msg" id="s-msg">Suis ces étapes pour finaliser et recevoir ton produit.</p>
+        <div class="s-steps" id="s-steps"></div>
+        <button class="btn-close-s" onclick="fermerModal()">
+          <svg width="14" height="14"><use href="#ico-close"/></svg>
+          Fermer
+        </button>
       </div>
     </div>
-
-    <button class="btn-payer" id="btn-payer" onclick="payer()">
-      <svg><use href="#ico-lock"/></svg>
-      <span id="btn-payer-txt">Voir les instructions de paiement</span>
-    </button>
-    <div class="m-note">
-      <svg><use href="#ico-shield"/></svg>
-      Paiement direct MTN MoMo · Confirmation WhatsApp
-    </div>
-
-  </div>
-</div>
-
-<!-- SUCCÈS / INSTRUCTIONS -->
-<div id="step-success" style="display:none">
-  <div class="m-head">
-    <div class="m-title">Instructions de paiement</div>
-    <button class="m-close" onclick="fermerModal()"><svg><use href="#ico-close"/></svg></button>
-  </div>
-  <div class="success">
-    <svg class="s-ico" style="color:var(--or)"><use href="#ico-mtn"/></svg>
-    <div class="s-title" id="s-title">Payer via MTN MoMo</div>
-    <p class="s-msg" id="s-msg">Suis ces étapes pour finaliser et recevoir ton produit.</p>
-    <div class="s-steps" id="s-steps"></div>
-    <button class="btn-close-s" onclick="fermerModal()">
-      <svg width="14" height="14"><use href="#ico-close"/></svg>
-      Fermer
-    </button>
-  </div>
-</div>
-```
 
   </div>
 </div>
 
 <script>
-const MTN_NUMERO = '0152377640';
-const MTN_NOM    = 'Architecte IA Africa';
-const WHATSAPP   = '22901523776400';
+/* ── CONFIG ── */
+const MTN_NUMERO  = '0152377640';
+const MTN_NOM     = 'Architecte IA Africa';
+const WHATSAPP_ID = '2290152377640'; // +229 0152377640 → un seul zéro final
 
 let produit = null;
 
-// Scroll anim
-const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('vis'); }), {threshold:.1});
+/* ── Hamburger ── */
+function toggleMenu() {
+  const ham  = document.getElementById('ham');
+  const menu = document.getElementById('mob-menu');
+  ham.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('ham').classList.remove('open');
+  document.getElementById('mob-menu').classList.remove('open');
+}
+
+/* ── Scroll anim ── */
+const obs = new IntersectionObserver(
+  e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('vis'); }),
+  {threshold:.1}
+);
 document.querySelectorAll('.fi-in').forEach(el => obs.observe(el));
 
-// Filtres
+/* ── Filtres ── */
 function filtrer(cat, btn) {
   document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('on'));
   btn.classList.add('on');
@@ -786,10 +1182,11 @@ function filtrer(cat, btn) {
   });
 }
 
+/* ── Ouvrir modal ── */
 function ouvrirModal(p) {
   produit = p;
   document.getElementById('m-pname').textContent = p.name;
-  document.getElementById('m-prix').textContent = p.price.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('m-prix').textContent  = p.price.toLocaleString('fr-FR') + ' FCFA';
 
   const delInfo = document.getElementById('m-delivery-info');
   const delTxt  = document.getElementById('m-delivery-txt');
@@ -815,17 +1212,20 @@ function fermerModal() {
   document.getElementById('overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-function fermerOverlay(e) { if(e.target === document.getElementById('overlay')) fermerModal(); }
+function fermerOverlay(e) {
+  if (e.target === document.getElementById('overlay')) fermerModal();
+}
 
+/* ── Payer ── */
 function payer() {
   const prenom = document.getElementById('f-prenom').value.trim();
   const nom    = document.getElementById('f-nom').value.trim();
   const email  = document.getElementById('f-email').value.trim();
   const tel    = document.getElementById('f-tel').value.trim();
 
-  if (!prenom || !nom)               { alert('Merci d\'entrer ton prénom et nom.'); return; }
-  if (!email || !email.includes('@')) { alert('Merci d\'entrer un email valide.'); return; }
-  if (!tel)                           { alert('Merci d\'entrer ton numéro de téléphone.'); return; }
+  if (!prenom || !nom)               { alert("Merci d'entrer ton prénom et nom."); return; }
+  if (!email || !email.includes('@')) { alert("Merci d'entrer un email valide."); return; }
+  if (!tel)                           { alert("Merci d'entrer ton numéro de téléphone."); return; }
 
   if (produit.type === 'custom') {
     if (!document.getElementById('f-chambres').value ||
@@ -839,35 +1239,42 @@ function payer() {
   afficherInstructions(prenom, nom, email, tel);
 }
 
+/* ── Afficher instructions ── */
 function afficherInstructions(prenom, nom, email, tel) {
   document.getElementById('step-form').style.display    = 'none';
   document.getElementById('step-success').style.display = 'block';
+
+  // Construire numéro complet avec indicatif
+  const indicatif  = document.getElementById('f-indicatif').value;
+  const telPropre  = tel.replace(/\D/g,''); // chiffres seulement
+  const telAffiche = '+' + indicatif + ' ' + tel;
 
   const montant = produit.price.toLocaleString('fr-FR');
 
   document.getElementById('s-title').textContent = 'Comment payer, ' + prenom + ' ?';
   document.getElementById('s-msg').textContent   = 'Suis ces 3 étapes simples pour recevoir ton produit.';
 
-  // Récupérer infos sur mesure si besoin
   let infosCustom = '';
   if (produit.type === 'custom') {
     infosCustom =
-      '%0ACh.+: ' + encodeURIComponent(document.getElementById('f-chambres').value) +
-      '%0ASurface+: ' + encodeURIComponent(document.getElementById('f-surface').value) +
-      '%0AStyle+: ' + encodeURIComponent(document.getElementById('f-style').value) +
-      '%0ATerrain+: ' + encodeURIComponent(document.getElementById('f-terrain').value || 'Non précisé') +
-      '%0ANotes+: ' + encodeURIComponent(document.getElementById('f-notes').value || 'Aucune');
+      '\nNb chambres : ' + document.getElementById('f-chambres').value +
+      '\nSurface : '     + document.getElementById('f-surface').value +
+      '\nStyle : '       + document.getElementById('f-style').value +
+      '\nTerrain : '     + (document.getElementById('f-terrain').value || 'Non précisé') +
+      '\nNotes : '       + (document.getElementById('f-notes').value   || 'Aucune');
   }
 
-  const msgWA = encodeURIComponent(
+  const msgRaw =
     '✅ COMMANDE — Architecte IA Africa\n\n' +
     'Produit : ' + produit.name + '\n' +
     'Montant : ' + montant + ' FCFA\n' +
-    'Nom : ' + prenom + ' ' + nom + '\n' +
-    'Email : ' + email + '\n' +
-    'Tel : ' + tel + '\n'
-  ) + (infosCustom ? '%0A' + infosCustom : '') +
-  encodeURIComponent('\n\nJ\'ai effectué le paiement MTN MoMo. Merci de confirmer et m\'envoyer mon produit.');
+    'Nom : '     + prenom + ' ' + nom + '\n' +
+    'Email : '   + email + '\n' +
+    'Tél : '     + telAffiche +
+    (infosCustom ? '\n' + infosCustom : '') +
+    '\n\nJ\'ai effectué le paiement MTN MoMo. Merci de confirmer et m\'envoyer mon produit.';
+
+  const msgEncode = encodeURIComponent(msgRaw);
 
   document.getElementById('s-steps').innerHTML = `
     <div class="num-box">
@@ -879,16 +1286,24 @@ function afficherInstructions(prenom, nom, email, tel) {
       <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Montant à envoyer</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#FFC107">${montant} FCFA</div>
     </div>
-    <div class="s-step"><span class="s-step-n">1.</span><span>Ouvre ton application <strong style="color:#FFC107">MTN MoMo</strong> et envoie <strong style="color:var(--or)">${montant} FCFA</strong> au <strong style="color:var(--or)">${MTN_NUMERO}</strong></span></div>
-    <div class="s-step"><span class="s-step-n">2.</span><span>Dans le motif, écris : <strong style="color:var(--creme)">${produit.name.substring(0,25)}</strong></span></div>
-    <div class="s-step"><span class="s-step-n">3.</span><span>Clique le bouton WhatsApp ci-dessous pour confirmer → tu recevras ton produit sur <strong style="color:var(--or)">${email}</strong></span></div>
-    <a class="wa-btn" href="https://wa.me/${WHATSAPP}?text=${msgWA}" target="_blank">
+    <div class="s-step">
+      <span class="s-step-n">1.</span>
+      <span>Ouvre ton application <strong style="color:#FFC107">MTN MoMo</strong> et envoie <strong style="color:var(--or)">${montant} FCFA</strong> au <strong style="color:var(--or)">${MTN_NUMERO}</strong></span>
+    </div>
+    <div class="s-step">
+      <span class="s-step-n">2.</span>
+      <span>Dans le motif, écris : <strong style="color:var(--creme)">${produit.name.substring(0,25)}</strong></span>
+    </div>
+    <div class="s-step">
+      <span class="s-step-n">3.</span>
+      <span>Clique le bouton WhatsApp ci-dessous pour confirmer → tu recevras ton produit sur <strong style="color:var(--or)">${email}</strong></span>
+    </div>
+    <a class="wa-btn" href="https://wa.me/${WHATSAPP_ID}?text=${msgEncode}" target="_blank" rel="noopener">
       <svg width="20" height="20"><use href="#ico-wa"/></svg>
       Confirmer mon paiement sur WhatsApp
     </a>
   `;
 }
 </script>
-
 </body>
 </html>
