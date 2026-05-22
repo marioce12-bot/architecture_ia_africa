@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Architecte IA Africa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--or:#C9A84C;--or2:#E8C96A;--noir:#0A0A0A;--noir2:#111;--noir3:#191919;--creme:#F2EDE4;--muted:#777;--line:rgba(201,168,76,.16);--danger:#D9534F;--ok:#27AE60}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(ellipse 80% 45% at 50% -10%,rgba(201,168,76,.14),transparent 70%),var(--noir);color:var(--creme);font-family:'Outfit',sans-serif;min-height:100vh}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:10;background:rgba(10,10,10,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:16px 34px;gap:16px}
+.brand{font-family:'Cormorant Garamond',serif;color:var(--or);font-size:24px;font-weight:700;letter-spacing:1px}.brand span{color:var(--creme)}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:transparent;color:var(--creme);padding:11px 16px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:.2s}.btn:hover{border-color:var(--or);color:var(--or)}.btn-primary{background:var(--or);border-color:var(--or);color:var(--noir);font-weight:700}.btn-primary:hover{background:var(--or2);color:var(--noir)}.btn-danger{border-color:rgba(217,83,79,.45);color:#e28b88}.btn-danger:hover{background:rgba(217,83,79,.12);color:#fff}.btn-ok{border-color:rgba(39,174,96,.45);color:#7bd99f}.btn-ok:hover{background:rgba(39,174,96,.1);color:#bdf3d1}
+.wrap{max-width:1280px;margin:0 auto;padding:34px 22px 70px}.hero{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:28px}.kicker{font-size:10px;color:var(--or);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}.title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,58px);line-height:1}.title span{color:var(--or)}.hint{color:var(--muted);font-size:14px;line-height:1.7;margin-top:12px;max-width:680px}.status{padding:12px 16px;border:1px solid var(--line);background:var(--noir2);color:#999;font-size:12px;min-width:230px;text-align:center}
+.layout{display:grid;grid-template-columns:310px 1fr;gap:18px}.panel{background:var(--noir2);border:1px solid var(--line)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.06)}.panel-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}.panel-body{padding:20px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid rgba(255,255,255,.08);background:var(--noir);color:#777;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer}.tab.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.08)}
+.service-list{display:grid;gap:8px;max-height:640px;overflow:auto;padding-right:4px}.service-item{border:1px solid rgba(255,255,255,.08);background:var(--noir);padding:12px;cursor:pointer;transition:.2s}.service-item:hover,.service-item.on{border-color:var(--or);background:rgba(201,168,76,.06)}.service-name{font-size:13px;font-weight:600;margin-bottom:6px}.service-meta{font-size:11px;color:#777;display:flex;justify-content:space-between;gap:10px}.badge{color:var(--or);text-transform:uppercase;letter-spacing:1px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fg{margin-bottom:14px}.full{grid-column:1/-1}.label{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#777;margin-bottom:7px}.input,.select,.area{width:100%;background:var(--noir);border:1px solid rgba(255,255,255,.09);color:var(--creme);padding:12px 13px;font-family:'Outfit',sans-serif;font-size:13px;outline:none}.input:focus,.select:focus,.area:focus{border-color:var(--or)}.area{min-height:104px;resize:vertical}.small{font-size:11px;color:#555;line-height:1.55;margin-top:7px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.preview-img{width:118px;height:78px;object-fit:cover;border:1px solid var(--line);background:var(--noir);display:none}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.codebox{font-family:Consolas,monospace;font-size:12px;min-height:150px}.notice{border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.06);padding:14px;color:#aaa;font-size:12px;line-height:1.7;margin-bottom:18px}.notice strong{color:var(--or)}
+.hidden{display:none}.toast{position:fixed;right:20px;bottom:20px;background:var(--noir2);border:1px solid var(--line);padding:14px 18px;color:var(--creme);box-shadow:0 20px 60px rgba(0,0,0,.45);display:none}.toast.show{display:block;animation:up .25s ease both}@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.top{padding:14px 18px;align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr}.layout,.split,.grid{grid-template-columns:1fr}.wrap{padding:24px 14px 50px}.status{text-align:left}.panel-body{padding:16px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Architecte<span> IA</span> Africa · Admin</div>
+  <div class="top-actions">
+    <a class="btn" href="index.html">Voir le site</a>
+    <button class="btn btn-primary" onclick="saveAll()">Enregistrer</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="kicker">Administration</div>
+      <h1 class="title">Gérer les services,<br><span>les prix et l'architecte.</span></h1>
+      <p class="hint">Modifie les services, les tarifs et la présentation de l'architecte. Les changements enregistrés s'affichent automatiquement sur le site public.</p>
+    </div>
+    <div class="status" id="status">Aucune modification en attente</div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab on" data-view="services" onclick="showView('services',this)">Services</button>
+    <button class="tab" data-view="about" onclick="showView('about',this)">À propos</button>
+  </div>
+
+  <section id="view-services" class="layout">
+    <aside class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Services</div>
+        <button class="btn btn-ok" onclick="addService()">Ajouter</button>
+      </div>
+      <div class="panel-body">
+        <div class="service-list" id="service-list"></div>
+      </div>
+    </aside>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Édition</div>
+        <button class="btn btn-danger" onclick="deleteService()">Supprimer</button>
+      </div>
+      <div class="panel-body">
+        <div class="grid">
+          <div class="fg"><label class="label">Nom</label><input id="s-name" class="input"></div>
+          <div class="fg"><label class="label">Identifiant</label><input id="s-id" class="input"></div>
+          <div class="fg"><label class="label">Section</label><select id="s-section" class="select"><option value="fixe">Plans fixes</option><option value="custom">Sur mesure / autres</option></select></div>
+          <div class="fg"><label class="label">Catégorie filtre</label><input id="s-category" class="input" placeholder="eco, familial, villa, tout..."></div>
+          <div class="fg"><label class="label">Type commande</label><select id="s-type" class="select"><option value="fixe">Fixe</option><option value="custom">Sur mesure</option></select></div>
+          <div class="fg"><label class="label">Délai</label><input id="s-delai" class="input" placeholder="1h, 48h, 72h..."></div>
+          <div class="fg"><label class="label">Prix</label><input id="s-price" class="input" type="number" min="0"></div>
+          <div class="fg"><label class="label">Ancien prix</label><input id="s-old-price" class="input" type="number" min="0"></div>
+          <div class="fg"><label class="label">Unité</label><input id="s-unit" class="input" placeholder="FCFA, FCFA/mois..."></div>
+          <div class="fg"><label class="label">Ruban</label><input id="s-ribbon" class="input" placeholder="Populaire, Premium..."></div>
+          <div class="fg"><label class="label">Style ruban</label><select id="s-ribbon-class" class="select"><option value="rb-gold">Or</option><option value="rb-out">Contour or</option><option value="rb-green">Vert</option><option value="rb-blue">Bleu</option></select></div>
+          <div class="fg"><label class="label">Icône</label><select id="s-icon" class="select"><option value="ico-home">Maison</option><option value="ico-home2">Maison 2</option><option value="ico-villa">Villa</option><option value="ico-library">Bibliothèque</option><option value="ico-pencil">Crayon</option><option value="ico-star">Étoile</option><option value="ico-grad">Formation</option><option value="ico-trophy">Trophée</option></select></div>
+          <div class="fg full"><label class="label">Description</label><textarea id="s-description" class="area"></textarea></div>
+          <div class="fg full"><label class="label">Fonctionnalités, une par ligne</label><textarea id="s-features" class="area"></textarea></div>
+          <div class="fg full"><label class="label">Texte livraison</label><input id="s-delivery" class="input"></div>
+          <div class="fg"><label class="label">Bouton</label><input id="s-button" class="input"></div>
+          <div class="fg"><label class="label">Libellé type</label><input id="s-type-label" class="input"></div>
+          <div class="fg full">
+            <label class="label">Image du service</label>
+            <div class="row">
+              <input id="s-image-url" class="input" style="flex:1" placeholder="URL de l'image">
+              <img id="s-image-preview" class="preview-img" alt="Aperçu">
+            </div>
+            <p class="small">Colle l'adresse directe d'une image hébergée en ligne.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section id="view-about" class="panel hidden">
+    <div class="panel-head"><div class="panel-title">Section À propos</div></div>
+    <div class="panel-body">
+      <div class="split">
+        <div>
+          <div class="fg"><label class="label">Petit titre</label><input id="a-kicker" class="input"></div>
+          <div class="fg"><label class="label">Nom affiché</label><input id="a-name" class="input"></div>
+          <div class="fg"><label class="label">Rôle</label><input id="a-role" class="input"></div>
+          <div class="fg"><label class="label">Biographie</label><textarea id="a-bio" class="area" style="min-height:170px"></textarea></div>
+        </div>
+        <div>
+          <div class="fg"><label class="label">Photo</label><input id="a-photo-url" class="input" placeholder="URL image de l'architecte"></div>
+          <div class="fg" style="margin-top:14px"><label class="label">Points forts, un par ligne</label><textarea id="a-highlights" class="area" style="min-height:190px"></textarea></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+
+const CONFIG_KEY = 'aia-admin-config';
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
+  authDomain: 'omni-98377.firebaseapp.com',
+  projectId: 'omni-98377',
+  storageBucket: 'omni-98377.firebasestorage.app',
+  messagingSenderId: '1032234727205',
+  appId: '1:1032234727205:web:d53543442c9352a73b8ccc'
+};
+const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
+const FIRESTORE_DOC = 'public_config';
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+const db = getFirestore(firebaseApp);
+const DEFAULT_CONFIG = {
+  about: {
+    kicker: "À propos de l'architecte",
+    name: 'Architecte IA Africa',
+    role: 'Architecte concepteur · Plans africains modernes',
+    bio: "Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
+    photoUrl: '',
+    highlights: ["Plans lisibles, pratiques et prêts pour l'exécution chantier.",'Conception pensée pour les climats, budgets et matériaux locaux.',"Accompagnement direct du choix du plan jusqu'à la livraison PDF."]
+  },
+  services: [
+    {id:'studio-f2',section:'fixe',category:'eco',ribbon:'Populaire',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Studio Économique F2',description:'Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.',features:['Séjour + 1 chambre + cuisine + SDB','Dimensions détaillées incluses','Devis estimatif : 6–9 millions FCFA','PDF haute résolution prêt maçon'],price:12000,oldPrice:30000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'familiale-3ch',section:'fixe',category:'familial',ribbon:'Familial',ribbonClass:'rb-out',icon:'ico-home2',typeLabel:'Livraison rapide',type:'fixe',name:'Maison Familiale 3 Chambres',description:'Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.',features:['3 chambres + séjour + cuisine','Véranda 15 m² incluse','Devis estimatif : 12–18 millions FCFA','PDF haute résolution prêt maçon'],price:25000,oldPrice:50000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'villa-4ch',section:'fixe',category:'villa',ribbon:'Luxe',ribbonClass:'rb-green',icon:'ico-villa',typeLabel:'Livraison rapide',type:'fixe',name:'Villa Traditionnelle 4 Chambres',description:'Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.',features:['4 chambres + suite parentale','Garage + grande terrasse','Devis estimatif : 24–37 millions FCFA','PDF haute résolution prêt maçon'],price:45000,oldPrice:90000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'bibliotheque',section:'fixe',category:'tout',ribbon:'Pack Complet',ribbonClass:'rb-blue',icon:'ico-library',typeLabel:'Livraison rapide',type:'fixe',name:'Bibliothèque — Accès Illimité',description:'Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.',features:['+20 plans différents inclus','Studios, F2, F3, villas, commerciales','Toutes les mises à jour futures','Accès à vie, téléchargement illimité'],price:60000,oldPrice:120000,unit:'FCFA',delivery:'Accès envoyé sous 1h après confirmation paiement',delai:'1h',button:'Accéder maintenant',imageUrl:''},
+    {id:'custom-std',section:'custom',category:'custom',ribbon:'Sur Mesure',ribbonClass:'rb-out',icon:'ico-pencil',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Standard',description:"Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².",features:["Jusqu'à 3 chambres","Surface jusqu'à 120 m²",'1 révision incluse','Livraison PDF sous 48h'],price:50000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 48h après réception commande',delai:'48h',button:'Commander sur mesure',imageUrl:''},
+    {id:'custom-prem',section:'custom',category:'custom',ribbon:'Premium',ribbonClass:'rb-gold',icon:'ico-star',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Premium',description:'Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.',features:['4+ chambres, surface illimitée','Plan de masse + façades + coupe','2 révisions incluses','Livraison PDF sous 72h'],price:100000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 72h après réception commande',delai:'72h',button:'Commander sur mesure',imageUrl:''},
+    {id:'formation',section:'custom',category:'formation',ribbon:'Formation',ribbonClass:'rb-out',icon:'ico-grad',typeLabel:'Accès rapide',type:'fixe',name:'Formation : Construis Sans Architecte',description:'Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.',features:['Lire et comprendre un plan','Superviser son chantier seul','Éviter les arnaques maçons','Accès à vie + mises à jour'],price:25000,oldPrice:'',unit:'FCFA',delivery:'Accès envoyé sous 1h sur ton email',delai:'1h',button:"S'inscrire maintenant",imageUrl:''},
+    {id:'club',section:'custom',category:'club',ribbon:'Mensuel',ribbonClass:'rb-green',icon:'ico-trophy',typeLabel:'Accès rapide',type:'fixe',name:'Club des Bâtisseurs',description:'Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&A direct chaque mois.',features:['1 plan de maison premium / mois','1 vidéo conseil chantier','Q&A direct illimité','Communauté privée WhatsApp'],price:5000,oldPrice:'',unit:'FCFA/mois',delivery:'Accès au groupe envoyé sous 1h',delai:'1h',button:'Rejoindre le Club',imageUrl:''}
+  ]
+};
+
+let config = loadConfig();
+let selectedIndex = 0;
+
+function cloneDefault(){return JSON.parse(JSON.stringify(DEFAULT_CONFIG))}
+function mergeConfig(saved){return saved ? {...DEFAULT_CONFIG,...saved,about:{...DEFAULT_CONFIG.about,...saved.about},services:Array.isArray(saved.services)?saved.services:DEFAULT_CONFIG.services} : cloneDefault()}
+function loadConfig(){try{return mergeConfig(JSON.parse(localStorage.getItem(CONFIG_KEY)))}catch(e){return cloneDefault()}}
+async function loadRemoteConfig(){try{const snap=await getDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC));if(!snap.exists()){document.getElementById('status').textContent='Prêt, aucun contenu distant';return}const data=snap.data();config=mergeConfig(data.config || data);selectedIndex=0;localStorage.setItem(CONFIG_KEY,JSON.stringify(config));renderServiceList();fillServiceForm();fillAbout();document.getElementById('status').textContent='Synchronisé'}catch(e){document.getElementById('status').textContent='Mode local';console.warn('Lecture distante impossible',e)}}
+function setDirty(){document.getElementById('status').textContent='Modifications non enregistrées'}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function get(id){return document.getElementById(id)}
+function lines(value){return String(value || '').split('\n').map(x=>x.trim()).filter(Boolean)}
+
+function showView(view, btn){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));btn.classList.add('on');['services','about'].forEach(v=>get('view-'+v).classList.toggle('hidden',v!==view));if(view==='about')fillAbout()}
+function renderServiceList(){const list=get('service-list');list.innerHTML=config.services.map((s,i)=>`<div class="service-item ${i===selectedIndex?'on':''}" onclick="selectService(${i})"><div class="service-name">${s.name || 'Sans nom'}</div><div class="service-meta"><span class="badge">${s.section === 'fixe' ? 'Fixe' : 'Autre'}</span><span>${Number(s.price||0).toLocaleString('fr-FR')} ${s.unit || 'FCFA'}</span></div></div>`).join('')}
+function selectService(index){saveServiceFromForm(false);selectedIndex=index;renderServiceList();fillServiceForm()}
+function fillServiceForm(){const s=config.services[selectedIndex];if(!s)return;get('s-name').value=s.name||'';get('s-id').value=s.id||'';get('s-section').value=s.section||'fixe';get('s-category').value=s.category||'';get('s-type').value=s.type||'fixe';get('s-delai').value=s.delai||'';get('s-price').value=s.price||0;get('s-old-price').value=s.oldPrice||'';get('s-unit').value=s.unit||'FCFA';get('s-ribbon').value=s.ribbon||'';get('s-ribbon-class').value=s.ribbonClass||'rb-out';get('s-icon').value=s.icon||'ico-home';get('s-description').value=s.description||'';get('s-features').value=(s.features||[]).join('\n');get('s-delivery').value=s.delivery||'';get('s-button').value=s.button||'';get('s-type-label').value=s.typeLabel||'';get('s-image-url').value=s.imageUrl||'';updateImagePreview()}
+function saveServiceFromForm(markDirty=true){const s=config.services[selectedIndex];if(!s)return;Object.assign(s,{name:get('s-name').value.trim(),id:get('s-id').value.trim()||Date.now().toString(),section:get('s-section').value,category:get('s-category').value.trim()||'tout',type:get('s-type').value,delai:get('s-delai').value.trim()||'1h',price:Number(get('s-price').value)||0,oldPrice:get('s-old-price').value?Number(get('s-old-price').value):'',unit:get('s-unit').value.trim()||'FCFA',ribbon:get('s-ribbon').value.trim(),ribbonClass:get('s-ribbon-class').value,icon:get('s-icon').value,description:get('s-description').value.trim(),features:lines(get('s-features').value),delivery:get('s-delivery').value.trim(),button:get('s-button').value.trim()||'Commander',typeLabel:get('s-type-label').value.trim(),imageUrl:get('s-image-url').value.trim()});renderServiceList();if(markDirty)setDirty()}
+function addService(){saveServiceFromForm(false);config.services.push({id:'service-'+Date.now(),section:'fixe',category:'tout',ribbon:'Nouveau',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Nouveau service',description:'Description du service.',features:['Avantage 1','Avantage 2'],price:10000,oldPrice:'',unit:'FCFA',delivery:'Livraison après confirmation paiement',delai:'1h',button:'Commander',imageUrl:''});selectedIndex=config.services.length-1;renderServiceList();fillServiceForm();setDirty()}
+function deleteService(){if(config.services.length<=1){toast('Impossible de supprimer le dernier service');return}config.services.splice(selectedIndex,1);selectedIndex=Math.max(0,selectedIndex-1);renderServiceList();fillServiceForm();setDirty()}
+function updateImagePreview(){const url=get('s-image-url').value.trim();const img=get('s-image-preview');img.style.display=url?'block':'none';if(url)img.src=url}
+
+function fillAbout(){const a=config.about;get('a-kicker').value=a.kicker||'';get('a-name').value=a.name||'';get('a-role').value=a.role||'';get('a-bio').value=a.bio||'';get('a-photo-url').value=a.photoUrl||'';get('a-highlights').value=(a.highlights||[]).join('\n')}
+function saveAboutFromForm(){config.about={kicker:get('a-kicker').value.trim(),name:get('a-name').value.trim(),role:get('a-role').value.trim(),bio:get('a-bio').value.trim(),photoUrl:get('a-photo-url').value.trim(),highlights:lines(get('a-highlights').value)}}
+async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();localStorage.setItem(CONFIG_KEY,JSON.stringify(config));try{await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});document.getElementById('status').textContent='Enregistré en ligne';toast('Configuration enregistrée')}catch(e){document.getElementById('status').textContent='Enregistré localement seulement';toast('Service indisponible : sauvegarde locale');console.warn('Écriture distante impossible',e)}}
+
+window.showView = showView;
+window.selectService = selectService;
+window.addService = addService;
+window.deleteService = deleteService;
+window.saveAll = saveAll;
+
+document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()});el.addEventListener('change',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()})});
+renderServiceList();fillServiceForm();fillAbout();loadRemoteConfig();
+</script>
+</body>
+</html>

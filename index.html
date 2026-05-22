@@ -225,6 +225,10 @@ nav{
   border:1px solid rgba(255,255,255,.05);background:var(--noir);
 }
 .c-delivery .d-ico{width:14px;height:14px;flex-shrink:0}
+.c-img{
+  width:100%;height:150px;object-fit:cover;margin:-10px 0 20px;
+  border:1px solid rgba(201,168,76,.14);background:var(--noir);
+}
 .btn-buy{
   width:100%;padding:13px;border:none;
   font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
@@ -265,6 +269,34 @@ nav{
 }
 .auto-b{background:rgba(39,174,96,.12);color:var(--vert);border:1px solid rgba(39,174,96,.2)}
 .manual-b{background:rgba(201,168,76,.1);color:var(--or);border:1px solid rgba(201,168,76,.2)}
+
+/* ── A PROPOS ── */
+.about-wrap{
+  background:linear-gradient(135deg,rgba(201,168,76,.08),transparent 42%),var(--noir);
+  border-top:1px solid rgba(201,168,76,.12);
+  border-bottom:1px solid rgba(201,168,76,.12);
+}
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+.about-card{
+  background:var(--noir2);border:1px solid rgba(201,168,76,.14);
+  padding:36px;position:relative;overflow:hidden;
+}
+.about-card::before{
+  content:'';position:absolute;inset:0 0 auto auto;width:160px;height:160px;
+  background:radial-gradient(circle,rgba(201,168,76,.16),transparent 68%);
+}
+.about-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--or);margin-bottom:6px}
+.about-role{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#777;margin-bottom:20px}
+.about-text{font-size:14px;line-height:1.9;color:#777;margin-bottom:20px}
+.about-list{list-style:none;display:grid;gap:10px;margin-top:22px}
+.about-list li{display:flex;gap:10px;color:#777;font-size:13px;line-height:1.5}
+.about-list svg{width:14px;height:14px;color:var(--or);flex-shrink:0;margin-top:2px}
+.about-photo{
+  min-height:360px;border:1px solid rgba(201,168,76,.14);background:var(--noir2);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.about-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.about-placeholder{font-family:'Cormorant Garamond',serif;font-size:88px;color:rgba(201,168,76,.18)}
 
 /* ── CONFIANCE ── */
 .confiance{max-width:1000px;margin:0 auto;padding:70px 24px;text-align:center}
@@ -465,6 +497,9 @@ footer strong{color:var(--or)}
   .card{padding:28px 22px}
 
   /* Process */
+  .about-grid{grid-template-columns:1fr;gap:24px}
+  .about-card{padding:28px 22px}
+  .about-photo{min-height:260px}
   .deux-cols{grid-template-columns:1fr;gap:36px}
   .comment{padding:60px 16px}
 
@@ -597,8 +632,10 @@ footer strong{color:var(--or)}
   </div>
   <div class="nav-links">
     <a href="#boutique">Boutique</a>
+    <a href="#apropos">À propos</a>
     <a href="#comment">Process</a>
     <a href="#confiance">Garanties</a>
+    <a href="admin.html">Admin</a>
   </div>
   <button class="nav-cta" onclick="document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
     <svg width="14" height="14"><use href="#ico-cart"/></svg>
@@ -612,8 +649,10 @@ footer strong{color:var(--or)}
 <!-- Menu mobile -->
 <div class="mob-menu" id="mob-menu">
   <a href="#boutique" onclick="closeMenu()">Boutique</a>
+  <a href="#apropos" onclick="closeMenu()">À propos</a>
   <a href="#comment" onclick="closeMenu()">Process</a>
   <a href="#confiance" onclick="closeMenu()">Garanties</a>
+  <a href="admin.html" onclick="closeMenu()">Admin</a>
   <button class="nav-cta" onclick="closeMenu();document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
     <svg width="14" height="14"><use href="#ico-cart"/></svg>
     Commander
@@ -671,7 +710,7 @@ footer strong{color:var(--or)}
     <button class="tab" onclick="filtrer('familial',this)">Familial</button>
     <button class="tab" onclick="filtrer('villa',this)">Villa</button>
   </div>
-  <div class="grid">
+  <div class="grid" id="fixed-services-grid">
 
     <!-- 01 -->
     <div class="card fi-in" data-cat="eco">
@@ -791,7 +830,7 @@ footer strong{color:var(--or)}
     <h2 class="sec-h fi-in">Sur mesure.<br><span>Je dessine pour toi.</span></h2>
   </section>
   <div style="max-width:1200px;margin:0 auto;padding:0 24px 90px">
-    <div class="grid">
+    <div class="grid" id="custom-services-grid">
 
       <!-- 05 -->
       <div class="card fi-in">
@@ -897,6 +936,28 @@ footer strong{color:var(--or)}
         </button>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ── A PROPOS ── -->
+<section class="about-wrap" id="apropos">
+  <div class="sec">
+    <div class="about-grid">
+      <div class="about-card fi-in">
+        <p class="sec-tag" id="about-kicker">À propos de l'architecte</p>
+        <div class="about-name" id="about-name">Architecte IA Africa</div>
+        <div class="about-role" id="about-role">Architecte concepteur · Plans africains modernes</div>
+        <p class="about-text" id="about-bio">Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.</p>
+        <ul class="about-list" id="about-highlights">
+          <li><svg><use href="#ico-check"/></svg><span>Plans lisibles, pratiques et prêts pour l'exécution chantier.</span></li>
+          <li><svg><use href="#ico-check"/></svg><span>Conception pensée pour les climats, budgets et matériaux locaux.</span></li>
+          <li><svg><use href="#ico-check"/></svg><span>Accompagnement direct du choix du plan jusqu'à la livraison PDF.</span></li>
+        </ul>
+      </div>
+      <div class="about-photo fi-in" id="about-photo">
+        <div class="about-placeholder">AIA</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1146,13 +1207,152 @@ footer strong{color:var(--or)}
   </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+
 /* ── CONFIG ── */
 const MTN_NUMERO  = '0152377640';
 const MTN_NOM     = 'Architecte IA Africa';
 const WHATSAPP_ID = '2290152377640'; // +229 0152377640 → un seul zéro final
 
 let produit = null;
+
+const CONFIG_KEY = 'aia-admin-config';
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
+  authDomain: 'omni-98377.firebaseapp.com',
+  projectId: 'omni-98377',
+  storageBucket: 'omni-98377.firebasestorage.app',
+  messagingSenderId: '1032234727205',
+  appId: '1:1032234727205:web:d53543442c9352a73b8ccc'
+};
+const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
+const FIRESTORE_DOC = 'public_config';
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
+const db = getFirestore(firebaseApp);
+const DEFAULT_SITE_CONFIG = {
+  about: {
+    kicker: "À propos de l'architecte",
+    name: 'Architecte IA Africa',
+    role: 'Architecte concepteur · Plans africains modernes',
+    bio: "Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
+    photoUrl: '',
+    highlights: [
+      "Plans lisibles, pratiques et prêts pour l'exécution chantier.",
+      'Conception pensée pour les climats, budgets et matériaux locaux.',
+      "Accompagnement direct du choix du plan jusqu'à la livraison PDF."
+    ]
+  },
+  services: [
+    {id:'studio-f2',section:'fixe',category:'eco',ribbon:'Populaire',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Studio Économique F2',description:'Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.',features:['Séjour + 1 chambre + cuisine + SDB','Dimensions détaillées incluses','Devis estimatif : 6–9 millions FCFA','PDF haute résolution prêt maçon'],price:12000,oldPrice:30000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'familiale-3ch',section:'fixe',category:'familial',ribbon:'Familial',ribbonClass:'rb-out',icon:'ico-home2',typeLabel:'Livraison rapide',type:'fixe',name:'Maison Familiale 3 Chambres',description:'Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.',features:['3 chambres + séjour + cuisine','Véranda 15 m² incluse','Devis estimatif : 12–18 millions FCFA','PDF haute résolution prêt maçon'],price:25000,oldPrice:50000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'villa-4ch',section:'fixe',category:'villa',ribbon:'Luxe',ribbonClass:'rb-green',icon:'ico-villa',typeLabel:'Livraison rapide',type:'fixe',name:'Villa Traditionnelle 4 Chambres',description:'Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.',features:['4 chambres + suite parentale','Garage + grande terrasse','Devis estimatif : 24–37 millions FCFA','PDF haute résolution prêt maçon'],price:45000,oldPrice:90000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
+    {id:'bibliotheque',section:'fixe',category:'tout',ribbon:'Pack Complet',ribbonClass:'rb-blue',icon:'ico-library',typeLabel:'Livraison rapide',type:'fixe',name:'Bibliothèque — Accès Illimité',description:'Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.',features:['+20 plans différents inclus','Studios, F2, F3, villas, commerciales','Toutes les mises à jour futures','Accès à vie, téléchargement illimité'],price:60000,oldPrice:120000,unit:'FCFA',delivery:'Accès envoyé sous 1h après confirmation paiement',delai:'1h',button:'Accéder maintenant',imageUrl:''},
+    {id:'custom-std',section:'custom',category:'custom',ribbon:'Sur Mesure',ribbonClass:'rb-out',icon:'ico-pencil',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Standard',description:"Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².",features:["Jusqu'à 3 chambres","Surface jusqu'à 120 m²",'1 révision incluse','Livraison PDF sous 48h'],price:50000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 48h après réception commande',delai:'48h',button:'Commander sur mesure',imageUrl:''},
+    {id:'custom-prem',section:'custom',category:'custom',ribbon:'Premium',ribbonClass:'rb-gold',icon:'ico-star',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Premium',description:'Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.',features:['4+ chambres, surface illimitée','Plan de masse + façades + coupe','2 révisions incluses','Livraison PDF sous 72h'],price:100000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 72h après réception commande',delai:'72h',button:'Commander sur mesure',imageUrl:''},
+    {id:'formation',section:'custom',category:'formation',ribbon:'Formation',ribbonClass:'rb-out',icon:'ico-grad',typeLabel:'Accès rapide',type:'fixe',name:'Formation : Construis Sans Architecte',description:'Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.',features:['Lire et comprendre un plan','Superviser son chantier seul','Éviter les arnaques maçons','Accès à vie + mises à jour'],price:25000,oldPrice:'',unit:'FCFA',delivery:'Accès envoyé sous 1h sur ton email',delai:'1h',button:"S'inscrire maintenant",imageUrl:''},
+    {id:'club',section:'custom',category:'club',ribbon:'Mensuel',ribbonClass:'rb-green',icon:'ico-trophy',typeLabel:'Accès rapide',type:'fixe',name:'Club des Bâtisseurs',description:'Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&A direct chaque mois.',features:['1 plan de maison premium / mois','1 vidéo conseil chantier','Q&A direct illimité','Communauté privée WhatsApp'],price:5000,oldPrice:'',unit:'FCFA/mois',delivery:'Accès au groupe envoyé sous 1h',delai:'1h',button:'Rejoindre le Club',imageUrl:''}
+  ]
+};
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function getSiteConfig() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CONFIG_KEY));
+    if (!saved) return DEFAULT_SITE_CONFIG;
+    return {
+      ...DEFAULT_SITE_CONFIG,
+      ...saved,
+      about: {...DEFAULT_SITE_CONFIG.about, ...(saved.about || {})},
+      services: Array.isArray(saved.services) && saved.services.length ? saved.services : DEFAULT_SITE_CONFIG.services
+    };
+  } catch (error) {
+    return DEFAULT_SITE_CONFIG;
+  }
+}
+
+async function getRemoteSiteConfig() {
+  try {
+    const snap = await getDoc(doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC));
+    if (!snap.exists()) return null;
+    const data = snap.data();
+    const config = data.config || data;
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+    return {
+      ...DEFAULT_SITE_CONFIG,
+      ...config,
+      about: {...DEFAULT_SITE_CONFIG.about, ...(config.about || {})},
+      services: Array.isArray(config.services) && config.services.length ? config.services : DEFAULT_SITE_CONFIG.services
+    };
+  } catch (error) {
+    console.warn('Configuration Firestore indisponible, fallback local.', error);
+    return null;
+  }
+}
+
+function renderServiceCard(service, index) {
+  const isCustom = service.type === 'custom';
+  const price = Number(service.price) || 0;
+  const oldPrice = Number(service.oldPrice) || 0;
+  const features = (service.features || []).filter(Boolean).map(feature => `<li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>${escapeHtml(feature)}</li>`).join('');
+  const image = service.imageUrl ? `<img class="c-img" src="${escapeHtml(service.imageUrl)}" alt="${escapeHtml(service.name)}">` : '';
+  const modalData = JSON.stringify({id:service.id,name:service.name,price,type:service.type || 'fixe',delai:service.delai || '1h'}).replace(/"/g, '&quot;');
+
+  return `
+    <div class="card fi-in" data-cat="${escapeHtml(service.category || 'tout')}">
+      ${service.ribbon ? `<div class="c-ribbon ${escapeHtml(service.ribbonClass || 'rb-out')}">${escapeHtml(service.ribbon)}</div>` : ''}
+      <div class="c-num">${String(index + 1).padStart(2, '0')}</div>
+      ${image}
+      <svg class="c-ico" style="color:var(--or)"><use href="#${escapeHtml(service.icon || 'ico-home')}"/></svg>
+      <div class="c-type ${isCustom ? 'type-custom' : 'type-fixe'}">${escapeHtml(service.typeLabel || (isCustom ? 'Sur mesure' : 'Livraison rapide'))}</div>
+      <h3 class="c-name">${escapeHtml(service.name)}</h3>
+      <p class="c-desc">${escapeHtml(service.description)}</p>
+      <ul class="c-feat">${features}</ul>
+      <div class="c-price">
+        <span class="p-from">Dès</span><span class="p-amount">${price.toLocaleString('fr-FR')}</span>
+        <span class="p-unit">${escapeHtml(service.unit || 'FCFA')}</span>${oldPrice ? `<span class="p-old">${oldPrice.toLocaleString('fr-FR')}</span>` : ''}
+      </div>
+      <div class="c-delivery"${isCustom ? ' style="border-color:rgba(201,168,76,.15)"' : ''}>
+        <svg class="d-ico" style="color:${isCustom ? 'var(--or)' : 'var(--vert)'}"><use href="#${isCustom ? 'ico-clock' : 'ico-bolt'}"/></svg>
+        <span>${escapeHtml(service.delivery || '')}</span>
+      </div>
+      <button class="btn-buy ${isCustom ? 'btn-order' : 'btn-instant'}" onclick="ouvrirModal(${modalData})">
+        <svg class="b-ico"${isCustom ? ' style="color:var(--or)"' : ''}><use href="#${isCustom ? 'ico-pencil' : 'ico-cart'}"/></svg>${escapeHtml(service.button || 'Commander')}
+      </button>
+    </div>`;
+}
+
+function renderServices(config) {
+  const fixedGrid = document.getElementById('fixed-services-grid');
+  const customGrid = document.getElementById('custom-services-grid');
+  const services = config.services || [];
+  if (fixedGrid) fixedGrid.innerHTML = services.filter(s => s.section === 'fixe').map(renderServiceCard).join('');
+  if (customGrid) customGrid.innerHTML = services.filter(s => s.section !== 'fixe').map((service, index) => renderServiceCard(service, index + services.filter(s => s.section === 'fixe').length)).join('');
+}
+
+function renderAbout(config) {
+  const about = config.about || DEFAULT_SITE_CONFIG.about;
+  document.getElementById('about-kicker').textContent = about.kicker || DEFAULT_SITE_CONFIG.about.kicker;
+  document.getElementById('about-name').textContent = about.name || DEFAULT_SITE_CONFIG.about.name;
+  document.getElementById('about-role').textContent = about.role || DEFAULT_SITE_CONFIG.about.role;
+  document.getElementById('about-bio').textContent = about.bio || DEFAULT_SITE_CONFIG.about.bio;
+  document.getElementById('about-highlights').innerHTML = (about.highlights || []).filter(Boolean).map(item => `<li><svg><use href="#ico-check"/></svg><span>${escapeHtml(item)}</span></li>`).join('');
+  document.getElementById('about-photo').innerHTML = about.photoUrl ? `<img src="${escapeHtml(about.photoUrl)}" alt="${escapeHtml(about.name || 'Architecte')}">` : '<div class="about-placeholder">AIA</div>';
+}
+
+function renderSiteContent(config = getSiteConfig()) {
+  renderServices(config);
+  renderAbout(config);
+}
+
+renderSiteContent();
+getRemoteSiteConfig().then(config => {
+  if (config) renderSiteContent(config);
+});
 
 /* ── Hamburger ── */
 function toggleMenu() {
@@ -1215,6 +1415,14 @@ function fermerModal() {
 function fermerOverlay(e) {
   if (e.target === document.getElementById('overlay')) fermerModal();
 }
+
+window.toggleMenu = toggleMenu;
+window.closeMenu = closeMenu;
+window.filtrer = filtrer;
+window.ouvrirModal = ouvrirModal;
+window.fermerModal = fermerModal;
+window.fermerOverlay = fermerOverlay;
+window.payer = payer;
 
 /* ── Payer ── */
 function payer() {
