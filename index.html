@@ -4,10 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="copyright" content="© 2025 Architecte IA Africa — Tous droits réservés">
-<meta name="author" content="Architecte IA Africa">
 <title>Architecte IA Africa — Boutique</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -771,68 +767,6 @@ nav{padding:14px 20px}.nav-links{display:none}
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// SÉCURITÉ — PROTECTION ANTI-PIRATAGE
-// ══════════════════════════════════════════
-
-// 1. Désactiver clic droit
-document.addEventListener('contextmenu', e => e.preventDefault());
-
-// 2. Désactiver les raccourcis clavier dangereux
-document.addEventListener('keydown', e => {
-  // Bloquer F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I/J/C
-  if (
-    e.key === 'F12' ||
-    (e.ctrlKey && ['u','s','p'].includes(e.key.toLowerCase())) ||
-    (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))
-  ) {
-    e.preventDefault();
-    return false;
-  }
-});
-
-// 3. Désactiver la sélection de texte sur éléments sensibles
-document.addEventListener('selectstart', e => {
-  if (e.target.closest('.card') || e.target.closest('nav')) {
-    e.preventDefault();
-  }
-});
-
-// 4. Avertissement si DevTools ouvert
-(function() {
-  const threshold = 160;
-  setInterval(() => {
-    if (window.outerWidth - window.innerWidth > threshold ||
-        window.outerHeight - window.innerHeight > threshold) {
-      document.body.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:center;height:100vh;
-          background:#0A0A0A;flex-direction:column;gap:20px;text-align:center;padding:40px">
-          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.5">
-            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#C9A84C">
-            Accès refusé
-          </div>
-          <div style="font-size:14px;color:#555;max-width:400px;line-height:1.7">
-            Ce contenu est protégé. Toute tentative de copie ou d'inspection est interdite.
-          </div>
-          <div style="font-size:12px;color:#333">© 2025 Architecte IA Africa</div>
-        </div>`;
-    }
-  }, 1000);
-})();
-
-// 5. Watermark invisible dans le titre (identification copies)
-document.title = 'Architecte IA Africa — Boutique \u200B\u200C\u200D';
-
-// 6. Protection copyright dans la console
-console.log('%c⛔ STOP', 'color:red;font-size:40px;font-weight:900');
-console.log('%cCe site est protégé par le droit d\'auteur.\n© 2025 Architecte IA Africa\nToute copie est strictement interdite.', 'color:#C9A84C;font-size:14px');
-
-// ══════════════════════════════════════════
-// CONFIGURATION — TON NUMÉRO MTN MOMO
-// ══════════════════════════════════════════
 const MTN_NUMERO = '0152377640';
 const MTN_NOM    = 'Architecte IA Africa';
 const WHATSAPP   = '22901523776400';
