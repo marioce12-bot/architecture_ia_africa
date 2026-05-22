@@ -4,131 +4,353 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Architecte IA Africa</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--or:#C9A84C;--or2:#E8C96A;--noir:#0A0A0A;--noir2:#111;--noir3:#191919;--creme:#F2EDE4;--muted:#777;--line:rgba(201,168,76,.16);--danger:#D9534F;--ok:#27AE60}
+:root{
+  --or:#C9A84C;--or2:#E8C96A;--or-dim:rgba(201,168,76,.12);
+  --noir:#0A0A0A;--noir2:#111;--noir3:#161616;--noir4:#1C1C1C;
+  --creme:#F2EDE4;--creme2:#C8C4BC;--muted:#666;--muted2:#444;
+  --line:rgba(201,168,76,.14);--line2:rgba(255,255,255,.06);
+  --danger:#D9534F;--ok:#27AE60;
+  --sidebar:260px;
+  --topbar:58px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(ellipse 80% 45% at 50% -10%,rgba(201,168,76,.14),transparent 70%),var(--noir);color:var(--creme);font-family:'Outfit',sans-serif;min-height:100vh}
-a{color:inherit}
-.top{position:sticky;top:0;z-index:10;background:rgba(10,10,10,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:16px 34px;gap:16px}
-.brand{font-family:'Cormorant Garamond',serif;color:var(--or);font-size:24px;font-weight:700;letter-spacing:1px}.brand span{color:var(--creme)}
-.top-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:transparent;color:var(--creme);padding:11px 16px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:.2s}.btn:hover{border-color:var(--or);color:var(--or)}.btn-primary{background:var(--or);border-color:var(--or);color:var(--noir);font-weight:700}.btn-primary:hover{background:var(--or2);color:var(--noir)}.btn-danger{border-color:rgba(217,83,79,.45);color:#e28b88}.btn-danger:hover{background:rgba(217,83,79,.12);color:#fff}.btn-ok{border-color:rgba(39,174,96,.45);color:#7bd99f}.btn-ok:hover{background:rgba(39,174,96,.1);color:#bdf3d1}
-.wrap{max-width:1280px;margin:0 auto;padding:34px 22px 70px}.hero{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:28px}.kicker{font-size:10px;color:var(--or);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}.title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,58px);line-height:1}.title span{color:var(--or)}.hint{color:var(--muted);font-size:14px;line-height:1.7;margin-top:12px;max-width:680px}.status{padding:12px 16px;border:1px solid var(--line);background:var(--noir2);color:#999;font-size:12px;min-width:230px;text-align:center}
-.layout{display:grid;grid-template-columns:310px 1fr;gap:18px}.panel{background:var(--noir2);border:1px solid var(--line)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.06)}.panel-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}.panel-body{padding:20px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid rgba(255,255,255,.08);background:var(--noir);color:#777;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer}.tab.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.08)}
-.service-list{display:grid;gap:8px;max-height:640px;overflow:auto;padding-right:4px}.service-item{border:1px solid rgba(255,255,255,.08);background:var(--noir);padding:12px;cursor:pointer;transition:.2s}.service-item:hover,.service-item.on{border-color:var(--or);background:rgba(201,168,76,.06)}.service-name{font-size:13px;font-weight:600;margin-bottom:6px}.service-meta{font-size:11px;color:#777;display:flex;justify-content:space-between;gap:10px}.badge{color:var(--or);text-transform:uppercase;letter-spacing:1px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fg{margin-bottom:14px}.full{grid-column:1/-1}.label{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#777;margin-bottom:7px}.input,.select,.area{width:100%;background:var(--noir);border:1px solid rgba(255,255,255,.09);color:var(--creme);padding:12px 13px;font-family:'Outfit',sans-serif;font-size:13px;outline:none}.input:focus,.select:focus,.area:focus{border-color:var(--or)}.area{min-height:104px;resize:vertical}.small{font-size:11px;color:#555;line-height:1.55;margin-top:7px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.preview-img{width:118px;height:78px;object-fit:cover;border:1px solid var(--line);background:var(--noir);display:none}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.codebox{font-family:Consolas,monospace;font-size:12px;min-height:150px}.notice{border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.06);padding:14px;color:#aaa;font-size:12px;line-height:1.7;margin-bottom:18px}.notice strong{color:var(--or)}
-.hidden{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;padding:24px}.auth-card{width:100%;max-width:440px;background:var(--noir2);border:1px solid var(--line);padding:34px}.auth-title{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:1;color:var(--or);margin-bottom:10px}.auth-sub{color:#777;font-size:13px;line-height:1.7;margin-bottom:24px}.auth-error{color:#e28b88;font-size:12px;line-height:1.5;min-height:18px;margin-top:12px}.upload-box{border:1px dashed rgba(201,168,76,.3);background:rgba(201,168,76,.04);padding:14px}.upload-progress{font-size:11px;color:var(--or);margin-top:8px;min-height:16px}.toast{position:fixed;right:20px;bottom:20px;background:var(--noir2);border:1px solid var(--line);padding:14px 18px;color:var(--creme);box-shadow:0 20px 60px rgba(0,0,0,.45);display:none}.toast.show{display:block;animation:up .25s ease both}@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:900px){.top{padding:14px 18px;align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr}.layout,.split,.grid{grid-template-columns:1fr}.wrap{padding:24px 14px 50px}.status{text-align:left}.panel-body{padding:16px}}
+body{background:var(--noir);color:var(--creme);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ─── AUTH ─────────────────────────────────── */
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(201,168,76,.10),transparent)}
+.auth-card{width:100%;max-width:400px;background:var(--noir3);border:1px solid var(--line);padding:40px 36px}
+.auth-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--or);letter-spacing:1px;margin-bottom:28px}
+.auth-logo span{color:var(--creme)}
+.auth-title{font-size:28px;font-weight:600;margin-bottom:6px}
+.auth-sub{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:28px}
+.auth-error{color:#e28b88;font-size:12px;min-height:18px;margin-top:10px}
+
+/* ─── FORM ELEMENTS ─────────────────────────── */
+.fg{margin-bottom:14px}
+.label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:500}
+.input,.select,.area{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--creme);padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:.15s;border-radius:2px}
+.input:focus,.select:focus,.area:focus{border-color:var(--or);background:rgba(201,168,76,.04)}
+.select option{background:var(--noir3)}
+.area{min-height:100px;resize:vertical;line-height:1.5}
+.small{font-size:11px;color:var(--muted2);line-height:1.55;margin-top:6px}
+
+/* ─── BUTTONS ────────────────────────────────── */
+.btn{border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--creme);padding:9px 16px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:.15s;font-family:'DM Sans',sans-serif;white-space:nowrap;border-radius:2px;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--or);color:var(--or)}
+.btn-primary{background:var(--or);border-color:var(--or);color:var(--noir);font-weight:600}
+.btn-primary:hover{background:var(--or2);border-color:var(--or2);color:var(--noir)}
+.btn-danger{border-color:rgba(217,83,79,.35);color:#e28b88}
+.btn-danger:hover{background:rgba(217,83,79,.10);border-color:#e28b88;color:#fbb}
+.btn-ok{border-color:rgba(39,174,96,.35);color:#7bd99f}
+.btn-ok:hover{background:rgba(39,174,96,.08);border-color:#7bd99f;color:#c0f5d4}
+.btn-sm{padding:7px 12px;font-size:10px}
+.btn-icon{padding:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:.15s;font-size:16px;line-height:1;border-radius:2px}
+.btn-icon:hover{color:var(--or);background:var(--or-dim)}
+
+/* ─── LAYOUT SHELL ──────────────────────────── */
+.shell{display:grid;grid-template-columns:var(--sidebar) 1fr;grid-template-rows:var(--topbar) 1fr;min-height:100vh}
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar{grid-column:1/-1;grid-row:1;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 0;background:rgba(10,10,10,.97);border-bottom:1px solid var(--line2);position:sticky;top:0;z-index:50}
+.topbar-left{width:var(--sidebar);padding:0 20px;display:flex;align-items:center;gap:10px}
+.brand{font-family:'Cormorant Garamond',serif;color:var(--or);font-size:19px;font-weight:700;letter-spacing:.5px;white-space:nowrap}
+.brand span{color:var(--creme2)}
+.menu-toggle{display:none;background:none;border:none;color:var(--creme2);cursor:pointer;font-size:20px;padding:6px;margin-right:4px}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.sync-badge{font-size:11px;color:var(--muted);padding:5px 10px;border:1px solid var(--line2);border-radius:2px;background:var(--noir3);white-space:nowrap}
+.sync-badge.dirty{color:#E8C96A;border-color:rgba(232,201,106,.25)}
+.sync-badge.ok{color:var(--ok);border-color:rgba(39,174,96,.25)}
+
+/* ─── SIDEBAR ────────────────────────────────── */
+.sidebar{grid-row:2;background:var(--noir3);border-right:1px solid var(--line2);display:flex;flex-direction:column;position:sticky;top:var(--topbar);height:calc(100vh - var(--topbar));overflow-y:auto;transition:.25s}
+.sidebar-section{padding:20px 14px 8px}
+.sidebar-section-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);font-weight:500;padding:0 6px;margin-bottom:6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;cursor:pointer;font-size:13px;color:var(--creme2);transition:.15s;border:1px solid transparent;margin-bottom:2px;user-select:none}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--creme)}
+.nav-item.active{background:var(--or-dim);border-color:rgba(201,168,76,.22);color:var(--or)}
+.nav-item .nav-icon{font-size:15px;width:18px;text-align:center;flex-shrink:0;opacity:.7}
+.nav-item.active .nav-icon{opacity:1}
+.nav-item .nav-label{flex:1;font-weight:400}
+.nav-item .nav-meta{font-size:10px;color:var(--muted2);background:var(--noir4);padding:2px 6px;border-radius:10px}
+.nav-item.active .nav-meta{background:rgba(201,168,76,.18);color:var(--or)}
+.sidebar-divider{height:1px;background:var(--line2);margin:8px 14px}
+
+/* ─── MAIN CONTENT ───────────────────────────── */
+.main{grid-row:2;overflow-y:auto;background:var(--noir)}
+
+/* ─── PAGE HEADER ────────────────────────────── */
+.page-header{padding:28px 28px 20px;border-bottom:1px solid var(--line2)}
+.page-kicker{font-size:10px;color:var(--or);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);line-height:1.1;font-weight:700}
+.page-title span{color:var(--or)}
+.page-hint{color:var(--muted);font-size:13px;line-height:1.6;margin-top:8px;max-width:560px}
+
+/* ─── SERVICES LAYOUT ────────────────────────── */
+.services-layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - var(--topbar) - 120px)}
+.slist-panel{border-right:1px solid var(--line2);display:flex;flex-direction:column}
+.slist-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line2)}
+.slist-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--creme2)}
+.slist-body{flex:1;overflow-y:auto;padding:10px}
+.scard{border:1px solid var(--line2);background:transparent;padding:12px 13px;cursor:pointer;transition:.15s;border-radius:3px;margin-bottom:6px}
+.scard:hover{border-color:rgba(201,168,76,.3);background:rgba(255,255,255,.025)}
+.scard.active{border-color:rgba(201,168,76,.5);background:var(--or-dim)}
+.scard-name{font-size:13px;font-weight:500;margin-bottom:5px;color:var(--creme)}
+.scard-row{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted)}
+.scard.active .scard-name{color:var(--or)}
+.scard-badge{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--or);font-weight:600;background:var(--or-dim);padding:2px 7px;border-radius:10px}
+.scard-badge.custom{color:#7bd99f;background:rgba(39,174,96,.1)}
+
+/* ─── EDIT PANEL ─────────────────────────────── */
+.edit-panel{overflow-y:auto;padding:24px 28px}
+.edit-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.edit-section-title{font-size:14px;font-weight:600;color:var(--creme2)}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field-grid .full{grid-column:1/-1}
+.section-sep{margin:20px 0;height:1px;background:var(--line2)}
+.section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--or);font-weight:500;margin-bottom:14px}
+
+/* ─── UPLOAD BOX ─────────────────────────────── */
+.upload-zone{border:1px dashed rgba(201,168,76,.25);background:rgba(201,168,76,.03);padding:14px;border-radius:3px}
+.upload-zone input[type=file]{width:100%;background:transparent;border:none;color:var(--muted);font-size:12px;padding:0}
+.upload-actions{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.upload-progress{font-size:11px;color:var(--or);min-height:16px}
+.img-preview{width:120px;height:80px;object-fit:cover;border:1px solid var(--line);border-radius:2px;display:none;margin-top:10px}
+
+/* ─── ABOUT TAB ──────────────────────────────── */
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px 28px}
+
+/* ─── TOAST ──────────────────────────────────── */
+.toast{position:fixed;right:20px;bottom:20px;z-index:999;background:var(--noir3);border:1px solid var(--line);padding:14px 20px;color:var(--creme);font-size:13px;display:none;border-radius:3px;max-width:280px}
+.toast.show{display:block;animation:toastup .22s ease both}
+@keyframes toastup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── EMPTY STATE ────────────────────────────── */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--muted);text-align:center;gap:10px}
+.empty-icon{font-size:32px;opacity:.3}
+.empty-text{font-size:13px}
+
+/* ─── RESPONSIVE ─────────────────────────────── */
+@media(max-width:1024px){
+  .services-layout{grid-template-columns:240px 1fr}
+  .about-layout{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  :root{--sidebar:0px}
+  .shell{grid-template-columns:1fr}
+  .topbar{grid-column:1;padding:0 14px}
+  .topbar-left{width:auto;padding:0}
+  .menu-toggle{display:flex}
+  .sidebar{position:fixed;left:-280px;top:var(--topbar);height:calc(100vh - var(--topbar));width:280px;z-index:40;box-shadow:4px 0 30px rgba(0,0,0,.5);transition:left .25s ease}
+  .sidebar.open{left:0}
+  .sidebar-overlay{display:none;position:fixed;inset:0;top:var(--topbar);z-index:39;background:rgba(0,0,0,.6)}
+  .sidebar-overlay.show{display:block}
+  .main{grid-column:1}
+  .services-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .slist-panel{border-right:none;border-bottom:1px solid var(--line2);max-height:280px}
+  .edit-panel{padding:18px}
+  .about-layout{padding:18px;grid-template-columns:1fr}
+  .page-header{padding:20px 18px 16px}
+  .field-grid{grid-template-columns:1fr}
+  .topbar-right .sync-badge{display:none}
+}
+@media(max-width:460px){
+  .auth-card{padding:28px 20px}
+  .topbar-right .btn-primary .btn-label{display:none}
+  .edit-toolbar{gap:8px}
+}
+
+.hidden{display:none!important}
 </style>
 </head>
 <body>
-<section class="auth-screen" id="auth-screen">
+
+<!-- ─── AUTH SCREEN ──────────────────────────── -->
+<div class="auth-wrap" id="auth-screen">
   <form class="auth-card" onsubmit="loginAdmin(event)" autocomplete="off">
-    <div class="kicker">Accès sécurisé</div>
-    <h1 class="auth-title">Admin</h1>
-    <p class="auth-sub">Connecte-toi pour gérer les services, les prix, les images et la section À propos.</p>
-    <div class="fg"><label class="label">Email</label><input id="login-email" class="input" type="email" autocomplete="off"></div>
-    <div class="fg"><label class="label">Mot de passe</label><input id="login-password" class="input" type="password" autocomplete="new-password"></div>
-    <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
+    <div class="auth-logo">Architecte<span> IA</span> Africa</div>
+    <h1 class="auth-title">Espace Admin</h1>
+    <p class="auth-sub">Connecte-toi pour gérer les services, les prix et la présentation de l'architecte.</p>
+    <div class="fg">
+      <label class="label">Email</label>
+      <input id="login-email" class="input" type="email" autocomplete="off" placeholder="admin@example.com">
+    </div>
+    <div class="fg">
+      <label class="label">Mot de passe</label>
+      <input id="login-password" class="input" type="password" autocomplete="new-password" placeholder="••••••••">
+    </div>
+    <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;padding:13px">Se connecter</button>
     <div class="auth-error" id="auth-error"></div>
   </form>
-</section>
+</div>
 
-<header class="top hidden" id="admin-top">
-  <div class="brand">Architecte<span> IA</span> Africa · Admin</div>
-  <div class="top-actions">
-    <a class="btn" href="index.html">Voir le site</a>
-    <button class="btn" onclick="logoutAdmin()">Déconnexion</button>
-    <button class="btn btn-primary" onclick="saveAll()">Enregistrer</button>
-  </div>
-</header>
+<!-- ─── ADMIN SHELL ───────────────────────────── -->
+<div class="shell hidden" id="admin-shell">
 
-<main class="wrap hidden" id="admin-main">
-  <section class="hero">
-    <div>
-      <div class="kicker">Administration</div>
-      <h1 class="title">Gérer les services,<br><span>les prix et l'architecte.</span></h1>
-      <p class="hint">Modifie les services, les tarifs et la présentation de l'architecte. Les changements enregistrés s'affichent automatiquement sur le site public.</p>
+  <!-- TOPBAR -->
+  <header class="topbar" id="admin-top">
+    <div class="topbar-left">
+      <button class="menu-toggle" id="menu-toggle" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+      <div class="brand">Architecte<span> IA</span></div>
     </div>
-    <div class="status" id="status">Aucune modification en attente</div>
-  </section>
+    <div class="topbar-right">
+      <div class="sync-badge" id="sync-badge">Synchronisé</div>
+      <a class="btn btn-sm" href="index.html" target="_blank">&#8599; Site</a>
+      <button class="btn btn-sm" onclick="logoutAdmin()">Déconnexion</button>
+      <button class="btn btn-primary btn-sm" onclick="saveAll()">
+        <span>&#10003;</span>
+        <span class="btn-label">Enregistrer</span>
+      </button>
+    </div>
+  </header>
 
-  <div class="tabs">
-    <button class="tab on" data-view="services" onclick="showView('services',this)">Services</button>
-    <button class="tab" data-view="about" onclick="showView('about',this)">À propos</button>
-  </div>
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-  <section id="view-services" class="layout">
-    <aside class="panel">
-      <div class="panel-head">
-        <div class="panel-title">Services</div>
-        <button class="btn btn-ok" onclick="addService()">Ajouter</button>
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Contenu</div>
+      <div class="nav-item active" id="nav-services" onclick="showView('services')">
+        <span class="nav-icon">&#9632;</span>
+        <span class="nav-label">Services</span>
+        <span class="nav-meta" id="nav-services-count">8</span>
       </div>
-      <div class="panel-body">
-        <div class="service-list" id="service-list"></div>
+      <div class="nav-item" id="nav-about" onclick="showView('about')">
+        <span class="nav-icon">&#9633;</span>
+        <span class="nav-label">À propos</span>
       </div>
-    </aside>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Actions rapides</div>
+      <div class="nav-item" onclick="addService();showView('services')">
+        <span class="nav-icon">+</span>
+        <span class="nav-label">Nouveau service</span>
+      </div>
+      <div class="nav-item" onclick="saveAll()">
+        <span class="nav-icon">&#8679;</span>
+        <span class="nav-label">Enregistrer tout</span>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Compte</div>
+      <div class="nav-item" onclick="logoutAdmin()">
+        <span class="nav-icon">&#8594;</span>
+        <span class="nav-label">Déconnexion</span>
+      </div>
+    </div>
+  </nav>
 
-    <section class="panel">
-      <div class="panel-head">
-        <div class="panel-title">Édition</div>
-        <button class="btn btn-danger" onclick="deleteService()">Supprimer</button>
+  <!-- MAIN -->
+  <main class="main" id="admin-main">
+
+    <!-- ── SERVICES VIEW ── -->
+    <div id="view-services">
+      <div class="page-header">
+        <div class="page-kicker">Administration</div>
+        <h1 class="page-title">Gestion des <span>services</span></h1>
+        <p class="page-hint">Sélectionne un service dans la liste pour le modifier. Enregistre tes changements en haut à droite.</p>
       </div>
-      <div class="panel-body">
-        <div class="grid">
-          <div class="fg"><label class="label">Nom</label><input id="s-name" class="input"></div>
-          <div class="fg"><label class="label">Identifiant</label><input id="s-id" class="input"></div>
-          <div class="fg"><label class="label">Section</label><select id="s-section" class="select"><option value="fixe">Plans fixes</option><option value="custom">Sur mesure / autres</option></select></div>
-          <div class="fg"><label class="label">Catégorie filtre</label><input id="s-category" class="input" placeholder="eco, familial, villa, tout..."></div>
-          <div class="fg"><label class="label">Type commande</label><select id="s-type" class="select"><option value="fixe">Fixe</option><option value="custom">Sur mesure</option></select></div>
-          <div class="fg"><label class="label">Délai</label><input id="s-delai" class="input" placeholder="1h, 48h, 72h..."></div>
-          <div class="fg"><label class="label">Prix</label><input id="s-price" class="input" type="number" min="0"></div>
-          <div class="fg"><label class="label">Ancien prix</label><input id="s-old-price" class="input" type="number" min="0"></div>
-          <div class="fg"><label class="label">Unité</label><input id="s-unit" class="input" placeholder="FCFA, FCFA/mois..."></div>
-          <div class="fg"><label class="label">Ruban</label><input id="s-ribbon" class="input" placeholder="Populaire, Premium..."></div>
-          <div class="fg"><label class="label">Style ruban</label><select id="s-ribbon-class" class="select"><option value="rb-gold">Or</option><option value="rb-out">Contour or</option><option value="rb-green">Vert</option><option value="rb-blue">Bleu</option></select></div>
-          <div class="fg"><label class="label">Icône</label><select id="s-icon" class="select"><option value="ico-home">Maison</option><option value="ico-home2">Maison 2</option><option value="ico-villa">Villa</option><option value="ico-library">Bibliothèque</option><option value="ico-pencil">Crayon</option><option value="ico-star">Étoile</option><option value="ico-grad">Formation</option><option value="ico-trophy">Trophée</option></select></div>
-          <div class="fg full"><label class="label">Description</label><textarea id="s-description" class="area"></textarea></div>
-          <div class="fg full"><label class="label">Fonctionnalités, une par ligne</label><textarea id="s-features" class="area"></textarea></div>
-          <div class="fg full"><label class="label">Texte livraison</label><input id="s-delivery" class="input"></div>
-          <div class="fg"><label class="label">Bouton</label><input id="s-button" class="input"></div>
-          <div class="fg"><label class="label">Libellé type</label><input id="s-type-label" class="input"></div>
-          <div class="fg full">
-            <label class="label">Image du service</label>
-            <div class="upload-box">
-              <input id="s-image-url" type="hidden">
-              <input id="s-image-file" class="input" type="file" accept="image/*">
-              <div class="row" style="margin-top:10px">
-                <button class="btn" type="button" onclick="uploadServiceImage()">Uploader l'image</button>
-                <span class="upload-progress" id="s-upload-progress"></span>
-              </div>
-              <img id="s-image-preview" class="preview-img" alt="Aperçu">
-            </div>
-            <p class="small">Choisis un fichier image puis clique sur uploader. L'image sera hébergée en ligne automatiquement.</p>
+      <div class="services-layout">
+        <!-- Liste -->
+        <aside class="slist-panel">
+          <div class="slist-head">
+            <span class="slist-title">Liste</span>
+            <button class="btn btn-ok btn-sm" onclick="addService()">+ Ajouter</button>
           </div>
+          <div class="slist-body" id="service-list"></div>
+        </aside>
+        <!-- Formulaire -->
+        <div class="edit-panel" id="edit-panel">
+          <div class="edit-toolbar">
+            <span class="edit-section-title" id="edit-panel-title">Sélectionne un service</span>
+            <button class="btn btn-danger btn-sm" onclick="deleteService()">&#215; Supprimer</button>
+          </div>
+
+          <div class="section-label">Identité</div>
+          <div class="field-grid">
+            <div class="fg"><label class="label">Nom du service</label><input id="s-name" class="input" placeholder="Ex: Maison Familiale 3 Chambres"></div>
+            <div class="fg"><label class="label">Identifiant unique</label><input id="s-id" class="input" placeholder="familiale-3ch"></div>
+            <div class="fg"><label class="label">Section d'affichage</label><select id="s-section" class="select"><option value="fixe">Plans fixes</option><option value="custom">Sur mesure / autres</option></select></div>
+            <div class="fg"><label class="label">Catégorie filtre</label><input id="s-category" class="input" placeholder="eco, familial, villa, tout..."></div>
+            <div class="fg"><label class="label">Icône</label><select id="s-icon" class="select"><option value="ico-home">Maison</option><option value="ico-home2">Maison 2</option><option value="ico-villa">Villa</option><option value="ico-library">Bibliothèque</option><option value="ico-pencil">Crayon</option><option value="ico-star">Étoile</option><option value="ico-grad">Formation</option><option value="ico-trophy">Trophée</option></select></div>
+            <div class="fg"><label class="label">Libellé type</label><input id="s-type-label" class="input" placeholder="Livraison rapide"></div>
+          </div>
+
+          <div class="section-sep"></div>
+          <div class="section-label">Tarification</div>
+          <div class="field-grid">
+            <div class="fg"><label class="label">Prix</label><input id="s-price" class="input" type="number" min="0" placeholder="25000"></div>
+            <div class="fg"><label class="label">Ancien prix</label><input id="s-old-price" class="input" type="number" min="0" placeholder="50000"></div>
+            <div class="fg"><label class="label">Unité</label><input id="s-unit" class="input" placeholder="FCFA, FCFA/mois..."></div>
+            <div class="fg"><label class="label">Type de commande</label><select id="s-type" class="select"><option value="fixe">Fixe</option><option value="custom">Sur mesure</option></select></div>
+            <div class="fg"><label class="label">Délai de livraison</label><input id="s-delai" class="input" placeholder="1h, 48h, 72h..."></div>
+            <div class="fg"><label class="label">Texte livraison</label><input id="s-delivery" class="input" placeholder="PDF envoyé sous 1h..."></div>
+          </div>
+
+          <div class="section-sep"></div>
+          <div class="section-label">Présentation</div>
+          <div class="field-grid">
+            <div class="fg"><label class="label">Ruban</label><input id="s-ribbon" class="input" placeholder="Populaire, Premium..."></div>
+            <div class="fg"><label class="label">Style du ruban</label><select id="s-ribbon-class" class="select"><option value="rb-gold">Or</option><option value="rb-out">Contour or</option><option value="rb-green">Vert</option><option value="rb-blue">Bleu</option></select></div>
+            <div class="fg full"><label class="label">Texte du bouton</label><input id="s-button" class="input" placeholder="Acheter maintenant"></div>
+            <div class="fg full"><label class="label">Description</label><textarea id="s-description" class="area"></textarea></div>
+            <div class="fg full"><label class="label">Fonctionnalités — une par ligne</label><textarea id="s-features" class="area" placeholder="Séjour + 1 chambre&#10;PDF haute résolution&#10;Devis estimatif inclus"></textarea></div>
+          </div>
+
+          <div class="section-sep"></div>
+          <div class="section-label">Image</div>
+          <div class="upload-zone">
+            <input id="s-image-url" type="hidden">
+            <input id="s-image-file" class="input" type="file" accept="image/*" style="border:none;background:none;padding:0;font-size:12px;color:var(--muted)">
+            <div class="upload-actions">
+              <button class="btn btn-sm" type="button" onclick="uploadServiceImage()">&#8679; Uploader</button>
+              <span class="upload-progress" id="s-upload-progress"></span>
+            </div>
+            <img id="s-image-preview" class="img-preview" alt="Aperçu image service">
+          </div>
+          <p class="small" style="margin-top:8px">Choisis un fichier puis clique sur Uploader. L'image sera hébergée automatiquement.</p>
         </div>
       </div>
-    </section>
-  </section>
+    </div>
 
-  <section id="view-about" class="panel hidden">
-    <div class="panel-head"><div class="panel-title">Section À propos</div></div>
-    <div class="panel-body">
-      <div class="split">
+    <!-- ── ABOUT VIEW ── -->
+    <div id="view-about" class="hidden">
+      <div class="page-header">
+        <div class="page-kicker">Administration</div>
+        <h1 class="page-title">Section <span>À propos</span></h1>
+        <p class="page-hint">Modifie la présentation de l'architecte affichée sur la page d'accueil.</p>
+      </div>
+      <div class="about-layout">
         <div>
-          <div class="fg"><label class="label">Petit titre</label><input id="a-kicker" class="input"></div>
+          <div class="section-label">Identité</div>
+          <div class="fg"><label class="label">Petit titre</label><input id="a-kicker" class="input" placeholder="À propos de l'architecte"></div>
           <div class="fg"><label class="label">Nom affiché</label><input id="a-name" class="input"></div>
           <div class="fg"><label class="label">Rôle</label><input id="a-role" class="input"></div>
-          <div class="fg"><label class="label">Biographie</label><textarea id="a-bio" class="area" style="min-height:170px"></textarea></div>
+          <div class="fg"><label class="label">Biographie</label><textarea id="a-bio" class="area" style="min-height:160px"></textarea></div>
         </div>
         <div>
-          <div class="fg"><label class="label">Photo</label><input id="a-photo-url" type="hidden"><div class="upload-box"><input id="a-photo-file" class="input" type="file" accept="image/*"><div class="row" style="margin-top:10px"><button class="btn" type="button" onclick="uploadAboutImage()">Uploader la photo</button><span class="upload-progress" id="a-upload-progress"></span></div></div></div>
-          <div class="fg" style="margin-top:14px"><label class="label">Points forts, un par ligne</label><textarea id="a-highlights" class="area" style="min-height:190px"></textarea></div>
+          <div class="section-label">Photo de profil</div>
+          <div class="upload-zone fg">
+            <input id="a-photo-url" type="hidden">
+            <input id="a-photo-file" class="input" type="file" accept="image/*" style="border:none;background:none;padding:0;font-size:12px;color:var(--muted)">
+            <div class="upload-actions">
+              <button class="btn btn-sm" type="button" onclick="uploadAboutImage()">&#8679; Uploader</button>
+              <span class="upload-progress" id="a-upload-progress"></span>
+            </div>
+          </div>
+          <div class="section-sep"></div>
+          <div class="section-label">Points forts</div>
+          <div class="fg"><label class="label">Un point fort par ligne</label><textarea id="a-highlights" class="area" style="min-height:180px" placeholder="Plans lisibles et pratiques&#10;Conception pour les chantiers africains&#10;Accompagnement de A à Z"></textarea></div>
         </div>
       </div>
     </div>
-  </section>
-</main>
+
+  </main>
+</div>
 
 <div class="toast" id="toast"></div>
 
@@ -151,16 +373,14 @@ const ADMIN_COLLECTION = 'architecture_ia_africa_admins';
 const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 const DEFAULT_CONFIG = {
   about: {
-    kicker: "À propos de l'architecte",
-    name: 'Architecte IA Africa',
-    role: 'Architecte concepteur · Plans africains modernes',
-    bio: "Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
-    photoUrl: '',
-    highlights: ["Plans lisibles, pratiques et prêts pour l'exécution chantier.",'Conception pensée pour les climats, budgets et matériaux locaux.',"Accompagnement direct du choix du plan jusqu'à la livraison PDF."]
+    kicker:"À propos de l'architecte",name:'Architecte IA Africa',role:'Architecte concepteur · Plans africains modernes',
+    bio:"Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
+    photoUrl:'',highlights:["Plans lisibles, pratiques et prêts pour l'exécution chantier.",'Conception pensée pour les climats, budgets et matériaux locaux.',"Accompagnement direct du choix du plan jusqu'à la livraison PDF."]
   },
-  services: [
+  services:[
     {id:'studio-f2',section:'fixe',category:'eco',ribbon:'Populaire',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Studio Économique F2',description:'Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.',features:['Séjour + 1 chambre + cuisine + SDB','Dimensions détaillées incluses','Devis estimatif : 6–9 millions FCFA','PDF haute résolution prêt maçon'],price:12000,oldPrice:30000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
     {id:'familiale-3ch',section:'fixe',category:'familial',ribbon:'Familial',ribbonClass:'rb-out',icon:'ico-home2',typeLabel:'Livraison rapide',type:'fixe',name:'Maison Familiale 3 Chambres',description:'Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.',features:['3 chambres + séjour + cuisine','Véranda 15 m² incluse','Devis estimatif : 12–18 millions FCFA','PDF haute résolution prêt maçon'],price:25000,oldPrice:50000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
     {id:'villa-4ch',section:'fixe',category:'villa',ribbon:'Luxe',ribbonClass:'rb-green',icon:'ico-villa',typeLabel:'Livraison rapide',type:'fixe',name:'Villa Traditionnelle 4 Chambres',description:'Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.',features:['4 chambres + suite parentale','Garage + grande terrasse','Devis estimatif : 24–37 millions FCFA','PDF haute résolution prêt maçon'],price:45000,oldPrice:90000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
@@ -174,131 +394,215 @@ const DEFAULT_CONFIG = {
 
 let config = cloneDefault();
 let selectedIndex = 0;
+let currentView = 'services';
 
 function cloneDefault(){return JSON.parse(JSON.stringify(DEFAULT_CONFIG))}
-function mergeConfig(saved){return saved ? {...DEFAULT_CONFIG,...saved,about:{...DEFAULT_CONFIG.about,...saved.about},services:Array.isArray(saved.services)?saved.services:DEFAULT_CONFIG.services} : cloneDefault()}
-async function loadRemoteConfig(){try{const snap=await getDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC));if(!snap.exists()){document.getElementById('status').textContent='Prêt, aucun contenu distant';return}const data=snap.data();config=mergeConfig(data.config || data);selectedIndex=0;renderServiceList();fillServiceForm();fillAbout();document.getElementById('status').textContent='Synchronisé'}catch(e){document.getElementById('status').textContent='Lecture en ligne impossible';console.warn('Lecture distante impossible',e)}}
-function setDirty(){document.getElementById('status').textContent='Modifications non enregistrées'}
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
+function mergeConfig(saved){return saved?{...DEFAULT_CONFIG,...saved,about:{...DEFAULT_CONFIG.about,...saved.about},services:Array.isArray(saved.services)?saved.services:DEFAULT_CONFIG.services}:cloneDefault()}
+
+async function loadRemoteConfig(){
+  try{
+    const snap=await getDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC));
+    if(!snap.exists()){setSyncBadge('Prêt — aucun contenu distant','');return}
+    const data=snap.data();
+    config=mergeConfig(data.config||data);
+    selectedIndex=0;
+    renderServiceList();fillServiceForm();fillAbout();
+    setSyncBadge('Synchronisé','ok');
+  }catch(e){setSyncBadge('Lecture impossible','');console.warn(e)}
+}
+
+function setSyncBadge(text,state){
+  const el=document.getElementById('sync-badge');
+  el.textContent=text;
+  el.className='sync-badge'+(state?' '+state:'');
+}
+function setDirty(){setSyncBadge('Modifications non enregistrées','dirty')}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800)}
 function get(id){return document.getElementById(id)}
-function lines(value){return String(value || '').split('\n').map(x=>x.trim()).filter(Boolean)}
+function lines(v){return String(v||'').split('\n').map(x=>x.trim()).filter(Boolean)}
 
 async function loginAdmin(event){
   event.preventDefault();
-  get('auth-error').textContent = '';
-  const email = get('login-email').value.trim();
-  const password = get('login-password').value;
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-    get('auth-error').textContent = 'Connexion impossible. Vérifie le compte Firebase Auth.';
-    console.warn('Connexion admin impossible', error);
-  }
+  get('auth-error').textContent='';
+  const email=get('login-email').value.trim();
+  const password=get('login-password').value;
+  try{await signInWithEmailAndPassword(auth,email,password)}
+  catch(error){get('auth-error').textContent='Connexion impossible. Vérifie tes identifiants.';console.warn(error)}
 }
-
 async function isAdminUser(user){
-  if (!user) return false;
-  try {
-    const adminSnap = await getDoc(doc(db, ADMIN_COLLECTION, user.uid));
-    return adminSnap.exists();
-  } catch (error) {
-    console.warn('Vérification admin impossible', error);
-    return false;
-  }
+  if(!user)return false;
+  try{const s=await getDoc(doc(db,ADMIN_COLLECTION,user.uid));return s.exists()}catch(e){console.warn(e);return false}
 }
-
-async function logoutAdmin(){
-  await signOut(auth);
-}
+async function logoutAdmin(){await signOut(auth)}
 
 function showAdmin(isAllowed){
-  get('auth-screen').classList.toggle('hidden', isAllowed);
-  get('admin-top').classList.toggle('hidden', !isAllowed);
-  get('admin-main').classList.toggle('hidden', !isAllowed);
+  get('auth-screen').classList.toggle('hidden',isAllowed);
+  get('admin-shell').classList.toggle('hidden',!isAllowed);
 }
 
-function showView(view, btn){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));btn.classList.add('on');['services','about'].forEach(v=>get('view-'+v).classList.toggle('hidden',v!==view));if(view==='about')fillAbout()}
-function renderServiceList(){const list=get('service-list');list.innerHTML=config.services.map((s,i)=>`<div class="service-item ${i===selectedIndex?'on':''}" onclick="selectService(${i})"><div class="service-name">${s.name || 'Sans nom'}</div><div class="service-meta"><span class="badge">${s.section === 'fixe' ? 'Fixe' : 'Autre'}</span><span>${Number(s.price||0).toLocaleString('fr-FR')} ${s.unit || 'FCFA'}</span></div></div>`).join('')}
-function selectService(index){saveServiceFromForm(false);selectedIndex=index;renderServiceList();fillServiceForm()}
-function fillServiceForm(){const s=config.services[selectedIndex];if(!s)return;get('s-name').value=s.name||'';get('s-id').value=s.id||'';get('s-section').value=s.section||'fixe';get('s-category').value=s.category||'';get('s-type').value=s.type||'fixe';get('s-delai').value=s.delai||'';get('s-price').value=s.price||0;get('s-old-price').value=s.oldPrice||'';get('s-unit').value=s.unit||'FCFA';get('s-ribbon').value=s.ribbon||'';get('s-ribbon-class').value=s.ribbonClass||'rb-out';get('s-icon').value=s.icon||'ico-home';get('s-description').value=s.description||'';get('s-features').value=(s.features||[]).join('\n');get('s-delivery').value=s.delivery||'';get('s-button').value=s.button||'';get('s-type-label').value=s.typeLabel||'';get('s-image-url').value=s.imageUrl||'';updateImagePreview()}
-function saveServiceFromForm(markDirty=true){const s=config.services[selectedIndex];if(!s)return;Object.assign(s,{name:get('s-name').value.trim(),id:get('s-id').value.trim()||Date.now().toString(),section:get('s-section').value,category:get('s-category').value.trim()||'tout',type:get('s-type').value,delai:get('s-delai').value.trim()||'1h',price:Number(get('s-price').value)||0,oldPrice:get('s-old-price').value?Number(get('s-old-price').value):'',unit:get('s-unit').value.trim()||'FCFA',ribbon:get('s-ribbon').value.trim(),ribbonClass:get('s-ribbon-class').value,icon:get('s-icon').value,description:get('s-description').value.trim(),features:lines(get('s-features').value),delivery:get('s-delivery').value.trim(),button:get('s-button').value.trim()||'Commander',typeLabel:get('s-type-label').value.trim(),imageUrl:get('s-image-url').value.trim()});renderServiceList();if(markDirty)setDirty()}
-function addService(){saveServiceFromForm(false);config.services.push({id:'service-'+Date.now(),section:'fixe',category:'tout',ribbon:'Nouveau',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Nouveau service',description:'Description du service.',features:['Avantage 1','Avantage 2'],price:10000,oldPrice:'',unit:'FCFA',delivery:'Livraison après confirmation paiement',delai:'1h',button:'Commander',imageUrl:''});selectedIndex=config.services.length-1;renderServiceList();fillServiceForm();setDirty()}
-function deleteService(){if(config.services.length<=1){toast('Impossible de supprimer le dernier service');return}config.services.splice(selectedIndex,1);selectedIndex=Math.max(0,selectedIndex-1);renderServiceList();fillServiceForm();setDirty()}
-function updateImagePreview(){const url=get('s-image-url').value.trim();const img=get('s-image-preview');img.style.display=url?'block':'none';if(url)img.src=url}
+function showView(view){
+  currentView=view;
+  get('view-services').classList.toggle('hidden',view!=='services');
+  get('view-about').classList.toggle('hidden',view!=='about');
+  document.querySelectorAll('.nav-item[id^=nav-]').forEach(x=>x.classList.remove('active'));
+  const navEl=get('nav-'+view);
+  if(navEl)navEl.classList.add('active');
+  if(view==='about')fillAbout();
+  closeSidebar();
+}
 
-function safeFileName(fileName){return String(fileName || 'image').toLowerCase().replace(/[^a-z0-9.]+/g,'-').replace(/^-+|-+$/g,'')}
+function toggleSidebar(){
+  const s=get('sidebar'),o=get('sidebar-overlay');
+  s.classList.toggle('open');o.classList.toggle('show');
+}
+function closeSidebar(){
+  get('sidebar').classList.remove('open');
+  get('sidebar-overlay').classList.remove('show');
+}
 
-async function uploadImageFile(file, progressId, onDone){
-  if (!file) { toast('Choisis une image'); return; }
-  if (!auth.currentUser) { toast('Connexion admin requise'); return; }
-  const progress = get(progressId);
-  const formData = new FormData();
-  formData.append('image', file);
-  progress.textContent = 'Upload en cours...';
+function renderServiceList(){
+  const list=get('service-list');
+  if(!config.services.length){list.innerHTML='<div class="empty"><div class="empty-icon">&#9632;</div><div class="empty-text">Aucun service</div></div>';return}
+  list.innerHTML=config.services.map((s,i)=>`
+    <div class="scard ${i===selectedIndex?'active':''}" onclick="selectService(${i})">
+      <div class="scard-name">${s.name||'Sans nom'}</div>
+      <div class="scard-row">
+        <span class="scard-badge ${s.section==='custom'?'custom':''}">${s.section==='fixe'?'Fixe':'Autre'}</span>
+        <span>${Number(s.price||0).toLocaleString('fr-FR')} ${s.unit||'FCFA'}</span>
+      </div>
+    </div>`).join('');
+  get('nav-services-count').textContent=config.services.length;
+}
 
-  try {
-    const token = await auth.currentUser.getIdToken();
-    const response = await fetch('/api/upload-image', {
-      method: 'POST',
-      headers: {Authorization: 'Bearer ' + token},
-      body: formData
-    });
-    const data = await response.json();
-    if (!response.ok || !data.url) throw new Error(data.error || 'Upload impossible');
-    progress.textContent = 'Image uploadée';
-    onDone(data.url);
-    setDirty();
-  } catch (error) {
-    progress.textContent = 'Upload impossible';
-    console.warn('Upload impossible', error);
-    toast('Upload image impossible');
+function selectService(index){
+  saveServiceFromForm(false);
+  selectedIndex=index;
+  renderServiceList();fillServiceForm();
+}
+
+function fillServiceForm(){
+  const s=config.services[selectedIndex];
+  if(!s)return;
+  get('edit-panel-title').textContent=s.name||'Nouveau service';
+  get('s-name').value=s.name||'';get('s-id').value=s.id||'';
+  get('s-section').value=s.section||'fixe';get('s-category').value=s.category||'';
+  get('s-type').value=s.type||'fixe';get('s-delai').value=s.delai||'';
+  get('s-price').value=s.price||0;get('s-old-price').value=s.oldPrice||'';
+  get('s-unit').value=s.unit||'FCFA';get('s-ribbon').value=s.ribbon||'';
+  get('s-ribbon-class').value=s.ribbonClass||'rb-out';get('s-icon').value=s.icon||'ico-home';
+  get('s-description').value=s.description||'';get('s-features').value=(s.features||[]).join('\n');
+  get('s-delivery').value=s.delivery||'';get('s-button').value=s.button||'';
+  get('s-type-label').value=s.typeLabel||'';get('s-image-url').value=s.imageUrl||'';
+  updateImagePreview();
+}
+
+function saveServiceFromForm(markDirty=true){
+  const s=config.services[selectedIndex];
+  if(!s)return;
+  Object.assign(s,{
+    name:get('s-name').value.trim(),id:get('s-id').value.trim()||Date.now().toString(),
+    section:get('s-section').value,category:get('s-category').value.trim()||'tout',
+    type:get('s-type').value,delai:get('s-delai').value.trim()||'1h',
+    price:Number(get('s-price').value)||0,oldPrice:get('s-old-price').value?Number(get('s-old-price').value):'',
+    unit:get('s-unit').value.trim()||'FCFA',ribbon:get('s-ribbon').value.trim(),
+    ribbonClass:get('s-ribbon-class').value,icon:get('s-icon').value,
+    description:get('s-description').value.trim(),features:lines(get('s-features').value),
+    delivery:get('s-delivery').value.trim(),button:get('s-button').value.trim()||'Commander',
+    typeLabel:get('s-type-label').value.trim(),imageUrl:get('s-image-url').value.trim()
+  });
+  get('edit-panel-title').textContent=s.name||'Service';
+  renderServiceList();
+  if(markDirty)setDirty();
+}
+
+function addService(){
+  saveServiceFromForm(false);
+  config.services.push({id:'service-'+Date.now(),section:'fixe',category:'tout',ribbon:'Nouveau',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Nouveau service',description:'Description du service.',features:['Avantage 1','Avantage 2'],price:10000,oldPrice:'',unit:'FCFA',delivery:'Livraison après confirmation paiement',delai:'1h',button:'Commander',imageUrl:''});
+  selectedIndex=config.services.length-1;
+  renderServiceList();fillServiceForm();setDirty();
+}
+
+function deleteService(){
+  if(config.services.length<=1){toast('Impossible de supprimer le dernier service');return}
+  if(!confirm(`Supprimer "${config.services[selectedIndex].name}" ?`))return;
+  config.services.splice(selectedIndex,1);
+  selectedIndex=Math.max(0,selectedIndex-1);
+  renderServiceList();fillServiceForm();setDirty();
+}
+
+function updateImagePreview(){
+  const url=get('s-image-url').value.trim();
+  const img=get('s-image-preview');
+  img.style.display=url?'block':'none';
+  if(url)img.src=url;
+}
+
+async function uploadImageFile(file,progressId,onDone){
+  if(!file){toast('Choisis une image');return}
+  if(!auth.currentUser){toast('Connexion admin requise');return}
+  const progress=get(progressId);
+  const formData=new FormData();
+  formData.append('image',file);
+  progress.textContent='Upload en cours…';
+  try{
+    const token=await auth.currentUser.getIdToken();
+    const response=await fetch('/api/upload-image',{method:'POST',headers:{Authorization:'Bearer '+token},body:formData});
+    const data=await response.json();
+    if(!response.ok||!data.url)throw new Error(data.error||'Upload impossible');
+    progress.textContent='Image uploadée ✓';
+    onDone(data.url);setDirty();
+  }catch(error){
+    progress.textContent='Upload impossible';
+    toast('Upload image impossible');console.warn(error);
   }
 }
 
 function uploadServiceImage(){
-  const file = get('s-image-file').files[0];
-  uploadImageFile(file, 's-upload-progress', url => {
-    get('s-image-url').value = url;
-    updateImagePreview();
-    saveServiceFromForm();
-  });
+  const file=get('s-image-file').files[0];
+  uploadImageFile(file,'s-upload-progress',url=>{get('s-image-url').value=url;updateImagePreview();saveServiceFromForm()});
 }
 
-function fillAbout(){const a=config.about;get('a-kicker').value=a.kicker||'';get('a-name').value=a.name||'';get('a-role').value=a.role||'';get('a-bio').value=a.bio||'';get('a-photo-url').value=a.photoUrl||'';get('a-highlights').value=(a.highlights||[]).join('\n')}
-function saveAboutFromForm(){config.about={kicker:get('a-kicker').value.trim(),name:get('a-name').value.trim(),role:get('a-role').value.trim(),bio:get('a-bio').value.trim(),photoUrl:get('a-photo-url').value.trim(),highlights:lines(get('a-highlights').value)}}
-async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();try{await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});document.getElementById('status').textContent='Enregistré en ligne';toast('Configuration enregistrée')}catch(e){document.getElementById('status').textContent='Enregistrement en ligne impossible';toast('Enregistrement impossible');console.warn('Écriture distante impossible',e)}}
+function fillAbout(){
+  const a=config.about;
+  get('a-kicker').value=a.kicker||'';get('a-name').value=a.name||'';
+  get('a-role').value=a.role||'';get('a-bio').value=a.bio||'';
+  get('a-photo-url').value=a.photoUrl||'';get('a-highlights').value=(a.highlights||[]).join('\n');
+}
+function saveAboutFromForm(){
+  config.about={kicker:get('a-kicker').value.trim(),name:get('a-name').value.trim(),role:get('a-role').value.trim(),bio:get('a-bio').value.trim(),photoUrl:get('a-photo-url').value.trim(),highlights:lines(get('a-highlights').value)};
+}
+
+async function saveAll(){
+  saveServiceFromForm(false);saveAboutFromForm();
+  setSyncBadge('Enregistrement…','');
+  try{
+    await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});
+    setSyncBadge('Enregistré','ok');toast('Configuration enregistrée ✓');
+  }catch(e){setSyncBadge('Enregistrement impossible','dirty');toast('Enregistrement impossible');console.warn(e)}
+}
 
 function uploadAboutImage(){
-  const file = get('a-photo-file').files[0];
-  uploadImageFile(file, 'a-upload-progress', url => {
-    get('a-photo-url').value = url;
-    saveAboutFromForm();
-  });
+  const file=get('a-photo-file').files[0];
+  uploadImageFile(file,'a-upload-progress',url=>{get('a-photo-url').value=url;saveAboutFromForm()});
 }
 
-window.showView = showView;
-window.selectService = selectService;
-window.addService = addService;
-window.deleteService = deleteService;
-window.saveAll = saveAll;
-window.loginAdmin = loginAdmin;
-window.logoutAdmin = logoutAdmin;
-window.uploadServiceImage = uploadServiceImage;
-window.uploadAboutImage = uploadAboutImage;
+window.showView=showView;window.selectService=selectService;window.addService=addService;
+window.deleteService=deleteService;window.saveAll=saveAll;window.loginAdmin=loginAdmin;
+window.logoutAdmin=logoutAdmin;window.uploadServiceImage=uploadServiceImage;
+window.uploadAboutImage=uploadAboutImage;window.toggleSidebar=toggleSidebar;window.closeSidebar=closeSidebar;
 
-document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()});el.addEventListener('change',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()})});
+document.querySelectorAll('input,textarea,select').forEach(el=>{
+  el.addEventListener('input',()=>{if(el.id==='s-image-url')updateImagePreview();if(!el.id.startsWith('login'))setDirty()});
+  el.addEventListener('change',()=>{if(el.id==='s-image-url')updateImagePreview();if(!el.id.startsWith('login'))setDirty()});
+});
+
 renderServiceList();fillServiceForm();fillAbout();
-onAuthStateChanged(auth, async user => {
-  const isAllowed = await isAdminUser(user);
+
+onAuthStateChanged(auth,async user=>{
+  const isAllowed=await isAdminUser(user);
   showAdmin(isAllowed);
-  if (isAllowed) {
-    loadRemoteConfig();
-    return;
-  }
-  if (user) {
-    await signOut(auth);
-    get('auth-error').textContent = 'Compte connecté, mais non autorisé pour cet admin.';
-  }
+  if(isAllowed){loadRemoteConfig();return}
+  if(user){await signOut(auth);get('auth-error').textContent='Compte connecté, mais non autorisé pour cet admin.'}
 });
 </script>
 </body>
