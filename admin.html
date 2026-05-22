@@ -118,7 +118,6 @@ a{color:inherit}
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
 
-const CONFIG_KEY = 'aia-admin-config';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
   authDomain: 'omni-98377.firebaseapp.com',
@@ -129,8 +128,7 @@ const FIREBASE_CONFIG = {
 };
 const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
 const FIRESTORE_DOC = 'public_config';
-const firebaseApp = initializeApp(FIREBASE_CONFIG);
-const db = getFirestore(firebaseApp);
+const db = getFirestore(initializeApp(FIREBASE_CONFIG));
 const DEFAULT_CONFIG = {
   about: {
     kicker: "À propos de l'architecte",
@@ -152,13 +150,12 @@ const DEFAULT_CONFIG = {
   ]
 };
 
-let config = loadConfig();
+let config = cloneDefault();
 let selectedIndex = 0;
 
 function cloneDefault(){return JSON.parse(JSON.stringify(DEFAULT_CONFIG))}
 function mergeConfig(saved){return saved ? {...DEFAULT_CONFIG,...saved,about:{...DEFAULT_CONFIG.about,...saved.about},services:Array.isArray(saved.services)?saved.services:DEFAULT_CONFIG.services} : cloneDefault()}
-function loadConfig(){try{return mergeConfig(JSON.parse(localStorage.getItem(CONFIG_KEY)))}catch(e){return cloneDefault()}}
-async function loadRemoteConfig(){try{const snap=await getDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC));if(!snap.exists()){document.getElementById('status').textContent='Prêt, aucun contenu distant';return}const data=snap.data();config=mergeConfig(data.config || data);selectedIndex=0;localStorage.setItem(CONFIG_KEY,JSON.stringify(config));renderServiceList();fillServiceForm();fillAbout();document.getElementById('status').textContent='Synchronisé'}catch(e){document.getElementById('status').textContent='Mode local';console.warn('Lecture distante impossible',e)}}
+async function loadRemoteConfig(){try{const snap=await getDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC));if(!snap.exists()){document.getElementById('status').textContent='Prêt, aucun contenu distant';return}const data=snap.data();config=mergeConfig(data.config || data);selectedIndex=0;renderServiceList();fillServiceForm();fillAbout();document.getElementById('status').textContent='Synchronisé'}catch(e){document.getElementById('status').textContent='Lecture en ligne impossible';console.warn('Lecture distante impossible',e)}}
 function setDirty(){document.getElementById('status').textContent='Modifications non enregistrées'}
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600)}
 function get(id){return document.getElementById(id)}
@@ -175,7 +172,7 @@ function updateImagePreview(){const url=get('s-image-url').value.trim();const im
 
 function fillAbout(){const a=config.about;get('a-kicker').value=a.kicker||'';get('a-name').value=a.name||'';get('a-role').value=a.role||'';get('a-bio').value=a.bio||'';get('a-photo-url').value=a.photoUrl||'';get('a-highlights').value=(a.highlights||[]).join('\n')}
 function saveAboutFromForm(){config.about={kicker:get('a-kicker').value.trim(),name:get('a-name').value.trim(),role:get('a-role').value.trim(),bio:get('a-bio').value.trim(),photoUrl:get('a-photo-url').value.trim(),highlights:lines(get('a-highlights').value)}}
-async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();localStorage.setItem(CONFIG_KEY,JSON.stringify(config));try{await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});document.getElementById('status').textContent='Enregistré en ligne';toast('Configuration enregistrée')}catch(e){document.getElementById('status').textContent='Enregistré localement seulement';toast('Service indisponible : sauvegarde locale');console.warn('Écriture distante impossible',e)}}
+async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();try{await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});document.getElementById('status').textContent='Enregistré en ligne';toast('Configuration enregistrée')}catch(e){document.getElementById('status').textContent='Enregistrement en ligne impossible';toast('Enregistrement impossible');console.warn('Écriture distante impossible',e)}}
 
 window.showView = showView;
 window.selectService = selectService;

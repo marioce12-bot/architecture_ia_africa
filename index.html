@@ -1218,7 +1218,8 @@ const WHATSAPP_ID = '2290152377640'; // +229 0152377640 → un seul zéro final
 
 let produit = null;
 
-const CONFIG_KEY = 'aia-admin-config';
+const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
+const FIRESTORE_DOC = 'public_config';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
   authDomain: 'omni-98377.firebaseapp.com',
@@ -1227,10 +1228,7 @@ const FIREBASE_CONFIG = {
   messagingSenderId: '1032234727205',
   appId: '1:1032234727205:web:d53543442c9352a73b8ccc'
 };
-const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
-const FIRESTORE_DOC = 'public_config';
-const firebaseApp = initializeApp(FIREBASE_CONFIG);
-const db = getFirestore(firebaseApp);
+const db = getFirestore(initializeApp(FIREBASE_CONFIG));
 const DEFAULT_SITE_CONFIG = {
   about: {
     kicker: "À propos de l'architecte",
@@ -1260,19 +1258,14 @@ function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 }
 
-function getSiteConfig() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(CONFIG_KEY));
-    if (!saved) return DEFAULT_SITE_CONFIG;
-    return {
-      ...DEFAULT_SITE_CONFIG,
-      ...saved,
-      about: {...DEFAULT_SITE_CONFIG.about, ...(saved.about || {})},
-      services: Array.isArray(saved.services) && saved.services.length ? saved.services : DEFAULT_SITE_CONFIG.services
-    };
-  } catch (error) {
-    return DEFAULT_SITE_CONFIG;
-  }
+function mergeSiteConfig(config) {
+  if (!config) return DEFAULT_SITE_CONFIG;
+  return {
+    ...DEFAULT_SITE_CONFIG,
+    ...config,
+    about: {...DEFAULT_SITE_CONFIG.about, ...(config.about || {})},
+    services: Array.isArray(config.services) && config.services.length ? config.services : DEFAULT_SITE_CONFIG.services
+  };
 }
 
 async function getRemoteSiteConfig() {
@@ -1281,15 +1274,9 @@ async function getRemoteSiteConfig() {
     if (!snap.exists()) return null;
     const data = snap.data();
     const config = data.config || data;
-    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-    return {
-      ...DEFAULT_SITE_CONFIG,
-      ...config,
-      about: {...DEFAULT_SITE_CONFIG.about, ...(config.about || {})},
-      services: Array.isArray(config.services) && config.services.length ? config.services : DEFAULT_SITE_CONFIG.services
-    };
+    return mergeSiteConfig(config);
   } catch (error) {
-    console.warn('Configuration Firestore indisponible, fallback local.', error);
+    console.warn('Configuration Firestore indisponible.', error);
     return null;
   }
 }
@@ -1344,7 +1331,7 @@ function renderAbout(config) {
   document.getElementById('about-photo').innerHTML = about.photoUrl ? `<img src="${escapeHtml(about.photoUrl)}" alt="${escapeHtml(about.name || 'Architecte')}">` : '<div class="about-placeholder">AIA</div>';
 }
 
-function renderSiteContent(config = getSiteConfig()) {
+function renderSiteContent(config = DEFAULT_SITE_CONFIG) {
   renderServices(config);
   renderAbout(config);
 }
