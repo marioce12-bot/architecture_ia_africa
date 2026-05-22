@@ -868,14 +868,15 @@ onAuthStateChanged(auth,async user=>{
   if(user){await signOut(auth);g('auth-error').textContent='Compte connecté, mais non autorisé.'}
 });
 
-/* ── EXPORTS ── */
-Object.assign(window,{loginAdmin,logoutAdmin:()=>signOut(auth),saveAll,addService,deleteService,openService,goToServices,goToAbout,goBack,showTab,uploadServiceImage,uploadAboutImage});
-
+/* ── AUTH ── */
 async function loginAdmin(e){
   e.preventDefault();g('auth-error').textContent='';
   try{await signInWithEmailAndPassword(auth,g('login-email').value.trim(),g('login-password').value)}
   catch(err){g('auth-error').textContent='Connexion impossible. Vérifie tes identifiants.';console.warn(err)}
 }
+
+/* ── EXPORTS ── */
+Object.assign(window,{loginAdmin,logoutAdmin:()=>signOut(auth),saveAll,addService,deleteService,openService,goToServices,goToAbout,goBack,showTab,uploadServiceImage,uploadAboutImage});
 </script>
 </body>
 </html>
