@@ -114,16 +114,9 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
 .topnav-title{font-size:15px;font-weight:600;flex:1;text-align:center}
 
 /* ══ SCREEN CONTAINER ══ */
-.screens{flex:1;position:relative;overflow:hidden}
-.screen{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  transform:translateX(100%);
-  transition:transform .28s cubic-bezier(.4,0,.2,1);
-  will-change:transform;
-}
-.screen.active{transform:translateX(0)}
-.screen.behind{transform:translateX(-30%)}
+.screens{flex:1;overflow:hidden;position:relative}
+.screen{display:none;flex-direction:column;position:absolute;inset:0}
+.screen.active{display:flex}
 .screen-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .screen-body::-webkit-scrollbar{display:none}
 
@@ -293,9 +286,8 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
   .tabbar-icon{font-size:16px}
   .tabbar-label{font-size:12px;letter-spacing:0}
   .tabbar-badge{position:static;margin-left:auto;line-height:1.5;padding:1px 6px}
-  .screen{position:static;transform:none!important;display:none;flex:1}
+  .screen{position:static;display:none;flex:1}
   .screen.active{display:flex}
-  .screen.behind{display:none}
   .topnav-back{display:none!important}
   .form-footer{padding-bottom:12px}
   .home-header{padding:28px 24px 20px}
@@ -313,7 +305,7 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
   .home-title{font-size:34px}
   #screen-services{display:flex!important;flex-direction:row}
   #screen-services .screen-body{width:320px;flex-shrink:0;border-right:1px solid var(--line)}
-  #screen-edit{position:static!important;transform:none!important;display:flex!important;flex:1;flex-direction:column}
+  #screen-edit{position:static!important;display:flex!important;flex:1;flex-direction:column}
 }
 
 .hidden{display:none!important}
@@ -433,7 +425,7 @@ body{background:var(--bg);color:var(--c1);font-family:'DM Sans',sans-serif;overs
       </div>
 
       <!-- EDIT PANEL (shown inline on large screens, separate screen on mobile) -->
-      <div class="screen form-screen" id="screen-edit" style="position:absolute;inset:0;transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1)">
+      <div class="screen form-screen" id="screen-edit" style="display:none;position:absolute;inset:0">
         <div class="screen-body scroll" id="edit-form-body">
           <!-- form fields injected by JS -->
         </div>
@@ -537,7 +529,7 @@ const DEF={
   ]
 };
 
-let config=clone(DEF),selIdx=0,curTab='home',prevTab=null,editOpen=false,isDirty=false;
+let config=clone(DEF),selIdx=0,curTab='home',editOpen=false,isDirty=false;
 
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function merge(s){return s?{...DEF,...s,about:{...DEF.about,...s.about},services:Array.isArray(s.services)?s.services:DEF.services}:clone(DEF)}
@@ -711,15 +703,12 @@ function bindFormInputs(){
 }
 
 /* ── NAVIGATION ── */
-let screenStack=[];
-
 function showTab(tab){
   saveForm();saveAbout();
   if(editOpen)closeEdit();
-  prevTab=curTab;curTab=tab;
+  curTab=tab;
   ['home','services','about'].forEach(t=>{
     g('screen-'+t).classList.toggle('active',t===tab);
-    g('screen-'+t).classList.toggle('behind',t===prevTab&&t!==tab);
     const ti=g('tab-'+t);if(ti)ti.classList.toggle('active',t===tab);
   });
   updateTopNav();
@@ -741,13 +730,13 @@ function openService(idx){
   selIdx=idx;
   renderEditForm();
   editOpen=true;
-  g('screen-edit').style.transform='translateX(0)';
+  g('screen-edit').style.display='flex';
   updateTopNav();
 }
 
 function closeEdit(){
   editOpen=false;
-  g('screen-edit').style.transform='translateX(100%)';
+  g('screen-edit').style.display='none';
   updateTopNav();
 }
 
