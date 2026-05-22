@@ -136,7 +136,6 @@ a{color:inherit}
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js';
 
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
@@ -152,7 +151,6 @@ const ADMIN_COLLECTION = 'architecture_ia_africa_admins';
 const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
 const DEFAULT_CONFIG = {
   about: {
     kicker: "À propos de l'architecte",
@@ -230,32 +228,36 @@ function updateImagePreview(){const url=get('s-image-url').value.trim();const im
 
 function safeFileName(fileName){return String(fileName || 'image').toLowerCase().replace(/[^a-z0-9.]+/g,'-').replace(/^-+|-+$/g,'')}
 
-function uploadImageFile(file, path, progressId, onDone){
+async function uploadImageFile(file, progressId, onDone){
   if (!file) { toast('Choisis une image'); return; }
   if (!auth.currentUser) { toast('Connexion admin requise'); return; }
   const progress = get(progressId);
-  const storageRef = ref(storage, path);
-  const task = uploadBytesResumable(storageRef, file, {contentType:file.type});
-  progress.textContent = 'Upload 0%';
-  task.on('state_changed', snapshot => {
-    const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-    progress.textContent = 'Upload ' + pct + '%';
-  }, error => {
+  const formData = new FormData();
+  formData.append('image', file);
+  progress.textContent = 'Upload en cours...';
+
+  try {
+    const token = await auth.currentUser.getIdToken();
+    const response = await fetch('/api/upload-image', {
+      method: 'POST',
+      headers: {Authorization: 'Bearer ' + token},
+      body: formData
+    });
+    const data = await response.json();
+    if (!response.ok || !data.url) throw new Error(data.error || 'Upload impossible');
+    progress.textContent = 'Image uploadée';
+    onDone(data.url);
+    setDirty();
+  } catch (error) {
     progress.textContent = 'Upload impossible';
     console.warn('Upload impossible', error);
-  }, async () => {
-    const url = await getDownloadURL(task.snapshot.ref);
-    progress.textContent = 'Image uploadée';
-    onDone(url);
-    setDirty();
-  });
+    toast('Upload image impossible');
+  }
 }
 
 function uploadServiceImage(){
-  const service = config.services[selectedIndex];
   const file = get('s-image-file').files[0];
-  const id = service?.id || ('service-' + Date.now());
-  uploadImageFile(file, `architecture_ia_africa_site/services/${id}-${Date.now()}-${safeFileName(file?.name)}`, 's-upload-progress', url => {
+  uploadImageFile(file, 's-upload-progress', url => {
     get('s-image-url').value = url;
     updateImagePreview();
     saveServiceFromForm();
@@ -268,7 +270,7 @@ async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();try{awai
 
 function uploadAboutImage(){
   const file = get('a-photo-file').files[0];
-  uploadImageFile(file, `architecture_ia_africa_site/about/architecte-${Date.now()}-${safeFileName(file?.name)}`, 'a-upload-progress', url => {
+  uploadImageFile(file, 'a-upload-progress', url => {
     get('a-photo-url').value = url;
     saveAboutFromForm();
   });
