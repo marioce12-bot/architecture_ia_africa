@@ -2,10 +2,14 @@ rules_version = '2';
 
 service firebase.storage {
   match /b/{bucket}/o {
+    function isArchitectureIaAfricaAdmin() {
+      return request.auth != null
+        && firestore.exists(/databases/(default)/documents/architecture_ia_africa_admins/$(request.auth.uid));
+    }
+
     match /architecture_ia_africa_site/{allPaths=**} {
       allow read: if true;
-      allow write: if request.auth != null
-        && request.auth.token.email == 'marioceatin@gmail.com';
+      allow write: if isArchitectureIaAfricaAdmin();
     }
   }
 }

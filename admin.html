@@ -23,12 +23,12 @@ a{color:inherit}
 </head>
 <body>
 <section class="auth-screen" id="auth-screen">
-  <form class="auth-card" onsubmit="loginAdmin(event)">
+  <form class="auth-card" onsubmit="loginAdmin(event)" autocomplete="off">
     <div class="kicker">Accès sécurisé</div>
     <h1 class="auth-title">Admin</h1>
     <p class="auth-sub">Connecte-toi pour gérer les services, les prix, les images et la section À propos.</p>
-    <div class="fg"><label class="label">Email</label><input id="login-email" class="input" type="email" value="marioceatin@gmail.com" autocomplete="username"></div>
-    <div class="fg"><label class="label">Mot de passe</label><input id="login-password" class="input" type="password" value="12345678" autocomplete="current-password"></div>
+    <div class="fg"><label class="label">Email</label><input id="login-email" class="input" type="email" autocomplete="off"></div>
+    <div class="fg"><label class="label">Mot de passe</label><input id="login-password" class="input" type="password" autocomplete="new-password"></div>
     <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
     <div class="auth-error" id="auth-error"></div>
   </form>
@@ -148,7 +148,7 @@ const FIREBASE_CONFIG = {
 };
 const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
 const FIRESTORE_DOC = 'public_config';
-const ADMIN_EMAIL = 'marioceatin@gmail.com';
+const ADMIN_COLLECTION = 'architecture_ia_africa_admins';
 const app = initializeApp(FIREBASE_CONFIG);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -191,14 +191,21 @@ async function loginAdmin(event){
   const email = get('login-email').value.trim();
   const password = get('login-password').value;
   try {
-    const credential = await signInWithEmailAndPassword(auth, email, password);
-    if (credential.user.email !== ADMIN_EMAIL) {
-      await signOut(auth);
-      get('auth-error').textContent = 'Ce compte n est pas autorisé pour cet admin.';
-    }
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
     get('auth-error').textContent = 'Connexion impossible. Vérifie le compte Firebase Auth.';
     console.warn('Connexion admin impossible', error);
+  }
+}
+
+async function isAdminUser(user){
+  if (!user) return false;
+  try {
+    const adminSnap = await getDoc(doc(db, ADMIN_COLLECTION, user.uid));
+    return adminSnap.exists();
+  } catch (error) {
+    console.warn('Vérification admin impossible', error);
+    return false;
   }
 }
 
@@ -225,7 +232,7 @@ function safeFileName(fileName){return String(fileName || 'image').toLowerCase()
 
 function uploadImageFile(file, path, progressId, onDone){
   if (!file) { toast('Choisis une image'); return; }
-  if (!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) { toast('Connexion admin requise'); return; }
+  if (!auth.currentUser) { toast('Connexion admin requise'); return; }
   const progress = get(progressId);
   const storageRef = ref(storage, path);
   const task = uploadBytesResumable(storageRef, file, {contentType:file.type});
@@ -279,10 +286,17 @@ window.uploadAboutImage = uploadAboutImage;
 
 document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()});el.addEventListener('change',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()})});
 renderServiceList();fillServiceForm();fillAbout();
-onAuthStateChanged(auth, user => {
-  const isAllowed = Boolean(user && user.email === ADMIN_EMAIL);
+onAuthStateChanged(auth, async user => {
+  const isAllowed = await isAdminUser(user);
   showAdmin(isAllowed);
-  if (isAllowed) loadRemoteConfig();
+  if (isAllowed) {
+    loadRemoteConfig();
+    return;
+  }
+  if (user) {
+    await signOut(auth);
+    get('auth-error').textContent = 'Compte connecté, mais non autorisé pour cet admin.';
+  }
 });
 </script>
 </body>
