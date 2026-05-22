@@ -1319,7 +1319,7 @@ function renderServiceCard(service, index) {
   const modalData = JSON.stringify({id:service.id,name:service.name,price,type:service.type || 'fixe',delai:service.delai || '1h'}).replace(/"/g, '&quot;');
 
   return `
-    <div class="card fi-in" data-cat="${escapeHtml(service.category || 'tout')}">
+    <div class="card fi-in vis" data-cat="${escapeHtml(service.category || 'tout')}">
       ${service.ribbon ? `<div class="c-ribbon ${escapeHtml(service.ribbonClass || 'rb-out')}">${escapeHtml(service.ribbon)}</div>` : ''}
       <div class="c-num">${String(index + 1).padStart(2, '0')}</div>
       ${image}
