@@ -17,20 +17,33 @@ a{color:inherit}
 .layout{display:grid;grid-template-columns:310px 1fr;gap:18px}.panel{background:var(--noir2);border:1px solid var(--line)}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.06)}.panel-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700}.panel-body{padding:20px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{border:1px solid rgba(255,255,255,.08);background:var(--noir);color:#777;padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:1px;cursor:pointer}.tab.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.08)}
 .service-list{display:grid;gap:8px;max-height:640px;overflow:auto;padding-right:4px}.service-item{border:1px solid rgba(255,255,255,.08);background:var(--noir);padding:12px;cursor:pointer;transition:.2s}.service-item:hover,.service-item.on{border-color:var(--or);background:rgba(201,168,76,.06)}.service-name{font-size:13px;font-weight:600;margin-bottom:6px}.service-meta{font-size:11px;color:#777;display:flex;justify-content:space-between;gap:10px}.badge{color:var(--or);text-transform:uppercase;letter-spacing:1px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.fg{margin-bottom:14px}.full{grid-column:1/-1}.label{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#777;margin-bottom:7px}.input,.select,.area{width:100%;background:var(--noir);border:1px solid rgba(255,255,255,.09);color:var(--creme);padding:12px 13px;font-family:'Outfit',sans-serif;font-size:13px;outline:none}.input:focus,.select:focus,.area:focus{border-color:var(--or)}.area{min-height:104px;resize:vertical}.small{font-size:11px;color:#555;line-height:1.55;margin-top:7px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.preview-img{width:118px;height:78px;object-fit:cover;border:1px solid var(--line);background:var(--noir);display:none}.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}.codebox{font-family:Consolas,monospace;font-size:12px;min-height:150px}.notice{border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.06);padding:14px;color:#aaa;font-size:12px;line-height:1.7;margin-bottom:18px}.notice strong{color:var(--or)}
-.hidden{display:none}.toast{position:fixed;right:20px;bottom:20px;background:var(--noir2);border:1px solid var(--line);padding:14px 18px;color:var(--creme);box-shadow:0 20px 60px rgba(0,0,0,.45);display:none}.toast.show{display:block;animation:up .25s ease both}@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hidden{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;padding:24px}.auth-card{width:100%;max-width:440px;background:var(--noir2);border:1px solid var(--line);padding:34px}.auth-title{font-family:'Cormorant Garamond',serif;font-size:38px;line-height:1;color:var(--or);margin-bottom:10px}.auth-sub{color:#777;font-size:13px;line-height:1.7;margin-bottom:24px}.auth-error{color:#e28b88;font-size:12px;line-height:1.5;min-height:18px;margin-top:12px}.upload-box{border:1px dashed rgba(201,168,76,.3);background:rgba(201,168,76,.04);padding:14px}.upload-progress{font-size:11px;color:var(--or);margin-top:8px;min-height:16px}.toast{position:fixed;right:20px;bottom:20px;background:var(--noir2);border:1px solid var(--line);padding:14px 18px;color:var(--creme);box-shadow:0 20px 60px rgba(0,0,0,.45);display:none}.toast.show{display:block;animation:up .25s ease both}@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:900px){.top{padding:14px 18px;align-items:flex-start;flex-direction:column}.hero{grid-template-columns:1fr}.layout,.split,.grid{grid-template-columns:1fr}.wrap{padding:24px 14px 50px}.status{text-align:left}.panel-body{padding:16px}}
 </style>
 </head>
 <body>
-<header class="top">
+<section class="auth-screen" id="auth-screen">
+  <form class="auth-card" onsubmit="loginAdmin(event)">
+    <div class="kicker">Accès sécurisé</div>
+    <h1 class="auth-title">Admin</h1>
+    <p class="auth-sub">Connecte-toi pour gérer les services, les prix, les images et la section À propos.</p>
+    <div class="fg"><label class="label">Email</label><input id="login-email" class="input" type="email" value="marioceatin@gmail.com" autocomplete="username"></div>
+    <div class="fg"><label class="label">Mot de passe</label><input id="login-password" class="input" type="password" value="12345678" autocomplete="current-password"></div>
+    <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
+    <div class="auth-error" id="auth-error"></div>
+  </form>
+</section>
+
+<header class="top hidden" id="admin-top">
   <div class="brand">Architecte<span> IA</span> Africa · Admin</div>
   <div class="top-actions">
     <a class="btn" href="index.html">Voir le site</a>
+    <button class="btn" onclick="logoutAdmin()">Déconnexion</button>
     <button class="btn btn-primary" onclick="saveAll()">Enregistrer</button>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap hidden" id="admin-main">
   <section class="hero">
     <div>
       <div class="kicker">Administration</div>
@@ -82,11 +95,16 @@ a{color:inherit}
           <div class="fg"><label class="label">Libellé type</label><input id="s-type-label" class="input"></div>
           <div class="fg full">
             <label class="label">Image du service</label>
-            <div class="row">
-              <input id="s-image-url" class="input" style="flex:1" placeholder="URL de l'image">
+            <div class="upload-box">
+              <input id="s-image-url" type="hidden">
+              <input id="s-image-file" class="input" type="file" accept="image/*">
+              <div class="row" style="margin-top:10px">
+                <button class="btn" type="button" onclick="uploadServiceImage()">Uploader l'image</button>
+                <span class="upload-progress" id="s-upload-progress"></span>
+              </div>
               <img id="s-image-preview" class="preview-img" alt="Aperçu">
             </div>
-            <p class="small">Colle l'adresse directe d'une image hébergée en ligne.</p>
+            <p class="small">Choisis un fichier image puis clique sur uploader. L'image sera hébergée en ligne automatiquement.</p>
           </div>
         </div>
       </div>
@@ -104,7 +122,7 @@ a{color:inherit}
           <div class="fg"><label class="label">Biographie</label><textarea id="a-bio" class="area" style="min-height:170px"></textarea></div>
         </div>
         <div>
-          <div class="fg"><label class="label">Photo</label><input id="a-photo-url" class="input" placeholder="URL image de l'architecte"></div>
+          <div class="fg"><label class="label">Photo</label><input id="a-photo-url" type="hidden"><div class="upload-box"><input id="a-photo-file" class="input" type="file" accept="image/*"><div class="row" style="margin-top:10px"><button class="btn" type="button" onclick="uploadAboutImage()">Uploader la photo</button><span class="upload-progress" id="a-upload-progress"></span></div></div></div>
           <div class="fg" style="margin-top:14px"><label class="label">Points forts, un par ligne</label><textarea id="a-highlights" class="area" style="min-height:190px"></textarea></div>
         </div>
       </div>
@@ -116,7 +134,9 @@ a{color:inherit}
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js';
 
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
@@ -128,7 +148,11 @@ const FIREBASE_CONFIG = {
 };
 const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
 const FIRESTORE_DOC = 'public_config';
-const db = getFirestore(initializeApp(FIREBASE_CONFIG));
+const ADMIN_EMAIL = 'marioceatin@gmail.com';
+const app = initializeApp(FIREBASE_CONFIG);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 const DEFAULT_CONFIG = {
   about: {
     kicker: "À propos de l'architecte",
@@ -161,6 +185,33 @@ function toast(msg){const el=document.getElementById('toast');el.textContent=msg
 function get(id){return document.getElementById(id)}
 function lines(value){return String(value || '').split('\n').map(x=>x.trim()).filter(Boolean)}
 
+async function loginAdmin(event){
+  event.preventDefault();
+  get('auth-error').textContent = '';
+  const email = get('login-email').value.trim();
+  const password = get('login-password').value;
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    if (credential.user.email !== ADMIN_EMAIL) {
+      await signOut(auth);
+      get('auth-error').textContent = 'Ce compte n est pas autorisé pour cet admin.';
+    }
+  } catch (error) {
+    get('auth-error').textContent = 'Connexion impossible. Vérifie le compte Firebase Auth.';
+    console.warn('Connexion admin impossible', error);
+  }
+}
+
+async function logoutAdmin(){
+  await signOut(auth);
+}
+
+function showAdmin(isAllowed){
+  get('auth-screen').classList.toggle('hidden', isAllowed);
+  get('admin-top').classList.toggle('hidden', !isAllowed);
+  get('admin-main').classList.toggle('hidden', !isAllowed);
+}
+
 function showView(view, btn){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));btn.classList.add('on');['services','about'].forEach(v=>get('view-'+v).classList.toggle('hidden',v!==view));if(view==='about')fillAbout()}
 function renderServiceList(){const list=get('service-list');list.innerHTML=config.services.map((s,i)=>`<div class="service-item ${i===selectedIndex?'on':''}" onclick="selectService(${i})"><div class="service-name">${s.name || 'Sans nom'}</div><div class="service-meta"><span class="badge">${s.section === 'fixe' ? 'Fixe' : 'Autre'}</span><span>${Number(s.price||0).toLocaleString('fr-FR')} ${s.unit || 'FCFA'}</span></div></div>`).join('')}
 function selectService(index){saveServiceFromForm(false);selectedIndex=index;renderServiceList();fillServiceForm()}
@@ -170,18 +221,69 @@ function addService(){saveServiceFromForm(false);config.services.push({id:'servi
 function deleteService(){if(config.services.length<=1){toast('Impossible de supprimer le dernier service');return}config.services.splice(selectedIndex,1);selectedIndex=Math.max(0,selectedIndex-1);renderServiceList();fillServiceForm();setDirty()}
 function updateImagePreview(){const url=get('s-image-url').value.trim();const img=get('s-image-preview');img.style.display=url?'block':'none';if(url)img.src=url}
 
+function safeFileName(fileName){return String(fileName || 'image').toLowerCase().replace(/[^a-z0-9.]+/g,'-').replace(/^-+|-+$/g,'')}
+
+function uploadImageFile(file, path, progressId, onDone){
+  if (!file) { toast('Choisis une image'); return; }
+  if (!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) { toast('Connexion admin requise'); return; }
+  const progress = get(progressId);
+  const storageRef = ref(storage, path);
+  const task = uploadBytesResumable(storageRef, file, {contentType:file.type});
+  progress.textContent = 'Upload 0%';
+  task.on('state_changed', snapshot => {
+    const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+    progress.textContent = 'Upload ' + pct + '%';
+  }, error => {
+    progress.textContent = 'Upload impossible';
+    console.warn('Upload impossible', error);
+  }, async () => {
+    const url = await getDownloadURL(task.snapshot.ref);
+    progress.textContent = 'Image uploadée';
+    onDone(url);
+    setDirty();
+  });
+}
+
+function uploadServiceImage(){
+  const service = config.services[selectedIndex];
+  const file = get('s-image-file').files[0];
+  const id = service?.id || ('service-' + Date.now());
+  uploadImageFile(file, `architecture_ia_africa_site/services/${id}-${Date.now()}-${safeFileName(file?.name)}`, 's-upload-progress', url => {
+    get('s-image-url').value = url;
+    updateImagePreview();
+    saveServiceFromForm();
+  });
+}
+
 function fillAbout(){const a=config.about;get('a-kicker').value=a.kicker||'';get('a-name').value=a.name||'';get('a-role').value=a.role||'';get('a-bio').value=a.bio||'';get('a-photo-url').value=a.photoUrl||'';get('a-highlights').value=(a.highlights||[]).join('\n')}
 function saveAboutFromForm(){config.about={kicker:get('a-kicker').value.trim(),name:get('a-name').value.trim(),role:get('a-role').value.trim(),bio:get('a-bio').value.trim(),photoUrl:get('a-photo-url').value.trim(),highlights:lines(get('a-highlights').value)}}
 async function saveAll(){saveServiceFromForm(false);saveAboutFromForm();try{await setDoc(doc(db,FIRESTORE_COLLECTION,FIRESTORE_DOC),{site:'architecture_ia_africa',config,updatedAt:serverTimestamp()},{merge:true});document.getElementById('status').textContent='Enregistré en ligne';toast('Configuration enregistrée')}catch(e){document.getElementById('status').textContent='Enregistrement en ligne impossible';toast('Enregistrement impossible');console.warn('Écriture distante impossible',e)}}
+
+function uploadAboutImage(){
+  const file = get('a-photo-file').files[0];
+  uploadImageFile(file, `architecture_ia_africa_site/about/architecte-${Date.now()}-${safeFileName(file?.name)}`, 'a-upload-progress', url => {
+    get('a-photo-url').value = url;
+    saveAboutFromForm();
+  });
+}
 
 window.showView = showView;
 window.selectService = selectService;
 window.addService = addService;
 window.deleteService = deleteService;
 window.saveAll = saveAll;
+window.loginAdmin = loginAdmin;
+window.logoutAdmin = logoutAdmin;
+window.uploadServiceImage = uploadServiceImage;
+window.uploadAboutImage = uploadAboutImage;
 
 document.querySelectorAll('input,textarea,select').forEach(el=>{el.addEventListener('input',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()});el.addEventListener('change',()=>{if(el.id==='s-image-url')updateImagePreview();setDirty()})});
-renderServiceList();fillServiceForm();fillAbout();loadRemoteConfig();
+renderServiceList();fillServiceForm();fillAbout();
+onAuthStateChanged(auth, user => {
+  const isAllowed = Boolean(user && user.email === ADMIN_EMAIL);
+  showAdmin(isAllowed);
+  if (isAllowed) loadRemoteConfig();
+});
 </script>
 </body>
 </html>

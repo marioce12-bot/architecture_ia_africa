@@ -81,9 +81,9 @@ nav{
 
 /* ── HERO ── */
 .hero{
-  min-height:58vh;display:flex;flex-direction:column;
-  justify-content:center;align-items:center;text-align:center;
-  padding:130px 24px 70px;
+  min-height:72vh;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
+  gap:46px;align-items:center;text-align:left;
+  padding:140px 48px 82px;max-width:1280px;margin:0 auto;
   background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.12) 0%,transparent 70%),var(--noir);
   position:relative;overflow:hidden;
 }
@@ -102,6 +102,7 @@ nav{
   padding:7px 20px;margin-bottom:28px;
   animation:up .7s ease both;
 }
+.hero-copy{position:relative;z-index:1;max-width:720px}
 .hero h1{
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(32px,7vw,72px);font-weight:700;line-height:1.05;
@@ -110,13 +111,25 @@ nav{
 .hero h1 span{color:var(--or);display:block}
 .hero p{
   margin-top:18px;font-size:15px;color:#777;
-  max-width:480px;line-height:1.75;
+  max-width:560px;line-height:1.75;
   animation:up .9s ease .2s both;
 }
 .hero-ctas{
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  display:flex;gap:12px;justify-content:flex-start;flex-wrap:wrap;
   margin-top:36px;animation:up 1s ease .3s both;
 }
+.hero-panel{
+  position:relative;z-index:1;background:rgba(17,17,17,.86);
+  border:1px solid rgba(201,168,76,.16);padding:28px;
+  box-shadow:0 24px 80px rgba(0,0,0,.28);
+}
+.hero-panel-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:10px}
+.hero-panel-title span{color:var(--or)}
+.hero-panel p{margin:0 0 22px;line-height:1.7;color:#666;font-size:13px;animation:none}
+.hero-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.08)}
+.hero-mini{background:var(--noir);padding:18px 16px}
+.hero-mini strong{display:block;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--or);line-height:1}
+.hero-mini span{display:block;margin-top:6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#444}
 .btn-or{
   background:var(--or);color:var(--noir);border:none;
   padding:14px 32px;font-size:11px;font-weight:600;letter-spacing:1px;
@@ -171,23 +184,24 @@ nav{
 /* ── GRILLE ── */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:2px;background:rgba(201,168,76,.08);
-  border:1px solid rgba(201,168,76,.1);
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:14px;background:transparent;
+  border:none;
 }
 
 /* ── CARD ── */
 .card{
-  background:var(--noir2);padding:36px 30px;
+  background:linear-gradient(180deg,rgba(25,25,25,.96),rgba(17,17,17,.98));padding:34px 28px;
+  border:1px solid rgba(201,168,76,.11);
   position:relative;overflow:hidden;
-  transition:background .4s,transform .4s;
+  transition:background .4s,transform .4s,border-color .4s;
 }
 .card::before{
   content:'';position:absolute;left:0;top:0;
   width:2px;height:0;background:var(--or);transition:height .4s;
 }
 .card:hover::before{height:100%}
-.card:hover{background:var(--noir3);transform:translateY(-3px)}
+.card:hover{background:var(--noir3);transform:translateY(-4px);border-color:rgba(201,168,76,.28)}
 .c-ribbon{
   position:absolute;top:16px;right:16px;
   font-size:9px;font-weight:600;letter-spacing:1px;
@@ -226,7 +240,7 @@ nav{
 }
 .c-delivery .d-ico{width:14px;height:14px;flex-shrink:0}
 .c-img{
-  width:100%;height:150px;object-fit:cover;margin:-10px 0 20px;
+  width:100%;height:180px;object-fit:cover;margin:-8px 0 22px;
   border:1px solid rgba(201,168,76,.14);background:var(--noir);
 }
 .btn-buy{
@@ -468,6 +482,10 @@ footer strong{color:var(--or)}
 @media(max-width:1024px){
   nav{padding:14px 28px}
   .sec{padding:70px 20px}
+  .hero{grid-template-columns:1fr;gap:28px;padding-left:28px;padding-right:28px;text-align:center}
+  .hero-copy{margin:0 auto}
+  .hero-ctas{justify-content:center}
+  .hero-panel{max-width:620px;margin:0 auto;width:100%}
 }
 
 @media(max-width:768px){
@@ -477,8 +495,10 @@ footer strong{color:var(--or)}
   .ham{display:flex}
 
   /* Hero */
-  .hero{padding:100px 20px 60px}
+  .hero{padding:100px 20px 60px;min-height:auto}
   .hero p{font-size:14px}
+  .hero-panel{padding:22px}
+  .hero-mini-grid{grid-template-columns:1fr 1fr}
   .btn-or,.btn-out{padding:13px 22px;font-size:10px}
 
   /* Bande */
@@ -536,6 +556,7 @@ footer strong{color:var(--or)}
 
   /* Hero CTAs */
   .hero-ctas{flex-direction:column;align-items:center}
+  .hero-mini-grid{grid-template-columns:1fr}
 
   /* Phone row */
   .phone-row{flex-direction:column}
@@ -662,21 +683,33 @@ footer strong{color:var(--or)}
 <!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-grid"></div>
-  <div class="eyebrow">
-    <svg width="12" height="12" style="color:var(--or)"><use href="#ico-home"/></svg>
-    Boutique Officielle · Plans &amp; Formations
+  <div class="hero-copy">
+    <div class="eyebrow">
+      <svg width="12" height="12" style="color:var(--or)"><use href="#ico-home"/></svg>
+      Boutique Officielle · Plans &amp; Formations
+    </div>
+    <h1>Ton plan de maison,<span>livré en 48h.</span></h1>
+    <p>Plans fixes prêts à télécharger ou plans personnalisés dessinés sur mesure. Paie en MTN MoMo, reçois ton fichier rapidement.</p>
+    <div class="hero-ctas">
+      <a href="#boutique" class="btn-or">
+        <svg width="16" height="16"><use href="#ico-home"/></svg>
+        Plans fixes
+      </a>
+      <a href="#sur-mesure" class="btn-out">
+        <svg width="16" height="16"><use href="#ico-pencil"/></svg>
+        Sur mesure
+      </a>
+    </div>
   </div>
-  <h1>Ton plan de maison,<span>livré en 48h.</span></h1>
-  <p>Plans fixes prêts à télécharger ou plans personnalisés dessinés sur mesure. Paie en MTN MoMo, reçois ton fichier rapidement.</p>
-  <div class="hero-ctas">
-    <a href="#boutique" class="btn-or">
-      <svg width="16" height="16"><use href="#ico-home"/></svg>
-      Plans fixes
-    </a>
-    <a href="#sur-mesure" class="btn-out">
-      <svg width="16" height="16"><use href="#ico-pencil"/></svg>
-      Sur mesure
-    </a>
+  <div class="hero-panel">
+    <div class="hero-panel-title">Architecture <span>pratique</span>, budget maîtrisé.</div>
+    <p>Choisis un plan existant ou commande une création sur mesure. L'objectif : te donner un document clair, exploitable et adapté aux réalités du chantier.</p>
+    <div class="hero-mini-grid">
+      <div class="hero-mini"><strong>1h</strong><span>Plans fixes</span></div>
+      <div class="hero-mini"><strong>48h</strong><span>Sur mesure</span></div>
+      <div class="hero-mini"><strong>PDF</strong><span>Livraison</span></div>
+      <div class="hero-mini"><strong>MTN</strong><span>Paiement</span></div>
+    </div>
   </div>
 </section>
 
@@ -1209,7 +1242,7 @@ footer strong{color:var(--or)}
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
-import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
+import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
 
 /* ── CONFIG ── */
 const MTN_NUMERO  = '0152377640';
@@ -1268,17 +1301,15 @@ function mergeSiteConfig(config) {
   };
 }
 
-async function getRemoteSiteConfig() {
-  try {
-    const snap = await getDoc(doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC));
-    if (!snap.exists()) return null;
-    const data = snap.data();
+function listenRemoteSiteConfig() {
+  onSnapshot(doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC), snapshot => {
+    if (!snapshot.exists()) return;
+    const data = snapshot.data();
     const config = data.config || data;
-    return mergeSiteConfig(config);
-  } catch (error) {
+    renderSiteContent(mergeSiteConfig(config));
+  }, error => {
     console.warn('Configuration Firestore indisponible.', error);
-    return null;
-  }
+  });
 }
 
 function renderServiceCard(service, index) {
@@ -1337,9 +1368,7 @@ function renderSiteContent(config = DEFAULT_SITE_CONFIG) {
 }
 
 renderSiteContent();
-getRemoteSiteConfig().then(config => {
-  if (config) renderSiteContent(config);
-});
+listenRemoteSiteConfig();
 
 /* ── Hamburger ── */
 function toggleMenu() {
