@@ -4,1096 +4,1247 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Architecte IA Africa — Boutique</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --or:#C9A84C;--or2:#E8C96A;--noir:#0A0A0A;--noir2:#111;--noir3:#191919;
-  --creme:#F2EDE4;--gris:#555;--vert:#27AE60;--bleu:#2980B9;
+  --or:#C9A84C;--or2:#E8C96A;--or-dim:rgba(201,168,76,.12);
+  --noir:#080808;--s1:#111;--s2:#181818;--s3:#222;
+  --creme:#F0EAD6;--text:#B8B0A0;--muted:#555;
+  --vert:#2D9E5F;--bleu:#2C7BE5;
+  --radius:4px;--radius-lg:8px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--noir);color:var(--creme);font-family:'Outfit',sans-serif;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--noir);color:var(--creme);font-family:'DM Sans',sans-serif;overflow-x:hidden;font-size:15px;line-height:1.6}
 
-/* SVG icons */
-.ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-.ico svg{width:100%;height:100%}
+/* ── UTILITY ── */
+.tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--or);font-weight:500}
+.serif{font-family:'Playfair Display',serif}
+.gold{color:var(--or)}
 
 /* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:16px 48px;
-  background:rgba(10,10,10,.94);backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(201,168,76,.12);
+  height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  background:rgba(8,8,8,.95);
+  border-bottom:1px solid rgba(201,168,76,.15);
+  backdrop-filter:blur(20px);
 }
 .logo{
-  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
-  color:var(--or);letter-spacing:2px;
   display:flex;align-items:center;gap:10px;
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  color:var(--creme);text-decoration:none;letter-spacing:.5px;
 }
-.logo em{color:var(--creme);font-style:normal}
-.logo-ico{width:32px;height:32px}
-.nav-links{display:flex;gap:32px}
+.logo-mark{
+  width:34px;height:34px;border:1.5px solid var(--or);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.logo-mark svg{width:18px;height:18px;color:var(--or)}
+.logo span{color:var(--or)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-links{display:flex;gap:2px}
 .nav-links a{
-  font-size:11px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--gris);text-decoration:none;transition:color .3s;
+  font-size:12px;letter-spacing:.5px;color:var(--muted);
+  text-decoration:none;padding:8px 14px;transition:color .2s;
+  border-radius:var(--radius);
 }
-.nav-links a:hover{color:var(--or)}
-.nav-cta{
-  background:var(--or);color:var(--noir);
-  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  padding:10px 24px;border:none;cursor:pointer;transition:all .3s;
-  display:flex;align-items:center;gap:8px;
+.nav-links a:hover{color:var(--creme);background:rgba(255,255,255,.04)}
+.btn-nav{
+  background:var(--or);color:var(--noir);border:none;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.5px;padding:10px 20px;cursor:pointer;
+  border-radius:var(--radius);transition:all .2s;
+  display:flex;align-items:center;gap:7px;white-space:nowrap;
 }
-.nav-cta:hover{background:var(--or2);transform:translateY(-1px)}
-
-/* Hamburger mobile */
+.btn-nav:hover{background:var(--or2);transform:translateY(-1px)}
 .ham{
-  display:none;flex-direction:column;justify-content:center;gap:5px;
-  width:36px;height:36px;cursor:pointer;padding:4px;
-  background:none;border:none;
+  display:none;background:none;border:none;cursor:pointer;
+  width:40px;height:40px;align-items:center;justify-content:center;
+  flex-direction:column;gap:5px;padding:8px;
 }
-.ham span{
-  display:block;height:2px;background:var(--or);
-  transition:all .3s;border-radius:2px;
+.ham-line{width:20px;height:1.5px;background:var(--creme);transition:all .25s;display:block}
+.ham.open .ham-line:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.ham.open .ham-line:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open .ham-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob-drawer{
+  position:fixed;inset:64px 0 0;z-index:499;
+  background:rgba(8,8,8,.98);border-bottom:1px solid rgba(201,168,76,.1);
+  padding:24px;display:none;flex-direction:column;gap:4px;
+  backdrop-filter:blur(20px);
 }
-.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
-.mob-menu{
-  display:none;position:fixed;top:60px;left:0;right:0;z-index:499;
-  background:rgba(10,10,10,.98);backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(201,168,76,.12);
-  flex-direction:column;padding:16px 24px 20px;gap:0;
-}
-.mob-menu.open{display:flex}
-.mob-menu a{
-  font-size:13px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--gris);text-decoration:none;
+.mob-drawer.open{display:flex}
+.mob-drawer a{
+  font-size:15px;color:var(--text);text-decoration:none;
   padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05);
-  transition:color .3s;
+  transition:color .2s;
 }
-.mob-menu a:hover{color:var(--or)}
-.mob-menu .nav-cta{
-  margin-top:14px;justify-content:center;width:100%;
-}
+.mob-drawer a:hover{color:var(--creme)}
+.mob-drawer .btn-nav{margin-top:20px;justify-content:center;width:100%;padding:14px}
 
 /* ── HERO ── */
 .hero{
-  min-height:72vh;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);
-  gap:46px;align-items:center;text-align:left;
-  padding:140px 48px 82px;max-width:1280px;margin:0 auto;
-  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.12) 0%,transparent 70%),var(--noir);
-  position:relative;overflow:hidden;
+  padding:120px 24px 80px;
+  max-width:1140px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;
+  align-items:center;
 }
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);
-  background-size:48px 48px;
-  mask-image:radial-gradient(ellipse at 50% 50%,black 40%,transparent 80%);
-}
-.eyebrow{
+.hero-eyebrow{
   display:inline-flex;align-items:center;gap:10px;
-  border:1px solid rgba(201,168,76,.3);color:var(--or);
+  border:1px solid rgba(201,168,76,.25);
+  padding:8px 18px;border-radius:var(--radius);
   font-size:10px;letter-spacing:3px;text-transform:uppercase;
-  padding:7px 20px;margin-bottom:28px;
-  animation:up .7s ease both;
+  color:var(--or);margin-bottom:24px;
 }
-.hero-copy{position:relative;z-index:1;max-width:720px}
+.hero-eyebrow::before{
+  content:'';width:6px;height:6px;background:var(--or);border-radius:50%;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 .hero h1{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(32px,7vw,72px);font-weight:700;line-height:1.05;
-  animation:up .8s ease .1s both;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(38px,6vw,64px);font-weight:700;line-height:1.05;
+  margin-bottom:20px;letter-spacing:-.5px;
 }
-.hero h1 span{color:var(--or);display:block}
-.hero p{
-  margin-top:18px;font-size:15px;color:#777;
-  max-width:560px;line-height:1.75;
-  animation:up .9s ease .2s both;
-}
-.hero-ctas{
-  display:flex;gap:12px;justify-content:flex-start;flex-wrap:wrap;
-  margin-top:36px;animation:up 1s ease .3s both;
-}
-.hero-panel{
-  position:relative;z-index:1;background:rgba(17,17,17,.86);
-  border:1px solid rgba(201,168,76,.16);padding:28px;
-  box-shadow:0 24px 80px rgba(0,0,0,.28);
-}
-.hero-panel-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:10px}
-.hero-panel-title span{color:var(--or)}
-.hero-panel p{margin:0 0 22px;line-height:1.7;color:#666;font-size:13px;animation:none}
-.hero-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.08)}
-.hero-mini{background:var(--noir);padding:18px 16px}
-.hero-mini strong{display:block;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--or);line-height:1}
-.hero-mini span{display:block;margin-top:6px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#444}
-.btn-or{
+.hero h1 em{color:var(--or);font-style:normal;display:block}
+.hero-sub{font-size:15px;color:var(--text);line-height:1.8;max-width:480px;margin-bottom:36px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{
   background:var(--or);color:var(--noir);border:none;
-  padding:14px 32px;font-size:11px;font-weight:600;letter-spacing:1px;
-  text-transform:uppercase;cursor:pointer;transition:all .3s;
-  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.5px;padding:14px 28px;cursor:pointer;
+  border-radius:var(--radius);transition:all .25s;
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
 }
-.btn-or:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,168,76,.25)}
-.btn-out{
-  background:transparent;color:var(--creme);border:1px solid rgba(255,255,255,.15);
-  padding:14px 32px;font-size:11px;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+.btn-primary:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(201,168,76,.2)}
+.btn-secondary{
+  background:transparent;color:var(--creme);
+  border:1px solid rgba(255,255,255,.12);
+  font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:.5px;
+  padding:14px 28px;cursor:pointer;border-radius:var(--radius);transition:all .25s;
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
 }
-.btn-out:hover{border-color:var(--or);color:var(--or)}
+.btn-secondary:hover{border-color:rgba(201,168,76,.4);color:var(--or)}
 
-/* ── BANDE ── */
-.bande{
-  display:flex;justify-content:center;flex-wrap:wrap;
-  border-top:1px solid rgba(201,168,76,.15);
-  border-bottom:1px solid rgba(201,168,76,.15);
-  background:var(--noir2);
+/* HERO PANEL */
+.hero-panel{
+  background:var(--s1);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
 }
-.bi{
-  text-align:center;padding:20px 44px;
-  border-right:1px solid rgba(255,255,255,.05);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  flex:1 1 auto;min-width:140px;
+.panel-top{padding:28px 28px 24px;border-bottom:1px solid rgba(255,255,255,.05)}
+.panel-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:8px}
+.panel-title span{color:var(--or)}
+.panel-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.panel-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,168,76,.1)}
+.ps{background:var(--s1);padding:20px 22px}
+.ps strong{
+  font-family:'Playfair Display',serif;font-size:26px;
+  color:var(--or);display:block;line-height:1;margin-bottom:5px;
 }
-.bi:last-child{border-right:none}
-.bi-ico{width:22px;height:22px}
-.bi-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--or)}
-.bi-l{font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase}
+.ps span{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.panel-badge{
+  margin:20px 28px 28px;
+  background:rgba(45,158,95,.08);border:1px solid rgba(45,158,95,.2);
+  border-radius:var(--radius);padding:12px 16px;
+  display:flex;align-items:center;gap:10px;font-size:12px;color:#6EC99C;
+}
+.panel-badge svg{width:14px;height:14px;flex-shrink:0;color:var(--vert)}
+
+/* ── TICKER ── */
+.ticker{
+  border-top:1px solid rgba(201,168,76,.1);
+  border-bottom:1px solid rgba(201,168,76,.1);
+  background:var(--s1);
+  display:flex;overflow:hidden;
+}
+.ticker-item{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:16px 20px;border-right:1px solid rgba(255,255,255,.04);
+  min-width:0;
+}
+.ticker-item:last-child{border-right:none}
+.ticker-icon{width:18px;height:18px;color:var(--or);flex-shrink:0}
+.ticker-val{font-size:12px;font-weight:500;color:var(--creme);white-space:nowrap}
+.ticker-lbl{font-size:10px;color:var(--muted);letter-spacing:.5px}
 
 /* ── SECTION ── */
-.sec{padding:90px 24px;max-width:1200px;margin:0 auto}
-.sec-tag{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:12px}
-.sec-h{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(24px,4vw,46px);font-weight:700;line-height:1.15;margin-bottom:48px;
-}
-.sec-h span{color:var(--or)}
+.sec{padding:80px 24px;max-width:1140px;margin:0 auto}
+.sec-header{margin-bottom:48px}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:700;margin-top:10px;line-height:1.1}
+.sec-title span{color:var(--or)}
 
-/* ── TABS ── */
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px}
-.tab{
-  padding:8px 22px;font-size:11px;letter-spacing:2px;text-transform:uppercase;
-  border:1px solid rgba(255,255,255,.08);background:transparent;color:#555;
-  cursor:pointer;transition:all .3s;
+/* ── FILTER TABS ── */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px}
+.filter-btn{
+  font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:500;
+  border:1px solid rgba(255,255,255,.08);background:transparent;
+  color:var(--muted);padding:9px 20px;cursor:pointer;
+  border-radius:var(--radius);transition:all .2s;
+  font-family:'DM Sans',sans-serif;
 }
-.tab:hover,.tab.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.06)}
+.filter-btn:hover{color:var(--creme);border-color:rgba(255,255,255,.2)}
+.filter-btn.on{border-color:var(--or);color:var(--or);background:rgba(201,168,76,.08)}
 
-/* ── GRILLE ── */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:14px;background:transparent;
-  border:none;
-}
+/* ── GRID ── */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 
 /* ── CARD ── */
 .card{
-  background:linear-gradient(180deg,rgba(25,25,25,.96),rgba(17,17,17,.98));padding:34px 28px;
-  border:1px solid rgba(201,168,76,.11);
-  position:relative;overflow:hidden;
-  transition:background .4s,transform .4s,border-color .4s;
+  background:var(--s1);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:var(--radius-lg);
+  overflow:hidden;position:relative;
+  transition:border-color .3s,transform .3s;
+  display:flex;flex-direction:column;
 }
-.card::before{
-  content:'';position:absolute;left:0;top:0;
-  width:2px;height:0;background:var(--or);transition:height .4s;
+.card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-3px)}
+.card-accent{
+  height:3px;background:linear-gradient(90deg,var(--or) 0%,transparent 100%);
 }
-.card:hover::before{height:100%}
-.card:hover{background:var(--noir3);transform:translateY(-4px);border-color:rgba(201,168,76,.28)}
-.c-ribbon{
+.card-accent.eco{background:linear-gradient(90deg,#C9A84C,#8B6914)}
+.card-accent.familial{background:linear-gradient(90deg,#2C7BE5,#1A4F9C)}
+.card-accent.villa{background:linear-gradient(90deg,#2D9E5F,#1A5E39)}
+.card-accent.pack{background:linear-gradient(90deg,#9B59B6,#6C3483)}
+.card-accent.custom{background:linear-gradient(90deg,#C9A84C,#2D9E5F)}
+.card-badge{
   position:absolute;top:16px;right:16px;
-  font-size:9px;font-weight:600;letter-spacing:1px;
-  text-transform:uppercase;padding:3px 10px;
+  font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--radius);
 }
-.rb-gold{background:var(--or);color:var(--noir)}
-.rb-out{border:1px solid var(--or);color:var(--or)}
-.rb-green{border:1px solid var(--vert);color:var(--vert)}
-.rb-blue{border:1px solid var(--bleu);color:var(--bleu)}
-.c-num{
-  font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;
-  color:rgba(201,168,76,.07);line-height:1;margin-bottom:12px;
+.badge-gold{background:var(--or);color:var(--noir)}
+.badge-outline{border:1px solid var(--or);color:var(--or)}
+.badge-green{border:1px solid var(--vert);color:var(--vert)}
+.badge-blue{border:1px solid var(--bleu);color:var(--bleu)}
+.badge-purple{border:1px solid #9B59B6;color:#9B59B6}
+.card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.card-num{
+  font-family:'Playfair Display',serif;font-size:40px;font-weight:700;
+  color:rgba(201,168,76,.06);line-height:1;margin-bottom:10px;
+  letter-spacing:-2px;
 }
-.c-ico{width:36px;height:36px;margin-bottom:14px}
-.c-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:8px}
-.c-type{display:inline-block;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;margin-bottom:12px}
-.type-fixe{background:rgba(39,174,96,.1);color:var(--vert);border:1px solid rgba(39,174,96,.2)}
-.type-custom{background:rgba(201,168,76,.1);color:var(--or);border:1px solid rgba(201,168,76,.2)}
-.c-desc{font-size:13px;color:#555;line-height:1.65;margin-bottom:18px}
-.c-feat{list-style:none;margin-bottom:22px}
-.c-feat li{
-  font-size:12px;color:#666;padding:5px 0;
-  border-bottom:1px solid rgba(255,255,255,.04);
-  display:flex;align-items:center;gap:8px;
+.card-icon{width:32px;height:32px;color:var(--or);margin-bottom:12px}
+.card-type{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:4px 10px;border-radius:var(--radius);margin-bottom:12px;width:fit-content;
 }
-.c-feat li .check{width:12px;height:12px;flex-shrink:0}
-.c-price{display:flex;align-items:baseline;gap:5px;margin-bottom:16px}
-.p-from{font-size:10px;color:#333;text-transform:uppercase;letter-spacing:1px}
-.p-amount{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--or)}
-.p-unit{font-size:11px;color:#333}
-.p-old{font-size:12px;color:#333;text-decoration:line-through;margin-left:6px}
-.c-delivery{
-  display:flex;align-items:center;gap:8px;font-size:11px;color:#444;
-  margin-bottom:18px;padding:8px 12px;
-  border:1px solid rgba(255,255,255,.05);background:var(--noir);
+.type-instant{background:rgba(45,158,95,.08);color:#6EC99C;border:1px solid rgba(45,158,95,.15)}
+.type-mesure{background:rgba(201,168,76,.08);color:var(--or);border:1px solid rgba(201,168,76,.15)}
+.card-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;margin-bottom:8px;line-height:1.2}
+.card-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.card-features{list-style:none;margin-bottom:20px;flex:1}
+.card-features li{
+  font-size:12px;color:var(--text);
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:flex-start;gap:9px;line-height:1.4;
 }
-.c-delivery .d-ico{width:14px;height:14px;flex-shrink:0}
-.c-img{
-  width:100%;height:180px;object-fit:cover;margin:-8px 0 22px;
-  border:1px solid rgba(201,168,76,.14);background:var(--noir);
+.card-features li:last-child{border-bottom:none}
+.feat-dot{width:5px;height:5px;background:var(--or);border-radius:50%;flex-shrink:0;margin-top:5px}
+.card-footer{padding:0 24px 24px}
+.price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+.price-from{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.price-amount{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--or);line-height:1}
+.price-unit{font-size:11px;color:var(--muted)}
+.price-old{font-size:12px;color:rgba(255,255,255,.2);text-decoration:line-through;margin-left:4px}
+.delivery-tag{
+  display:flex;align-items:center;gap:7px;
+  font-size:11px;color:var(--muted);
+  padding:9px 12px;margin-bottom:14px;
+  background:rgba(255,255,255,.03);border-radius:var(--radius);
+  border:1px solid rgba(255,255,255,.06);
 }
-.btn-buy{
-  width:100%;padding:13px;border:none;
-  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
+.delivery-tag svg{width:13px;height:13px;flex-shrink:0}
+.delivery-tag.fast{color:#6EC99C}
+.delivery-tag.fast svg{color:var(--vert)}
+.delivery-tag.custom-d svg{color:var(--or)}
+.btn-card-primary{
+  width:100%;padding:13px;border:none;border-radius:var(--radius);
+  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--or);color:var(--noir);
 }
-.btn-buy .b-ico{width:16px;height:16px}
-.btn-instant{background:var(--or);color:var(--noir)}
-.btn-instant:hover{background:var(--or2);box-shadow:0 6px 24px rgba(201,168,76,.2)}
-.btn-order{background:transparent;color:var(--or);border:1px solid var(--or)}
-.btn-order:hover{background:rgba(201,168,76,.08)}
+.btn-card-primary:hover{background:var(--or2);box-shadow:0 8px 24px rgba(201,168,76,.2)}
+.btn-card-outline{
+  width:100%;padding:13px;border:1px solid rgba(201,168,76,.3);border-radius:var(--radius);
+  font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+  transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:transparent;color:var(--or);
+}
+.btn-card-outline:hover{background:rgba(201,168,76,.08);border-color:var(--or)}
 
-/* ── COMMENT ── */
-.comment{
-  background:var(--noir2);
-  border-top:1px solid rgba(255,255,255,.04);
-  border-bottom:1px solid rgba(255,255,255,.04);
-  padding:80px 24px;
+/* ── SECTION DIVIDER ── */
+.section-divider{
+  height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.15),transparent);
+  margin:0;
 }
-.comment-inner{max-width:1100px;margin:0 auto}
-.deux-cols{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.col-title{
-  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;
+.dark-section{background:var(--s1)}
+
+/* ── PROCESS ── */
+.process-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.process-col{}
+.process-col-title{
+  font-family:'Playfair Display',serif;font-size:18px;font-weight:600;
   margin-bottom:28px;padding-bottom:14px;
-  border-bottom:1px solid rgba(201,168,76,.2);
-}
-.col-title span{color:var(--or)}
-.etape{display:flex;gap:16px;margin-bottom:20px;align-items:flex-start}
-.etape-n{
-  font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;
-  color:rgba(201,168,76,.3);line-height:1;width:32px;flex-shrink:0;
-}
-.etape-body h4{font-size:14px;font-weight:600;margin-bottom:4px}
-.etape-body p{font-size:12px;color:#555;line-height:1.6}
-.etape-badge{
-  display:inline-block;font-size:9px;letter-spacing:1px;
-  text-transform:uppercase;padding:2px 8px;margin-bottom:6px;
-}
-.auto-b{background:rgba(39,174,96,.12);color:var(--vert);border:1px solid rgba(39,174,96,.2)}
-.manual-b{background:rgba(201,168,76,.1);color:var(--or);border:1px solid rgba(201,168,76,.2)}
-
-/* ── A PROPOS ── */
-.about-wrap{
-  background:linear-gradient(135deg,rgba(201,168,76,.08),transparent 42%),var(--noir);
-  border-top:1px solid rgba(201,168,76,.12);
-  border-bottom:1px solid rgba(201,168,76,.12);
-}
-.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
-.about-card{
-  background:var(--noir2);border:1px solid rgba(201,168,76,.14);
-  padding:36px;position:relative;overflow:hidden;
-}
-.about-card::before{
-  content:'';position:absolute;inset:0 0 auto auto;width:160px;height:160px;
-  background:radial-gradient(circle,rgba(201,168,76,.16),transparent 68%);
-}
-.about-name{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--or);margin-bottom:6px}
-.about-role{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#777;margin-bottom:20px}
-.about-text{font-size:14px;line-height:1.9;color:#777;margin-bottom:20px}
-.about-list{list-style:none;display:grid;gap:10px;margin-top:22px}
-.about-list li{display:flex;gap:10px;color:#777;font-size:13px;line-height:1.5}
-.about-list svg{width:14px;height:14px;color:var(--or);flex-shrink:0;margin-top:2px}
-.about-photo{
-  min-height:360px;border:1px solid rgba(201,168,76,.14);background:var(--noir2);
-  display:flex;align-items:center;justify-content:center;overflow:hidden;
-}
-.about-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.about-placeholder{font-family:'Cormorant Garamond',serif;font-size:88px;color:rgba(201,168,76,.18)}
-
-/* ── CONFIANCE ── */
-.confiance{max-width:1000px;margin:0 auto;padding:70px 24px;text-align:center}
-.trust-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:2px;margin-top:40px;background:rgba(201,168,76,.08);
-}
-.ti{background:var(--noir2);padding:28px 22px;text-align:center}
-.ti-ico{width:32px;height:32px;margin:0 auto 14px}
-.ti-t{font-size:14px;font-weight:600;margin-bottom:6px}
-.ti-d{font-size:12px;color:#444;line-height:1.6}
-
-/* ── PHONE ROW ── */
-.phone-row{display:flex;gap:8px;align-items:stretch}
-.phone-code{
-  width:150px;flex-shrink:0;
-  padding:12px 10px;
-  background:var(--noir);border:1px solid rgba(255,255,255,.08);
-  color:var(--creme);font-family:'Outfit',sans-serif;font-size:12px;
-  outline:none;transition:border-color .3s;cursor:pointer;
-  appearance:none;-webkit-appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 10px center;
-  padding-right:28px;
-}
-.phone-code:focus{border-color:var(--or)}
-.phone-code option{background:#111;color:var(--creme)}
-.phone-num{flex:1}
-
-/* ── OVERLAY / MODAL ── */
-.overlay{
-  position:fixed;inset:0;z-index:900;
-  background:rgba(0,0,0,.88);backdrop-filter:blur(6px);
-  display:none;align-items:center;justify-content:center;padding:16px;
-}
-.overlay.open{display:flex}
-.modal{
-  background:var(--noir2);width:100%;max-width:560px;
-  border:1px solid rgba(201,168,76,.18);
-  animation:modalIn .3s ease both;
-  max-height:92vh;overflow-y:auto;
-}
-.m-head{
-  background:var(--noir);padding:24px 28px;
-  border-bottom:1px solid rgba(201,168,76,.12);
-  display:flex;justify-content:space-between;align-items:center;
-  position:sticky;top:0;z-index:1;
-}
-.m-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700}
-.m-close{
-  background:none;border:none;color:#444;cursor:pointer;transition:color .3s;
-  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
-}
-.m-close:hover{color:var(--or)}
-.m-close svg{width:18px;height:18px}
-.m-body{padding:24px}
-.m-recap{
-  display:flex;justify-content:space-between;align-items:center;
-  background:var(--noir);padding:14px 18px;margin-bottom:24px;
-  border-left:3px solid var(--or);gap:12px;
-}
-.m-recap-left .label{font-size:10px;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.m-recap-left .pname{font-size:13px;font-weight:500;flex:1}
-.m-recap-right{
-  font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;
-  color:var(--or);white-space:nowrap;flex-shrink:0;
-}
-.m-delivery-info{
-  padding:12px 14px;margin-bottom:20px;font-size:12px;
+  border-bottom:1px solid rgba(255,255,255,.07);
   display:flex;align-items:center;gap:10px;
 }
-.del-auto{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.15);color:#888}
-.del-custom{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);color:#888}
-.fg{margin-bottom:16px}
-.fl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;margin-bottom:7px;display:block}
-.fi,.fsel,.fta{
-  width:100%;padding:12px 14px;
-  background:var(--noir);border:1px solid rgba(255,255,255,.08);
-  color:var(--creme);font-family:'Outfit',sans-serif;font-size:13px;
-  outline:none;transition:border-color .3s;
+.process-col-title svg{width:16px;height:16px}
+.process-col-title .gold-text{color:var(--or)}
+.step{display:flex;gap:16px;margin-bottom:24px}
+.step:last-child{margin-bottom:0}
+.step-num{
+  font-family:'Playfair Display',serif;font-size:32px;font-weight:700;
+  color:rgba(201,168,76,.18);line-height:1;width:28px;flex-shrink:0;padding-top:2px;
 }
-.fi:focus,.fsel:focus,.fta:focus{border-color:var(--or)}
-.fsel{
-  appearance:none;-webkit-appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-  padding-right:34px;
+.step-body{}
+.step-tag{
+  display:inline-block;font-size:9px;letter-spacing:1.5px;font-weight:600;
+  text-transform:uppercase;padding:3px 9px;border-radius:var(--radius);margin-bottom:6px;
 }
-.fsel option{background:var(--noir)}
-.fta{resize:vertical;min-height:80px}
-.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.sep{display:flex;align-items:center;gap:12px;margin:20px 0}
-.sep-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
-.sep-txt{font-size:10px;color:#333;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-.mtn-box{
-  background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.2);
-  padding:16px 18px;margin-bottom:20px;
-  display:flex;align-items:center;gap:14px;
-}
-.mtn-ico{width:36px;height:36px;flex-shrink:0}
-.mtn-label{font-size:11px;color:#888;margin-bottom:3px}
-.mtn-num{font-size:15px;font-weight:600;color:#FFC107}
-.btn-payer{
-  width:100%;padding:15px;background:var(--or);color:var(--noir);border:none;
-  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-}
-.btn-payer:hover{background:var(--or2)}
-.btn-payer svg{width:18px;height:18px}
-.m-note{
-  text-align:center;margin-top:12px;font-size:10px;color:#333;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.m-note svg{width:12px;height:12px}
+.tag-auto{background:rgba(45,158,95,.08);color:#6EC99C;border:1px solid rgba(45,158,95,.15)}
+.tag-manual{background:rgba(201,168,76,.08);color:var(--or);border:1px solid rgba(201,168,76,.15)}
+.step-title{font-size:14px;font-weight:600;color:var(--creme);margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--muted);line-height:1.65}
 
-/* ── SUCCESS ── */
-.success{text-align:center;padding:40px 24px}
-.s-ico{width:56px;height:56px;margin:0 auto 20px;animation:bounce .5s ease}
-.s-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;margin-bottom:10px}
-.s-msg{font-size:14px;color:#777;line-height:1.7;margin-bottom:24px}
-.s-steps{text-align:left;background:var(--noir);padding:18px 20px;margin-bottom:24px}
-.s-step{
-  display:flex;gap:12px;padding:7px 0;font-size:13px;color:#888;
-  align-items:flex-start;
+/* ── TRUST ── */
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.trust-card{
+  background:var(--s1);border:1px solid rgba(255,255,255,.06);
+  border-radius:var(--radius-lg);padding:24px 22px;
 }
-.s-step-n{color:var(--or);font-weight:700;flex-shrink:0;width:20px}
-.num-box{
-  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);
-  padding:16px 18px;margin-bottom:16px;text-align:center;
+.trust-icon{width:28px;height:28px;color:var(--or);margin-bottom:14px}
+.trust-title{font-size:14px;font-weight:600;color:var(--creme);margin-bottom:6px}
+.trust-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ── ABOUT ── */
+.about-section{background:var(--s1);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1)}
+.about-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.about-card{
+  background:var(--noir);border:1px solid rgba(201,168,76,.15);
+  border-radius:var(--radius-lg);padding:36px;
 }
-.amount-box{
-  background:rgba(255,193,7,.06);border:1px solid rgba(255,193,7,.15);
-  padding:14px 18px;margin-bottom:16px;text-align:center;
+.about-name{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--or);margin-bottom:4px}
+.about-role{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:20px}
+.about-bio{font-size:14px;color:var(--text);line-height:1.85;margin-bottom:24px}
+.about-highlights{list-style:none;display:flex;flex-direction:column;gap:12px}
+.about-highlights li{display:flex;gap:10px;font-size:13px;color:var(--text);line-height:1.5;align-items:flex-start}
+.about-highlights li svg{width:13px;height:13px;color:var(--or);flex-shrink:0;margin-top:3px}
+.about-photo{
+  border:1px solid rgba(201,168,76,.15);border-radius:var(--radius-lg);
+  background:var(--s2);min-height:340px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-.wa-btn{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  background:#25D366;color:#fff;padding:14px;
-  font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  text-decoration:none;margin-top:16px;transition:background .3s;
+.about-photo img{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius-lg)}
+.about-monogram{
+  font-family:'Playfair Display',serif;font-size:72px;font-weight:700;
+  color:rgba(201,168,76,.12);letter-spacing:-4px;
 }
-.wa-btn:hover{background:#1ea952}
-.wa-btn svg{width:20px;height:20px}
-.btn-close-s{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 32px;background:var(--or);color:var(--noir);border:none;
-  font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .3s;
-}
-.btn-close-s:hover{background:var(--or2)}
 
 /* ── FOOTER ── */
 footer{
-  border-top:1px solid rgba(255,255,255,.04);
-  padding:32px 24px;text-align:center;font-size:11px;color:#2a2a2a;
+  padding:28px 24px;border-top:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
 }
-footer strong{color:var(--or)}
-.footer-icons{display:flex;justify-content:center;gap:16px;margin-top:10px;opacity:.3}
-.footer-icons svg{width:18px;height:18px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:14px;color:var(--or)}
+.footer-text{font-size:11px;color:var(--muted)}
+.footer-icons{display:flex;gap:12px;opacity:.25}
+.footer-icons svg{width:16px;height:16px;color:var(--creme)}
 
-/* ── ANIMATIONS ── */
-@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-@keyframes modalIn{from{opacity:0;transform:scale(.96) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
-@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
-.fi-in{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
-.fi-in.vis{opacity:1;transform:translateY(0)}
+/* ── PHONE ROW ── */
+.phone-row{display:flex;gap:8px}
+.phone-code{
+  flex-shrink:0;width:160px;padding:12px 14px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  color:var(--creme);font-family:'DM Sans',sans-serif;font-size:13px;
+  outline:none;border-radius:var(--radius);transition:border-color .2s;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+  padding-right:30px;
+}
+.phone-code:focus{border-color:var(--or)}
+.phone-code option{background:#111}
+.phone-num{flex:1}
+
+/* ── MODAL OVERLAY ── */
+.overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  display:none;align-items:flex-end;justify-content:center;
+  padding:0;
+}
+.overlay.open{display:flex}
+@media(min-width:600px){.overlay{align-items:center;padding:20px}}
+.modal{
+  background:var(--s1);width:100%;max-width:540px;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  max-height:92vh;overflow-y:auto;
+  animation:slideUp .3s cubic-bezier(.16,1,.3,1) both;
+  -webkit-overflow-scrolling:touch;
+}
+@media(min-width:600px){
+  .modal{border-radius:var(--radius-lg);animation:fadeScale .25s ease both}
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeScale{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:none}}
+.modal-handle{
+  width:36px;height:4px;background:rgba(255,255,255,.1);
+  border-radius:2px;margin:12px auto 4px;
+}
+@media(min-width:600px){.modal-handle{display:none}}
+.modal-head{
+  padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--s1);z-index:10;
+}
+.modal-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600}
+.modal-close{
+  background:rgba(255,255,255,.06);border:none;
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s;color:var(--muted);
+}
+.modal-close:hover{background:rgba(255,255,255,.1);color:var(--creme)}
+.modal-close svg{width:16px;height:16px}
+.modal-body{padding:20px 24px}
+.order-recap{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.15);border-radius:var(--radius);
+  margin-bottom:20px;gap:12px;
+}
+.order-product-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.order-product-name{font-size:13px;font-weight:500;color:var(--creme)}
+.order-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--or);white-space:nowrap;flex-shrink:0}
+.delivery-banner{
+  padding:10px 14px;border-radius:var(--radius);
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;font-size:12px;
+}
+.delivery-banner.fast{background:rgba(45,158,95,.07);border:1px solid rgba(45,158,95,.15);color:#6EC99C}
+.delivery-banner.slow{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);color:#B8A06A}
+.delivery-banner svg{width:13px;height:13px;flex-shrink:0}
+.field{margin-bottom:14px}
+.field-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.field-input,.field-select,.field-textarea{
+  width:100%;padding:12px 14px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  color:var(--creme);font-family:'DM Sans',sans-serif;font-size:13px;
+  outline:none;border-radius:var(--radius);transition:border-color .2s;
+}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--or);background:rgba(255,255,255,.05)}
+.field-input::placeholder{color:var(--muted)}
+.field-select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  padding-right:36px;background-color:rgba(255,255,255,.04);
+}
+.field-select option{background:var(--s1)}
+.field-textarea{resize:vertical;min-height:80px;line-height:1.5}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.divider-row{display:flex;align-items:center;gap:12px;margin:18px 0}
+.divider-line{flex:1;height:1px;background:rgba(255,255,255,.06)}
+.divider-txt{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;text-transform:uppercase}
+.mtn-block{
+  background:rgba(255,193,7,.05);border:1px solid rgba(255,193,7,.2);
+  border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.mtn-icon{width:38px;height:38px;flex-shrink:0;color:#FFC107}
+.mtn-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.mtn-number{font-size:18px;font-weight:600;color:#FFC107;letter-spacing:.5px}
+.mtn-name{font-size:11px;color:var(--muted);margin-top:2px}
+.btn-payer{
+  width:100%;padding:15px;background:var(--or);color:var(--noir);border:none;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+  border-radius:var(--radius);transition:all .25s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-payer:hover{background:var(--or2)}
+.btn-payer svg{width:16px;height:16px}
+.modal-note{
+  text-align:center;margin-top:10px;font-size:11px;color:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.modal-note svg{width:12px;height:12px}
+
+/* ── SUCCESS STATE ── */
+.success-wrap{padding:24px}
+.success-icon{
+  width:52px;height:52px;background:rgba(201,168,76,.1);
+  border:1px solid rgba(201,168,76,.25);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;animation:pop .4s cubic-bezier(.68,-.55,.27,1.55) both;
+}
+@keyframes pop{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.success-icon svg{width:24px;height:24px;color:var(--or)}
+.success-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;text-align:center;margin-bottom:8px}
+.success-sub{font-size:13px;color:var(--muted);text-align:center;line-height:1.7;margin-bottom:24px}
+.pay-step-block{
+  background:rgba(255,193,7,.05);border:1px solid rgba(255,193,7,.15);
+  border-radius:var(--radius);padding:18px;margin-bottom:14px;text-align:center;
+}
+.pay-step-block .lbl{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.pay-step-block .num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:#FFC107;letter-spacing:1px}
+.pay-step-block .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.pay-amount-block{
+  background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);
+  border-radius:var(--radius);padding:16px;margin-bottom:20px;text-align:center;
+}
+.pay-amount-block .lbl{font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.pay-amount-block .amount{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--or)}
+.steps-list{margin-bottom:20px}
+.step-item{
+  display:flex;gap:12px;padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);align-items:flex-start;
+}
+.step-item:last-child{border-bottom:none}
+.step-n{
+  width:22px;height:22px;background:rgba(201,168,76,.12);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:11px;font-weight:700;color:var(--or);line-height:1;
+}
+.step-text{font-size:13px;color:var(--text);line-height:1.55}
+.step-text strong{color:var(--creme)}
+.wa-button{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:#25D366;color:#fff;padding:15px;width:100%;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.5px;text-transform:uppercase;text-decoration:none;
+  border-radius:var(--radius);transition:background .2s;margin-bottom:12px;
+}
+.wa-button:hover{background:#1ea952}
+.wa-button svg{width:20px;height:20px}
+.btn-close-success{
+  width:100%;padding:13px;background:transparent;
+  border:1px solid rgba(255,255,255,.1);color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:.5px;
+  cursor:pointer;border-radius:var(--radius);transition:all .2s;
+}
+.btn-close-success:hover{border-color:rgba(255,255,255,.25);color:var(--creme)}
+
+/* ── SVG DEFS (hidden) ── */
+.svg-defs{display:none}
+
+/* ─── ANIMATIONS ─── */
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
-  nav{padding:14px 28px}
-  .sec{padding:70px 20px}
-  .hero{grid-template-columns:1fr;gap:28px;padding-left:28px;padding-right:28px;text-align:center}
-  .hero-copy{margin:0 auto}
+  .hero{grid-template-columns:1fr;gap:40px;text-align:center;padding:100px 24px 64px}
+  .hero-sub,.hero-ctas{max-width:100%}
   .hero-ctas{justify-content:center}
-  .hero-panel{max-width:620px;margin:0 auto;width:100%}
-}
-
-@media(max-width:768px){
-  /* Nav */
-  nav{padding:13px 20px}
-  .nav-links,.nav-cta{display:none}
+  .hero-panel{max-width:520px;margin:0 auto;width:100%}
+  .about-grid{grid-template-columns:1fr;gap:28px}
+  nav{padding:0 20px}
+  .nav-links,.btn-nav{display:none}
   .ham{display:flex}
-
-  /* Hero */
-  .hero{padding:100px 20px 60px;min-height:auto}
-  .hero p{font-size:14px}
-  .hero-panel{padding:22px}
-  .hero-mini-grid{grid-template-columns:1fr 1fr}
-  .btn-or,.btn-out{padding:13px 22px;font-size:10px}
-
-  /* Bande */
-  .bi{padding:16px 20px;min-width:calc(50% - 2px)}
-  .bi:nth-child(2n){border-right:none}
-  .bi:nth-child(3){border-right:1px solid rgba(255,255,255,.05)}
-
-  /* Section */
-  .sec{padding:60px 16px}
-  .sec-h{margin-bottom:32px}
-
-  /* Grid */
-  .grid{grid-template-columns:1fr}
-
-  /* Card */
-  .card{padding:28px 22px}
-
-  /* Process */
-  .about-grid{grid-template-columns:1fr;gap:24px}
-  .about-card{padding:28px 22px}
-  .about-photo{min-height:260px}
-  .deux-cols{grid-template-columns:1fr;gap:36px}
-  .comment{padding:60px 16px}
-
-  /* Modal */
-  .m-head{padding:18px 20px}
-  .m-body{padding:18px 16px}
-  .m-recap{flex-direction:column;align-items:flex-start;gap:8px}
-  .m-recap-right{font-size:20px}
-  .fg-row{grid-template-columns:1fr}
-
-  /* Phone row */
-  .phone-code{width:130px}
-
-  /* Trust */
-  .confiance{padding:50px 16px}
 }
-
-@media(max-width:480px){
-  /* Nav */
-  .logo{font-size:17px;letter-spacing:1px}
-  .logo-ico{width:26px;height:26px}
-
-  /* Bande */
-  .bi{padding:14px 16px;min-width:50%}
-  .bi-n{font-size:22px}
-
-  /* Tabs */
-  .tabs{gap:4px}
-  .tab{padding:7px 14px;font-size:10px}
-
-  /* Card */
-  .c-num{font-size:42px}
-  .card{padding:24px 18px}
-
-  /* Hero CTAs */
-  .hero-ctas{flex-direction:column;align-items:center}
-  .hero-mini-grid{grid-template-columns:1fr}
-
-  /* Phone row */
+@media(max-width:768px){
+  .hero{padding:88px 20px 56px;gap:32px}
+  .hero h1{letter-spacing:-.5px}
+  .ticker{flex-wrap:wrap}
+  .ticker-item{width:50%;border-bottom:1px solid rgba(255,255,255,.04);flex:none}
+  .ticker-item:nth-child(2n){border-right:none}
+  .ticker-item:nth-last-child(-n+2){border-bottom:none}
+  .process-grid{grid-template-columns:1fr;gap:32px}
+  .cards-grid{grid-template-columns:1fr}
+  .sec{padding:60px 20px}
+  .about-card{padding:24px 20px}
+  footer{flex-direction:column;text-align:center}
+  .row-2{grid-template-columns:1fr}
   .phone-row{flex-direction:column}
   .phone-code{width:100%}
-
-  /* Modal */
-  .m-title{font-size:18px}
-  .m-recap-right{font-size:18px}
-  .s-title{font-size:20px}
-  .btn-payer{font-size:12px;padding:13px}
-  .success{padding:28px 16px}
+  .trust-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .hero h1{font-size:34px}
+  .hero-ctas{flex-direction:column;align-items:center}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center;padding:15px}
+  .ticker-item .ticker-lbl{display:none}
+  .trust-grid{grid-template-columns:1fr}
+  .filters{gap:4px}
+  .filter-btn{padding:8px 14px;font-size:10px}
+  .modal-body{padding:16px 18px}
+  .success-wrap{padding:18px}
 }
 </style>
 </head>
 <body>
 
-<!-- ── SVG DEFS ── -->
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<!-- SVG SPRITE -->
+<svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/>
   </symbol>
-  <symbol id="ico-home2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-home2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/><rect x="10" y="3" width="4" height="4"/>
   </symbol>
-  <symbol id="ico-villa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-villa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M2 10L12 2l10 8v11a1 1 0 01-1 1H3a1 1 0 01-1-1V10z"/><rect x="8" y="14" width="4" height="7"/><rect x="13" y="11" width="4" height="4"/>
   </symbol>
-  <symbol id="ico-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-library" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <rect x="3" y="3" width="7" height="18"/><rect x="10" y="8" width="7" height="13"/><path d="M17 3l4 18"/>
   </symbol>
-  <symbol id="ico-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
   </symbol>
-  <symbol id="ico-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
   </symbol>
-  <symbol id="ico-grad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-grad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
   </symbol>
-  <symbol id="ico-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M6 9H3V4h3m15 5h3V4h-3M12 17v4m-4 0h8M5 4h14l-1 7a6 6 0 01-12 0L5 4z"/>
   </symbol>
-  <symbol id="ico-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
   </symbol>
-  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
   </symbol>
-  <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
   </symbol>
-  <symbol id="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="20 6 9 17 4 12"/>
   </symbol>
-  <symbol id="ico-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>
   </symbol>
-  <symbol id="ico-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
   </symbol>
-  <symbol id="ico-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
   </symbol>
-  <symbol id="ico-wa" viewBox="0 0 24 24" fill="currentColor">
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </symbol>
-  <symbol id="ico-mtn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-    <rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 6V4m8 2V4M4 10h16"/>
+  <symbol id="i-mtn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 6V4m10 2V4M3 11h18"/>
   </symbol>
-  <symbol id="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
     <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
   </symbol>
-  <symbol id="ico-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-  </symbol>
-  <symbol id="ico-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
     <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
   </symbol>
-  <symbol id="ico-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
   </symbol>
 </svg>
 
 <!-- ── NAV ── -->
 <nav>
-  <div class="logo">
-    <svg class="logo-ico" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 2L2 12v18h10v-8h8v8h10V12L16 2z" stroke="#C9A84C" stroke-width="1.5" stroke-linejoin="round"/>
-      <path d="M12 22v-6h8v6" stroke="#C9A84C" stroke-width="1.5"/>
-      <circle cx="16" cy="10" r="2" fill="#C9A84C"/>
-    </svg>
-    Architecte<em> IA</em> Africa
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+        <path d="M9 21V12h6v9"/>
+      </svg>
+    </div>
+    Architecte<span> IA</span> Africa
+  </a>
+  <div class="nav-right">
+    <nav class="nav-links">
+      <a href="#boutique">Boutique</a>
+      <a href="#apropos">À propos</a>
+      <a href="#process">Process</a>
+      <a href="#garanties">Garanties</a>
+    </nav>
+    <button class="btn-nav" onclick="document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
+      <svg width="14" height="14"><use href="#i-cart"/></svg>
+      Commander
+    </button>
+    <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
   </div>
-  <div class="nav-links">
-    <a href="#boutique">Boutique</a>
-    <a href="#apropos">À propos</a>
-    <a href="#comment">Process</a>
-    <a href="#confiance">Garanties</a>
-  </div>
-  <button class="nav-cta" onclick="document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
-    <svg width="14" height="14"><use href="#ico-cart"/></svg>
-    Commander
-  </button>
-  <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<!-- Menu mobile -->
-<div class="mob-menu" id="mob-menu">
+<!-- ── MOBILE DRAWER ── -->
+<div class="mob-drawer" id="mob-drawer">
   <a href="#boutique" onclick="closeMenu()">Boutique</a>
   <a href="#apropos" onclick="closeMenu()">À propos</a>
-  <a href="#comment" onclick="closeMenu()">Process</a>
-  <a href="#confiance" onclick="closeMenu()">Garanties</a>
-  <button class="nav-cta" onclick="closeMenu();document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
-    <svg width="14" height="14"><use href="#ico-cart"/></svg>
-    Commander
+  <a href="#process" onclick="closeMenu()">Process</a>
+  <a href="#garanties" onclick="closeMenu()">Garanties</a>
+  <button class="btn-nav" onclick="closeMenu();document.getElementById('boutique').scrollIntoView({behavior:'smooth'})">
+    <svg width="14" height="14"><use href="#i-cart"/></svg>
+    Commander un plan
   </button>
 </div>
 
 <!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-copy">
-    <div class="eyebrow">
-      <svg width="12" height="12" style="color:var(--or)"><use href="#ico-home"/></svg>
-      Boutique Officielle · Plans &amp; Formations
-    </div>
-    <h1>Ton plan de maison,<span>livré en 48h.</span></h1>
-    <p>Plans fixes prêts à télécharger ou plans personnalisés dessinés sur mesure. Paie en MTN MoMo, reçois ton fichier rapidement.</p>
+  <div class="hero-copy fade-in">
+    <div class="hero-eyebrow">Plans &amp; Formations · Bénin</div>
+    <h1 class="serif">
+      Ton plan de maison,
+      <em>livré en 48h.</em>
+    </h1>
+    <p class="hero-sub">Plans prêts à télécharger ou dessinés sur mesure. Paie en MTN MoMo, reçois ton PDF rapidement — sans intermédiaire.</p>
     <div class="hero-ctas">
-      <a href="#boutique" class="btn-or">
-        <svg width="16" height="16"><use href="#ico-home"/></svg>
-        Plans fixes
+      <a href="#boutique" class="btn-primary">
+        <svg width="16" height="16"><use href="#i-home"/></svg>
+        Voir les plans
       </a>
-      <a href="#sur-mesure" class="btn-out">
-        <svg width="16" height="16"><use href="#ico-pencil"/></svg>
+      <a href="#sur-mesure" class="btn-secondary">
+        <svg width="16" height="16"><use href="#i-pencil"/></svg>
         Sur mesure
       </a>
     </div>
   </div>
-  <div class="hero-panel">
-    <div class="hero-panel-title">Architecture <span>pratique</span>, budget maîtrisé.</div>
-    <p>Choisis un plan existant ou commande une création sur mesure. L'objectif : te donner un document clair, exploitable et adapté aux réalités du chantier.</p>
-    <div class="hero-mini-grid">
-      <div class="hero-mini"><strong>1h</strong><span>Plans fixes</span></div>
-      <div class="hero-mini"><strong>48h</strong><span>Sur mesure</span></div>
-      <div class="hero-mini"><strong>PDF</strong><span>Livraison</span></div>
-      <div class="hero-mini"><strong>MTN</strong><span>Paiement</span></div>
+  <div class="hero-panel fade-in" style="transition-delay:.15s">
+    <div class="panel-top">
+      <div class="panel-title serif">Architecture <span>pratique</span>,<br>budget maîtrisé.</div>
+      <p class="panel-desc">Un plan clair, exploitable, adapté aux réalités du chantier africain.</p>
+    </div>
+    <div class="panel-stats">
+      <div class="ps"><strong>1h</strong><span>Plans fixes</span></div>
+      <div class="ps"><strong>48h</strong><span>Sur mesure</span></div>
+      <div class="ps"><strong>PDF</strong><span>Livraison</span></div>
+      <div class="ps"><strong>MTN</strong><span>Paiement</span></div>
+    </div>
+    <div class="panel-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Plans certifiés architecte · Normes africaines
     </div>
   </div>
 </section>
 
-<!-- ── BANDE ── -->
-<div class="bande">
-  <div class="bi">
-    <svg class="bi-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
-    <div class="bi-n">48h</div><div class="bi-l">Livraison max</div>
-  </div>
-  <div class="bi">
-    <svg class="bi-ico" style="color:var(--or)"><use href="#ico-bolt"/></svg>
-    <div class="bi-n">Instant</div><div class="bi-l">Plans fixes</div>
-  </div>
-  <div class="bi">
-    <svg class="bi-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>
-    <div class="bi-n">Sur mesure</div><div class="bi-l">Disponible</div>
-  </div>
-  <div class="bi">
-    <svg class="bi-ico" style="color:var(--or)"><use href="#ico-mtn"/></svg>
-    <div class="bi-n">MTN</div><div class="bi-l">MoMo Bénin</div>
-  </div>
+<!-- ── TICKER ── -->
+<div class="ticker">
+  <div class="ticker-item"><svg class="ticker-icon"><use href="#i-clock"/></svg><div><div class="ticker-val">48h max</div><div class="ticker-lbl">Délai livraison</div></div></div>
+  <div class="ticker-item"><svg class="ticker-icon"><use href="#i-bolt"/></svg><div><div class="ticker-val">Instantané</div><div class="ticker-lbl">Plans fixes</div></div></div>
+  <div class="ticker-item"><svg class="ticker-icon"><use href="#i-pencil"/></svg><div><div class="ticker-val">Sur mesure</div><div class="ticker-lbl">Disponible</div></div></div>
+  <div class="ticker-item"><svg class="ticker-icon"><use href="#i-mtn"/></svg><div><div class="ticker-val">MTN MoMo</div><div class="ticker-lbl">Paiement direct</div></div></div>
 </div>
 
 <!-- ════ PLANS FIXES ════ -->
 <section class="sec" id="boutique">
-  <p class="sec-tag fi-in">Plans prêts à télécharger</p>
-  <h2 class="sec-h fi-in">Plans fixes.<br><span>Paiement — PDF rapide.</span></h2>
-  <div class="tabs fi-in">
-    <button class="tab on" onclick="filtrer('tout',this)">Tous</button>
-    <button class="tab" onclick="filtrer('eco',this)">Économique</button>
-    <button class="tab" onclick="filtrer('familial',this)">Familial</button>
-    <button class="tab" onclick="filtrer('villa',this)">Villa</button>
+  <div class="sec-header fade-in">
+    <div class="tag">Plans prêts à télécharger</div>
+    <h2 class="sec-title serif">Plans fixes.<br><span>Paiement — PDF rapide.</span></h2>
   </div>
-  <div class="grid" id="fixed-services-grid">
+  <div class="filters fade-in">
+    <button class="filter-btn on" onclick="filtrer('tout',this)">Tous</button>
+    <button class="filter-btn" onclick="filtrer('eco',this)">Économique</button>
+    <button class="filter-btn" onclick="filtrer('familial',this)">Familial</button>
+    <button class="filter-btn" onclick="filtrer('villa',this)">Villa</button>
+  </div>
+  <div class="cards-grid" id="fixed-grid">
 
-    <!-- 01 -->
-    <div class="card fi-in" data-cat="eco">
-      <div class="c-ribbon rb-gold">Populaire</div>
-      <div class="c-num">01</div>
-      <svg class="c-ico" style="color:var(--or)"><use href="#ico-home"/></svg>
-      <div class="c-type type-fixe">Livraison rapide</div>
-      <h3 class="c-name">Studio Économique F2</h3>
-      <p class="c-desc">Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.</p>
-      <ul class="c-feat">
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Séjour + 1 chambre + cuisine + SDB</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Dimensions détaillées incluses</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 6–9 millions FCFA</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-      </ul>
-      <div class="c-price">
-        <span class="p-from">Dès</span><span class="p-amount">12 000</span>
-        <span class="p-unit">FCFA</span><span class="p-old">30 000</span>
+    <!-- 01 Studio -->
+    <div class="card fade-in" data-cat="eco">
+      <div class="card-accent eco"></div>
+      <div class="card-badge badge-gold">Populaire</div>
+      <div class="card-body">
+        <div class="card-num">01</div>
+        <svg class="card-icon"><use href="#i-home"/></svg>
+        <div class="card-type type-instant">
+          <svg width="10" height="10"><use href="#i-bolt"/></svg>
+          Livraison rapide
+        </div>
+        <h3 class="card-name serif">Studio Économique F2</h3>
+        <p class="card-desc">Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>Séjour + 1 chambre + cuisine + SDB</li>
+          <li><span class="feat-dot"></span>Dimensions détaillées incluses</li>
+          <li><span class="feat-dot"></span>Devis estimatif : 6–9 millions FCFA</li>
+          <li><span class="feat-dot"></span>PDF haute résolution prêt maçon</li>
+        </ul>
       </div>
-      <div class="c-delivery">
-        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      <div class="card-footer">
+        <div class="price-row">
+          <span class="price-from">Dès</span>
+          <span class="price-amount">12 000</span>
+          <span class="price-unit">FCFA</span>
+          <span class="price-old">30 000</span>
+        </div>
+        <div class="delivery-tag fast">
+          <svg><use href="#i-bolt"/></svg>
+          PDF envoyé <strong>&nbsp;sous 1h</strong>&nbsp;après paiement MTN
+        </div>
+        <button class="btn-card-primary" onclick="ouvrirModal({id:'studio-f2',name:'Studio Économique F2',price:12000,type:'fixe',delai:'1h'})">
+          <svg width="15" height="15"><use href="#i-cart"/></svg>Acheter maintenant
+        </button>
       </div>
-      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'studio-f2',name:'Studio Économique F2',price:12000,type:'fixe',delai:'1h'})">
-        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-      </button>
     </div>
 
-    <!-- 02 -->
-    <div class="card fi-in" data-cat="familial">
-      <div class="c-ribbon rb-out">Familial</div>
-      <div class="c-num">02</div>
-      <svg class="c-ico" style="color:var(--or)"><use href="#ico-home2"/></svg>
-      <div class="c-type type-fixe">Livraison rapide</div>
-      <h3 class="c-name">Maison Familiale 3 Chambres</h3>
-      <p class="c-desc">Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.</p>
-      <ul class="c-feat">
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>3 chambres + séjour + cuisine</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Véranda 15 m² incluse</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 12–18 millions FCFA</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-      </ul>
-      <div class="c-price">
-        <span class="p-from">Dès</span><span class="p-amount">25 000</span>
-        <span class="p-unit">FCFA</span><span class="p-old">50 000</span>
+    <!-- 02 Familiale -->
+    <div class="card fade-in" data-cat="familial">
+      <div class="card-accent familial"></div>
+      <div class="card-badge badge-outline">Familial</div>
+      <div class="card-body">
+        <div class="card-num">02</div>
+        <svg class="card-icon"><use href="#i-home2"/></svg>
+        <div class="card-type type-instant">
+          <svg width="10" height="10"><use href="#i-bolt"/></svg>
+          Livraison rapide
+        </div>
+        <h3 class="card-name serif">Maison Familiale 3 Chambres</h3>
+        <p class="card-desc">Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>3 chambres + séjour + cuisine</li>
+          <li><span class="feat-dot"></span>Véranda 15 m² incluse</li>
+          <li><span class="feat-dot"></span>Devis estimatif : 12–18 millions FCFA</li>
+          <li><span class="feat-dot"></span>PDF haute résolution prêt maçon</li>
+        </ul>
       </div>
-      <div class="c-delivery">
-        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      <div class="card-footer">
+        <div class="price-row">
+          <span class="price-from">Dès</span>
+          <span class="price-amount">25 000</span>
+          <span class="price-unit">FCFA</span>
+          <span class="price-old">50 000</span>
+        </div>
+        <div class="delivery-tag fast">
+          <svg><use href="#i-bolt"/></svg>
+          PDF envoyé <strong>&nbsp;sous 1h</strong>&nbsp;après paiement MTN
+        </div>
+        <button class="btn-card-primary" onclick="ouvrirModal({id:'familiale-3ch',name:'Maison Familiale 3 Chambres',price:25000,type:'fixe',delai:'1h'})">
+          <svg width="15" height="15"><use href="#i-cart"/></svg>Acheter maintenant
+        </button>
       </div>
-      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'familiale-3ch',name:'Maison Familiale 3 Chambres',price:25000,type:'fixe',delai:'1h'})">
-        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-      </button>
     </div>
 
-    <!-- 03 -->
-    <div class="card fi-in" data-cat="villa">
-      <div class="c-ribbon rb-green">Luxe</div>
-      <div class="c-num">03</div>
-      <svg class="c-ico" style="color:var(--or)"><use href="#ico-villa"/></svg>
-      <div class="c-type type-fixe">Livraison rapide</div>
-      <h3 class="c-name">Villa Traditionnelle 4 Chambres</h3>
-      <p class="c-desc">Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.</p>
-      <ul class="c-feat">
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4 chambres + suite parentale</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Garage + grande terrasse</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Devis estimatif : 24–37 millions FCFA</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>PDF haute résolution prêt maçon</li>
-      </ul>
-      <div class="c-price">
-        <span class="p-from">Dès</span><span class="p-amount">45 000</span>
-        <span class="p-unit">FCFA</span><span class="p-old">90 000</span>
+    <!-- 03 Villa -->
+    <div class="card fade-in" data-cat="villa">
+      <div class="card-accent villa"></div>
+      <div class="card-badge badge-green">Luxe</div>
+      <div class="card-body">
+        <div class="card-num">03</div>
+        <svg class="card-icon"><use href="#i-villa"/></svg>
+        <div class="card-type type-instant">
+          <svg width="10" height="10"><use href="#i-bolt"/></svg>
+          Livraison rapide
+        </div>
+        <h3 class="card-name serif">Villa Traditionnelle 4 Chambres</h3>
+        <p class="card-desc">Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>4 chambres + suite parentale</li>
+          <li><span class="feat-dot"></span>Garage + grande terrasse</li>
+          <li><span class="feat-dot"></span>Devis estimatif : 24–37 millions FCFA</li>
+          <li><span class="feat-dot"></span>PDF haute résolution prêt maçon</li>
+        </ul>
       </div>
-      <div class="c-delivery">
-        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-        <span>PDF envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      <div class="card-footer">
+        <div class="price-row">
+          <span class="price-from">Dès</span>
+          <span class="price-amount">45 000</span>
+          <span class="price-unit">FCFA</span>
+          <span class="price-old">90 000</span>
+        </div>
+        <div class="delivery-tag fast">
+          <svg><use href="#i-bolt"/></svg>
+          PDF envoyé <strong>&nbsp;sous 1h</strong>&nbsp;après paiement MTN
+        </div>
+        <button class="btn-card-primary" onclick="ouvrirModal({id:'villa-4ch',name:'Villa Traditionnelle 4 Chambres',price:45000,type:'fixe',delai:'1h'})">
+          <svg width="15" height="15"><use href="#i-cart"/></svg>Acheter maintenant
+        </button>
       </div>
-      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'villa-4ch',name:'Villa Traditionnelle 4 Chambres',price:45000,type:'fixe',delai:'1h'})">
-        <svg class="b-ico"><use href="#ico-cart"/></svg>Acheter maintenant
-      </button>
     </div>
 
-    <!-- 04 -->
-    <div class="card fi-in" data-cat="tout">
-      <div class="c-ribbon rb-blue">Pack Complet</div>
-      <div class="c-num">04</div>
-      <svg class="c-ico" style="color:var(--or)"><use href="#ico-library"/></svg>
-      <div class="c-type type-fixe">Livraison rapide</div>
-      <h3 class="c-name">Bibliothèque — Accès Illimité</h3>
-      <p class="c-desc">Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.</p>
-      <ul class="c-feat">
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>+20 plans différents inclus</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Studios, F2, F3, villas, commerciales</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Toutes les mises à jour futures</li>
-        <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie, téléchargement illimité</li>
-      </ul>
-      <div class="c-price">
-        <span class="p-from">Dès</span><span class="p-amount">60 000</span>
-        <span class="p-unit">FCFA</span><span class="p-old">120 000</span>
+    <!-- 04 Bibliothèque -->
+    <div class="card fade-in" data-cat="tout">
+      <div class="card-accent pack"></div>
+      <div class="card-badge badge-blue">Pack Complet</div>
+      <div class="card-body">
+        <div class="card-num">04</div>
+        <svg class="card-icon"><use href="#i-library"/></svg>
+        <div class="card-type type-instant">
+          <svg width="10" height="10"><use href="#i-bolt"/></svg>
+          Livraison rapide
+        </div>
+        <h3 class="card-name serif">Bibliothèque — Accès Illimité</h3>
+        <p class="card-desc">Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.</p>
+        <ul class="card-features">
+          <li><span class="feat-dot"></span>+20 plans différents inclus</li>
+          <li><span class="feat-dot"></span>Studios, F2, F3, villas, commerciales</li>
+          <li><span class="feat-dot"></span>Toutes les mises à jour futures</li>
+          <li><span class="feat-dot"></span>Accès à vie, téléchargement illimité</li>
+        </ul>
       </div>
-      <div class="c-delivery">
-        <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-        <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> après confirmation paiement</span>
+      <div class="card-footer">
+        <div class="price-row">
+          <span class="price-from">Dès</span>
+          <span class="price-amount">60 000</span>
+          <span class="price-unit">FCFA</span>
+          <span class="price-old">120 000</span>
+        </div>
+        <div class="delivery-tag fast">
+          <svg><use href="#i-bolt"/></svg>
+          Accès envoyé <strong>&nbsp;sous 1h</strong>&nbsp;après paiement MTN
+        </div>
+        <button class="btn-card-primary" onclick="ouvrirModal({id:'bibliotheque',name:'Bibliothèque Accès Illimité',price:60000,type:'fixe',delai:'1h'})">
+          <svg width="15" height="15"><use href="#i-cart"/></svg>Accéder maintenant
+        </button>
       </div>
-      <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'bibliotheque',name:'Bibliothèque Accès Illimité',price:60000,type:'fixe',delai:'1h'})">
-        <svg class="b-ico"><use href="#ico-cart"/></svg>Accéder maintenant
-      </button>
     </div>
 
   </div>
 </section>
+
+<!-- ── DIVIDER ── -->
+<div class="section-divider"></div>
 
 <!-- ════ SUR MESURE ════ -->
-<section style="background:var(--noir2);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)">
-  <section class="sec" id="sur-mesure" style="padding-bottom:0">
-    <p class="sec-tag fi-in">Plans Personnalisés</p>
-    <h2 class="sec-h fi-in">Sur mesure.<br><span>Je dessine pour toi.</span></h2>
+<div class="dark-section">
+  <section class="sec" id="sur-mesure">
+    <div class="sec-header fade-in">
+      <div class="tag">Plans Personnalisés</div>
+      <h2 class="sec-title serif">Sur mesure.<br><span>Je dessine pour toi.</span></h2>
+    </div>
+    <div class="cards-grid">
+
+      <!-- 05 Standard -->
+      <div class="card fade-in">
+        <div class="card-accent custom"></div>
+        <div class="card-badge badge-outline">Sur Mesure</div>
+        <div class="card-body">
+          <div class="card-num">05</div>
+          <svg class="card-icon"><use href="#i-pencil"/></svg>
+          <div class="card-type type-mesure">
+            <svg width="10" height="10"><use href="#i-clock"/></svg>
+            Je dessine après commande
+          </div>
+          <h3 class="card-name serif">Plan Personnalisé Standard</h3>
+          <p class="card-desc">Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².</p>
+          <ul class="card-features">
+            <li><span class="feat-dot"></span>Jusqu'à 3 chambres</li>
+            <li><span class="feat-dot"></span>Surface jusqu'à 120 m²</li>
+            <li><span class="feat-dot"></span>1 révision incluse</li>
+            <li><span class="feat-dot"></span>Livraison PDF sous 48h</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-from">Dès</span>
+            <span class="price-amount">50 000</span>
+            <span class="price-unit">FCFA</span>
+          </div>
+          <div class="delivery-tag custom-d">
+            <svg><use href="#i-clock"/></svg>
+            Livraison <strong>&nbsp;sous 48h</strong>&nbsp;après réception commande
+          </div>
+          <button class="btn-card-outline" onclick="ouvrirModal({id:'custom-std',name:'Plan Personnalisé Standard',price:50000,type:'custom',delai:'48h'})">
+            <svg width="15" height="15"><use href="#i-pencil"/></svg>Commander sur mesure
+          </button>
+        </div>
+      </div>
+
+      <!-- 06 Premium -->
+      <div class="card fade-in">
+        <div class="card-accent eco"></div>
+        <div class="card-badge badge-gold">Premium</div>
+        <div class="card-body">
+          <div class="card-num">06</div>
+          <svg class="card-icon"><use href="#i-star"/></svg>
+          <div class="card-type type-mesure">
+            <svg width="10" height="10"><use href="#i-clock"/></svg>
+            Je dessine après commande
+          </div>
+          <h3 class="card-name serif">Plan Personnalisé Premium</h3>
+          <p class="card-desc">Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.</p>
+          <ul class="card-features">
+            <li><span class="feat-dot"></span>4+ chambres, surface illimitée</li>
+            <li><span class="feat-dot"></span>Plan de masse + façades + coupe</li>
+            <li><span class="feat-dot"></span>2 révisions incluses</li>
+            <li><span class="feat-dot"></span>Livraison PDF sous 72h</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-from">Dès</span>
+            <span class="price-amount">100 000</span>
+            <span class="price-unit">FCFA</span>
+          </div>
+          <div class="delivery-tag custom-d">
+            <svg><use href="#i-clock"/></svg>
+            Livraison <strong>&nbsp;sous 72h</strong>&nbsp;après réception commande
+          </div>
+          <button class="btn-card-outline" onclick="ouvrirModal({id:'custom-prem',name:'Plan Personnalisé Premium',price:100000,type:'custom',delai:'72h'})">
+            <svg width="15" height="15"><use href="#i-pencil"/></svg>Commander sur mesure
+          </button>
+        </div>
+      </div>
+
+      <!-- 07 Formation -->
+      <div class="card fade-in">
+        <div class="card-accent familial"></div>
+        <div class="card-badge badge-outline">Formation</div>
+        <div class="card-body">
+          <div class="card-num">07</div>
+          <svg class="card-icon"><use href="#i-grad"/></svg>
+          <div class="card-type type-instant">
+            <svg width="10" height="10"><use href="#i-bolt"/></svg>
+            Accès rapide
+          </div>
+          <h3 class="card-name serif">Construis Sans Architecte</h3>
+          <p class="card-desc">Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.</p>
+          <ul class="card-features">
+            <li><span class="feat-dot"></span>Lire et comprendre un plan</li>
+            <li><span class="feat-dot"></span>Superviser son chantier seul</li>
+            <li><span class="feat-dot"></span>Éviter les arnaques maçons</li>
+            <li><span class="feat-dot"></span>Accès à vie + mises à jour</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-from">Dès</span>
+            <span class="price-amount">25 000</span>
+            <span class="price-unit">FCFA</span>
+          </div>
+          <div class="delivery-tag fast">
+            <svg><use href="#i-bolt"/></svg>
+            Accès envoyé <strong>&nbsp;sous 1h</strong>&nbsp;sur ton email
+          </div>
+          <button class="btn-card-primary" onclick="ouvrirModal({id:'formation',name:'Formation : Construis Sans Architecte',price:25000,type:'fixe',delai:'1h'})">
+            <svg width="15" height="15"><use href="#i-cart"/></svg>S'inscrire maintenant
+          </button>
+        </div>
+      </div>
+
+      <!-- 08 Club -->
+      <div class="card fade-in">
+        <div class="card-accent villa"></div>
+        <div class="card-badge badge-green">Mensuel</div>
+        <div class="card-body">
+          <div class="card-num">08</div>
+          <svg class="card-icon"><use href="#i-trophy"/></svg>
+          <div class="card-type type-instant">
+            <svg width="10" height="10"><use href="#i-bolt"/></svg>
+            Accès rapide
+          </div>
+          <h3 class="card-name serif">Club des Bâtisseurs</h3>
+          <p class="card-desc">Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&amp;A direct chaque mois.</p>
+          <ul class="card-features">
+            <li><span class="feat-dot"></span>1 plan de maison premium / mois</li>
+            <li><span class="feat-dot"></span>1 vidéo conseil chantier</li>
+            <li><span class="feat-dot"></span>Q&amp;A direct illimité</li>
+            <li><span class="feat-dot"></span>Communauté privée WhatsApp</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-from">Dès</span>
+            <span class="price-amount">5 000</span>
+            <span class="price-unit">FCFA/mois</span>
+          </div>
+          <div class="delivery-tag fast">
+            <svg><use href="#i-bolt"/></svg>
+            Accès groupe envoyé <strong>&nbsp;sous 1h</strong>
+          </div>
+          <button class="btn-card-primary" onclick="ouvrirModal({id:'club',name:'Club des Bâtisseurs Mensuel',price:5000,type:'fixe',delai:'1h'})">
+            <svg width="15" height="15"><use href="#i-cart"/></svg>Rejoindre le Club
+          </button>
+        </div>
+      </div>
+
+    </div>
   </section>
-  <div style="max-width:1200px;margin:0 auto;padding:0 24px 90px">
-    <div class="grid" id="custom-services-grid">
+</div>
 
-      <!-- 05 -->
-      <div class="card fi-in">
-        <div class="c-ribbon rb-out">Sur Mesure</div>
-        <div class="c-num">05</div>
-        <svg class="c-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>
-        <div class="c-type type-custom">Je dessine après commande</div>
-        <h3 class="c-name">Plan Personnalisé Standard</h3>
-        <p class="c-desc">Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².</p>
-        <ul class="c-feat">
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Jusqu'à 3 chambres</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Surface jusqu'à 120 m²</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 révision incluse</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 48h</li>
-        </ul>
-        <div class="c-price">
-          <span class="p-from">Dès</span><span class="p-amount">50 000</span><span class="p-unit">FCFA</span>
-        </div>
-        <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
-          <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
-          <span>Livraison <strong style="color:var(--or)">sous 48h</strong> après réception commande</span>
-        </div>
-        <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-std',name:'Plan Personnalisé Standard',price:50000,type:'custom',delai:'48h'})">
-          <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
-        </button>
-      </div>
+<!-- ── DIVIDER ── -->
+<div class="section-divider"></div>
 
-      <!-- 06 -->
-      <div class="card fi-in">
-        <div class="c-ribbon rb-gold">Premium</div>
-        <div class="c-num">06</div>
-        <svg class="c-ico" style="color:var(--or)"><use href="#ico-star"/></svg>
-        <div class="c-type type-custom">Je dessine après commande</div>
-        <h3 class="c-name">Plan Personnalisé Premium</h3>
-        <p class="c-desc">Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.</p>
-        <ul class="c-feat">
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>4+ chambres, surface illimitée</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Plan de masse + façades + coupe</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>2 révisions incluses</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Livraison PDF sous 72h</li>
-        </ul>
-        <div class="c-price">
-          <span class="p-from">Dès</span><span class="p-amount">100 000</span><span class="p-unit">FCFA</span>
-        </div>
-        <div class="c-delivery" style="border-color:rgba(201,168,76,.15)">
-          <svg class="d-ico" style="color:var(--or)"><use href="#ico-clock"/></svg>
-          <span>Livraison <strong style="color:var(--or)">sous 72h</strong> après réception commande</span>
-        </div>
-        <button class="btn-buy btn-order" onclick="ouvrirModal({id:'custom-prem',name:'Plan Personnalisé Premium',price:100000,type:'custom',delai:'72h'})">
-          <svg class="b-ico" style="color:var(--or)"><use href="#ico-pencil"/></svg>Commander sur mesure
-        </button>
-      </div>
-
-      <!-- 07 -->
-      <div class="card fi-in">
-        <div class="c-ribbon rb-out">Formation</div>
-        <div class="c-num">07</div>
-        <svg class="c-ico" style="color:var(--or)"><use href="#ico-grad"/></svg>
-        <div class="c-type type-fixe">Accès rapide</div>
-        <h3 class="c-name">Formation : Construis Sans Architecte</h3>
-        <p class="c-desc">Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.</p>
-        <ul class="c-feat">
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Lire et comprendre un plan</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Superviser son chantier seul</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Éviter les arnaques maçons</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Accès à vie + mises à jour</li>
-        </ul>
-        <div class="c-price">
-          <span class="p-from">Dès</span><span class="p-amount">25 000</span><span class="p-unit">FCFA</span>
-        </div>
-        <div class="c-delivery">
-          <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-          <span>Accès envoyé <strong style="color:var(--vert)">sous 1h</strong> sur ton email</span>
-        </div>
-        <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'formation',name:'Formation : Construis Sans Architecte',price:25000,type:'fixe',delai:'1h'})">
-          <svg class="b-ico"><use href="#ico-cart"/></svg>S'inscrire maintenant
-        </button>
-      </div>
-
-      <!-- 08 -->
-      <div class="card fi-in">
-        <div class="c-ribbon rb-green">Mensuel</div>
-        <div class="c-num">08</div>
-        <svg class="c-ico" style="color:var(--or)"><use href="#ico-trophy"/></svg>
-        <div class="c-type type-fixe">Accès rapide</div>
-        <h3 class="c-name">Club des Bâtisseurs</h3>
-        <p class="c-desc">Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&amp;A direct chaque mois.</p>
-        <ul class="c-feat">
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 plan de maison premium / mois</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>1 vidéo conseil chantier</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Q&amp;A direct illimité</li>
-          <li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>Communauté privée WhatsApp</li>
-        </ul>
-        <div class="c-price">
-          <span class="p-from">Dès</span><span class="p-amount">5 000</span><span class="p-unit">FCFA/mois</span>
-        </div>
-        <div class="c-delivery">
-          <svg class="d-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-          <span>Accès au groupe envoyé <strong style="color:var(--vert)">sous 1h</strong></span>
-        </div>
-        <button class="btn-buy btn-instant" onclick="ouvrirModal({id:'club',name:'Club des Bâtisseurs Mensuel',price:5000,type:'fixe',delai:'1h'})">
-          <svg class="b-ico"><use href="#ico-cart"/></svg>Rejoindre le Club
-        </button>
-      </div>
-
-    </div>
+<!-- ── PROCESS ── -->
+<section class="sec" id="process">
+  <div class="sec-header fade-in">
+    <div class="tag">Comment ça marche</div>
+    <h2 class="sec-title serif">Deux systèmes,<br><span>zéro complication.</span></h2>
   </div>
-</section>
-
-<!-- ── COMMENT ── -->
-<section class="comment" id="comment">
-  <div class="comment-inner">
-    <p class="sec-tag fi-in" style="text-align:center">Process</p>
-    <h2 class="sec-h fi-in" style="text-align:center;max-width:100%">Deux systèmes,<br><span>zéro complication.</span></h2>
-    <div class="deux-cols">
-      <div>
-        <div class="col-title fi-in">Plans <span>Fixes</span> — Automatique</div>
-        <div class="etape fi-in"><div class="etape-n">1</div><div class="etape-body"><div class="etape-badge auto-b">Auto</div><h4>Tu choisis et tu paies</h4><p>Tu sélectionnes ton plan et paies via MTN MoMo sur mon numéro.</p></div></div>
-        <div class="etape fi-in"><div class="etape-n">2</div><div class="etape-body"><div class="etape-badge auto-b">Auto</div><h4>Je confirme la réception</h4><p>Tu m'envoies la confirmation sur WhatsApp avec ta capture de paiement.</p></div></div>
-        <div class="etape fi-in"><div class="etape-n">3</div><div class="etape-body"><div class="etape-badge auto-b">Auto</div><h4>PDF envoyé sous 1h</h4><p>Je t'envoie ton PDF directement sur ton email. <strong style="color:var(--vert)">Simple et rapide.</strong></p></div></div>
+  <div class="process-grid">
+    <div class="process-col fade-in">
+      <div class="process-col-title serif">
+        <svg width="16" height="16" style="color:var(--vert)"><use href="#i-bolt"/></svg>
+        Plans <span class="gold-text">Fixes</span> — Automatique
       </div>
-      <div>
-        <div class="col-title fi-in">Plans <span>Sur Mesure</span> — Personnalisé</div>
-        <div class="etape fi-in"><div class="etape-n">1</div><div class="etape-body"><div class="etape-badge manual-b">Sur mesure</div><h4>Tu remplis le formulaire</h4><p>Tu décris ton projet : chambres, surface, terrain, style souhaité.</p></div></div>
-        <div class="etape fi-in"><div class="etape-n">2</div><div class="etape-body"><div class="etape-badge manual-b">Sur mesure</div><h4>Tu paies en MTN MoMo</h4><p>Paiement direct sur mon numéro. Tu confirmes sur WhatsApp.</p></div></div>
-        <div class="etape fi-in"><div class="etape-n">3</div><div class="etape-body"><div class="etape-badge manual-b">Sur mesure</div><h4>Je dessine et livre sous 48h</h4><p>Je crée ton plan et te l'envoie par email. <strong style="color:var(--or)">Tu encaisses dès la commande.</strong></p></div></div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <span class="step-tag tag-auto">Auto</span>
+          <div class="step-title">Tu choisis et tu paies</div>
+          <p class="step-desc">Tu sélectionnes ton plan et paies via MTN MoMo sur le numéro indiqué.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <span class="step-tag tag-auto">Auto</span>
+          <div class="step-title">Tu confirmes sur WhatsApp</div>
+          <p class="step-desc">Tu m'envoies la capture de confirmation de paiement sur WhatsApp.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <span class="step-tag tag-auto">Auto</span>
+          <div class="step-title">PDF envoyé sous 1h</div>
+          <p class="step-desc">Je t'envoie ton PDF sur ton email. <strong style="color:#6EC99C">Simple et rapide.</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="process-col fade-in" style="transition-delay:.15s">
+      <div class="process-col-title serif">
+        <svg width="16" height="16" style="color:var(--or)"><use href="#i-pencil"/></svg>
+        Plans <span class="gold-text">Sur Mesure</span> — Personnalisé
+      </div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <span class="step-tag tag-manual">Sur mesure</span>
+          <div class="step-title">Tu remplis le formulaire</div>
+          <p class="step-desc">Tu décris ton projet : chambres, surface, terrain, style souhaité.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <span class="step-tag tag-manual">Sur mesure</span>
+          <div class="step-title">Tu paies en MTN MoMo</div>
+          <p class="step-desc">Paiement direct. Tu confirmes sur WhatsApp avec ta capture.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <span class="step-tag tag-manual">Sur mesure</span>
+          <div class="step-title">Je dessine et livre sous 48h</div>
+          <p class="step-desc">Je crée ton plan et te l'envoie par email. <strong style="color:var(--or)">Tu reçois exactement ce dont tu as besoin.</strong></p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CONFIANCE ── -->
-<section class="confiance" id="confiance">
-  <p class="sec-tag fi-in">Garanties</p>
-  <h2 class="sec-h fi-in" style="max-width:100%">Tu es entre <span>bonnes mains.</span></h2>
-  <div class="trust-grid">
-    <div class="ti fi-in">
-      <svg class="ti-ico" style="color:var(--or)"><use href="#ico-mtn"/></svg>
-      <div class="ti-t">Paiement MTN MoMo direct</div>
-      <p class="ti-d">Tu paies directement sur le numéro MTN de l'architecte. Simple, rapide, sans intermédiaire.</p>
-    </div>
-    <div class="ti fi-in">
-      <svg class="ti-ico" style="color:var(--vert)"><use href="#ico-bolt"/></svg>
-      <div class="ti-t">Livraison sous 1h</div>
-      <p class="ti-d">Plans fixes : PDF envoyé sous 1h après confirmation de ton paiement MTN.</p>
-    </div>
-    <div class="ti fi-in">
-      <svg class="ti-ico" style="color:var(--or)"><use href="#ico-shield"/></svg>
-      <div class="ti-t">Plans certifiés architecte</div>
-      <p class="ti-d">Chaque plan est conçu par un architecte diplômé, adapté aux normes africaines.</p>
-    </div>
-    <div class="ti fi-in">
-      <svg class="ti-ico" style="color:var(--or)"><use href="#ico-refresh"/></svg>
-      <div class="ti-t">Remboursement 7 jours</div>
-      <p class="ti-d">Pas satisfait ? Remboursement sans question dans les 7 jours suivant l'achat.</p>
-    </div>
-  </div>
-</section>
+<!-- ── DIVIDER ── -->
+<div class="section-divider"></div>
 
-<!-- ── A PROPOS ── -->
-<section class="about-wrap" id="apropos">
+<!-- ── GARANTIES ── -->
+<div class="dark-section">
+  <section class="sec" id="garanties">
+    <div class="sec-header fade-in" style="text-align:center">
+      <div class="tag">Garanties</div>
+      <h2 class="sec-title serif" style="max-width:100%">Tu es entre <span>bonnes mains.</span></h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card fade-in">
+        <svg class="trust-icon"><use href="#i-mtn"/></svg>
+        <div class="trust-title">Paiement MTN MoMo direct</div>
+        <p class="trust-desc">Tu paies directement sur le numéro MTN de l'architecte. Simple, rapide, sans intermédiaire.</p>
+      </div>
+      <div class="trust-card fade-in" style="transition-delay:.08s">
+        <svg class="trust-icon" style="color:var(--vert)"><use href="#i-bolt"/></svg>
+        <div class="trust-title">Livraison sous 1h</div>
+        <p class="trust-desc">Plans fixes : PDF envoyé sous 1h après confirmation de ton paiement MTN.</p>
+      </div>
+      <div class="trust-card fade-in" style="transition-delay:.16s">
+        <svg class="trust-icon"><use href="#i-shield"/></svg>
+        <div class="trust-title">Plans certifiés architecte</div>
+        <p class="trust-desc">Chaque plan est conçu par un architecte diplômé, adapté aux normes africaines.</p>
+      </div>
+      <div class="trust-card fade-in" style="transition-delay:.24s">
+        <svg class="trust-icon"><use href="#i-refresh"/></svg>
+        <div class="trust-title">Remboursement 7 jours</div>
+        <p class="trust-desc">Pas satisfait ? Remboursement sans question dans les 7 jours suivant l'achat.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ── DIVIDER ── -->
+<div class="section-divider"></div>
+
+<!-- ── À PROPOS ── -->
+<section class="about-section" id="apropos">
   <div class="sec">
     <div class="about-grid">
-      <div class="about-card fi-in">
-        <p class="sec-tag" id="about-kicker">À propos de l'architecte</p>
-        <div class="about-name" id="about-name">Architecte IA Africa</div>
+      <div class="about-card fade-in">
+        <div class="tag" id="about-kicker">À propos de l'architecte</div>
+        <div class="about-name serif" id="about-name">Architecte IA Africa</div>
         <div class="about-role" id="about-role">Architecte concepteur · Plans africains modernes</div>
-        <p class="about-text" id="about-bio">Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.</p>
-        <ul class="about-list" id="about-highlights">
-          <li><svg><use href="#ico-check"/></svg><span>Plans lisibles, pratiques et prêts pour l'exécution chantier.</span></li>
-          <li><svg><use href="#ico-check"/></svg><span>Conception pensée pour les climats, budgets et matériaux locaux.</span></li>
-          <li><svg><use href="#ico-check"/></svg><span>Accompagnement direct du choix du plan jusqu'à la livraison PDF.</span></li>
+        <p class="about-bio" id="about-bio">Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.</p>
+        <ul class="about-highlights" id="about-highlights">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Plans lisibles, pratiques et prêts pour l'exécution chantier.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Conception pensée pour les climats, budgets et matériaux locaux.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Accompagnement direct du choix du plan jusqu'à la livraison PDF.</span></li>
         </ul>
       </div>
-      <div class="about-photo fi-in" id="about-photo">
-        <div class="about-placeholder">AIA</div>
+      <div class="about-photo fade-in" style="transition-delay:.1s" id="about-photo">
+        <div class="about-monogram">AIA</div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ── FOOTER ── -->
 <footer>
-  <p>© 2025 <strong>Architecte IA Africa</strong> — Tous droits réservés · Paiement MTN MoMo Bénin</p>
+  <div class="footer-brand serif">Architecte IA Africa</div>
+  <div class="footer-text">© 2025 · Tous droits réservés · Paiement MTN MoMo Bénin</div>
   <div class="footer-icons">
-    <svg style="color:var(--or)"><use href="#ico-home"/></svg>
-    <svg style="color:var(--or)"><use href="#ico-shield"/></svg>
-    <svg style="color:var(--or)"><use href="#ico-mail"/></svg>
+    <svg width="16" height="16"><use href="#i-home"/></svg>
+    <svg width="16" height="16"><use href="#i-shield"/></svg>
+    <svg width="16" height="16"><use href="#i-mail"/></svg>
   </div>
 </footer>
 
 <!-- ════ MODAL ════ -->
 <div class="overlay" id="overlay" onclick="fermerOverlay(event)">
   <div class="modal" id="modal">
+    <div class="modal-handle"></div>
 
-    <!-- FORM -->
+    <!-- STEP 1: FORM -->
     <div id="step-form">
-      <div class="m-head">
-        <div class="m-title">Finaliser la commande</div>
-        <button class="m-close" onclick="fermerModal()">
-          <svg><use href="#ico-close"/></svg>
+      <div class="modal-head">
+        <div class="modal-title serif">Finaliser la commande</div>
+        <button class="modal-close" onclick="fermerModal()">
+          <svg><use href="#i-close"/></svg>
         </button>
       </div>
-      <div class="m-body">
+      <div class="modal-body">
 
-        <div class="m-recap">
-          <div class="m-recap-left">
-            <div class="label">Produit sélectionné</div>
-            <div class="pname" id="m-pname">—</div>
+        <div class="order-recap">
+          <div>
+            <div class="order-product-label">Produit sélectionné</div>
+            <div class="order-product-name" id="m-pname">—</div>
           </div>
-          <div class="m-recap-right" id="m-prix">—</div>
+          <div class="order-price" id="m-prix">—</div>
         </div>
 
-        <div id="m-delivery-info" class="m-delivery-info del-auto">
-          <svg width="14" height="14" style="flex-shrink:0"><use href="#ico-clock"/></svg>
+        <div id="m-delivery-banner" class="delivery-banner fast">
+          <svg width="13" height="13"><use href="#i-bolt"/></svg>
           <span id="m-delivery-txt">—</span>
         </div>
 
-        <div class="fg-row">
-          <div class="fg"><label class="fl">Prénom</label><input class="fi" id="f-prenom" placeholder="Kouassi"/></div>
-          <div class="fg"><label class="fl">Nom</label><input class="fi" id="f-nom" placeholder="Amon"/></div>
+        <div class="row-2">
+          <div class="field"><label class="field-label">Prénom</label><input class="field-input" id="f-prenom" placeholder="Kouassi"/></div>
+          <div class="field"><label class="field-label">Nom</label><input class="field-input" id="f-nom" placeholder="Amon"/></div>
         </div>
 
-        <div class="fg">
-          <label class="fl">Email (pour recevoir ton plan)</label>
-          <input class="fi" id="f-email" type="email" placeholder="ton@email.com"/>
+        <div class="field">
+          <label class="field-label">Email (pour recevoir ton plan)</label>
+          <input class="field-input" id="f-email" type="email" placeholder="ton@email.com"/>
         </div>
 
-        <!-- TÉLÉPHONE AVEC INDICATIF PAYS -->
-        <div class="fg">
-          <label class="fl">Numéro de téléphone</label>
+        <div class="field">
+          <label class="field-label">Numéro de téléphone</label>
           <div class="phone-row">
-            <select class="phone-code" id="f-indicatif">
+            <select class="phone-code field-input" id="f-indicatif" style="width:auto;flex-shrink:0;min-width:155px;padding-right:30px">
               <optgroup label="Afrique de l'Ouest">
                 <option value="229" selected>🇧🇯 +229 Bénin</option>
                 <option value="228">🇹🇬 +228 Togo</option>
@@ -1102,80 +1253,48 @@ footer strong{color:var(--or)}
                 <option value="223">🇲🇱 +223 Mali</option>
                 <option value="226">🇧🇫 +226 Burkina Faso</option>
                 <option value="227">🇳🇪 +227 Niger</option>
-                <option value="224">🇬🇳 +224 Guinée</option>
-                <option value="245">🇬🇼 +245 Guinée-Bissau</option>
-                <option value="231">🇱🇷 +231 Liberia</option>
-                <option value="232">🇸🇱 +232 Sierra Leone</option>
-                <option value="220">🇬🇲 +220 Gambie</option>
                 <option value="234">🇳🇬 +234 Nigeria</option>
                 <option value="233">🇬🇭 +233 Ghana</option>
-              </optgroup>
-              <optgroup label="Afrique Centrale">
                 <option value="237">🇨🇲 +237 Cameroun</option>
+              </optgroup>
+              <optgroup label="Afrique Centrale &amp; Est">
                 <option value="241">🇬🇦 +241 Gabon</option>
-                <option value="242">🇨🇬 +242 Congo</option>
                 <option value="243">🇨🇩 +243 RD Congo</option>
-                <option value="236">🇨🇫 +236 Centrafrique</option>
-                <option value="235">🇹🇩 +235 Tchad</option>
-                <option value="240">🇬🇶 +240 Guinée Éq.</option>
-              </optgroup>
-              <optgroup label="Afrique de l'Est">
                 <option value="254">🇰🇪 +254 Kenya</option>
-                <option value="255">🇹🇿 +255 Tanzanie</option>
-                <option value="256">🇺🇬 +256 Uganda</option>
                 <option value="250">🇷🇼 +250 Rwanda</option>
-                <option value="251">🇪🇹 +251 Éthiopie</option>
-                <option value="252">🇸🇴 +252 Somalie</option>
-                <option value="253">🇩🇯 +253 Djibouti</option>
-                <option value="291">🇪🇷 +291 Érythrée</option>
-              </optgroup>
-              <optgroup label="Afrique Australe">
-                <option value="27">🇿🇦 +27 Afrique du Sud</option>
-                <option value="263">🇿🇼 +263 Zimbabwe</option>
-                <option value="260">🇿🇲 +260 Zambie</option>
-                <option value="265">🇲🇼 +265 Malawi</option>
-                <option value="258">🇲🇿 +258 Mozambique</option>
-                <option value="264">🇳🇦 +264 Namibie</option>
-                <option value="267">🇧🇼 +267 Botswana</option>
-                <option value="268">🇸🇿 +268 Eswatini</option>
-                <option value="266">🇱🇸 +266 Lesotho</option>
-                <option value="261">🇲🇬 +261 Madagascar</option>
-                <option value="230">🇲🇺 +230 Maurice</option>
               </optgroup>
               <optgroup label="Afrique du Nord">
                 <option value="212">🇲🇦 +212 Maroc</option>
                 <option value="213">🇩🇿 +213 Algérie</option>
                 <option value="216">🇹🇳 +216 Tunisie</option>
                 <option value="20">🇪🇬 +20 Égypte</option>
-                <option value="218">🇱🇾 +218 Libye</option>
-                <option value="222">🇲🇷 +222 Mauritanie</option>
               </optgroup>
             </select>
-            <input class="fi phone-num" id="f-tel" type="tel" placeholder="01 52 37 76 40"/>
+            <input class="field-input phone-num" id="f-tel" type="tel" placeholder="01 52 37 76 40" style="flex:1"/>
           </div>
         </div>
 
         <!-- CHAMPS SUR MESURE -->
         <div id="champs-custom" style="display:none">
-          <div class="sep"><div class="sep-line"></div><div class="sep-txt">Détails du plan</div><div class="sep-line"></div></div>
-          <div class="fg-row">
-            <div class="fg">
-              <label class="fl">Nombre de chambres</label>
-              <select class="fsel" id="f-chambres">
+          <div class="divider-row"><div class="divider-line"></div><div class="divider-txt">Détails du plan</div><div class="divider-line"></div></div>
+          <div class="row-2">
+            <div class="field">
+              <label class="field-label">Nombre de chambres</label>
+              <select class="field-select" id="f-chambres">
                 <option value="">Choisir...</option>
                 <option>1 chambre</option><option>2 chambres</option>
                 <option>3 chambres</option><option>4 chambres</option><option>5+ chambres</option>
               </select>
             </div>
-            <div class="fg">
-              <label class="fl">Surface approximative</label>
-              <input class="fi" id="f-surface" placeholder="Ex: 80 m²"/>
+            <div class="field">
+              <label class="field-label">Surface approximative</label>
+              <input class="field-input" id="f-surface" placeholder="Ex: 80 m²"/>
             </div>
           </div>
-          <div class="fg-row">
-            <div class="fg">
-              <label class="fl">Style souhaité</label>
-              <select class="fsel" id="f-style">
+          <div class="row-2">
+            <div class="field">
+              <label class="field-label">Style souhaité</label>
+              <select class="field-select" id="f-style">
                 <option value="">Choisir...</option>
                 <option>Traditionnel africain</option>
                 <option>Moderne contemporain</option>
@@ -1183,55 +1302,53 @@ footer strong{color:var(--or)}
                 <option>Luxe / Villa</option>
               </select>
             </div>
-            <div class="fg">
-              <label class="fl">Dimensions du terrain</label>
-              <input class="fi" id="f-terrain" placeholder="Ex: 15m x 20m"/>
+            <div class="field">
+              <label class="field-label">Dimensions du terrain</label>
+              <input class="field-input" id="f-terrain" placeholder="Ex: 15m x 20m"/>
             </div>
           </div>
-          <div class="fg">
-            <label class="fl">Demandes particulières</label>
-            <textarea class="fta" id="f-notes" placeholder="Garage, bureau, boutique au RDC, piscine..."></textarea>
+          <div class="field">
+            <label class="field-label">Demandes particulières</label>
+            <textarea class="field-textarea" id="f-notes" placeholder="Garage, bureau, boutique au RDC, piscine..."></textarea>
           </div>
         </div>
 
-        <div class="sep"><div class="sep-line"></div><div class="sep-txt">Paiement</div><div class="sep-line"></div></div>
+        <div class="divider-row"><div class="divider-line"></div><div class="divider-txt">Paiement</div><div class="divider-line"></div></div>
 
-        <div class="mtn-box">
-          <svg class="mtn-ico" style="color:#FFC107"><use href="#ico-mtn"/></svg>
+        <div class="mtn-block">
+          <svg class="mtn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 6V4m10 2V4M3 11h18"/></svg>
           <div>
             <div class="mtn-label">Paiement MTN MoMo Bénin</div>
-            <div class="mtn-num">0152377640</div>
-            <div style="font-size:11px;color:#555;margin-top:2px">Architecte IA Africa</div>
+            <div class="mtn-number">0152377640</div>
+            <div class="mtn-name">Architecte IA Africa</div>
           </div>
         </div>
 
         <button class="btn-payer" id="btn-payer" onclick="payer()">
-          <svg><use href="#ico-lock"/></svg>
+          <svg><use href="#i-lock"/></svg>
           <span id="btn-payer-txt">Voir les instructions de paiement</span>
         </button>
-        <div class="m-note">
-          <svg><use href="#ico-shield"/></svg>
+        <p class="modal-note">
+          <svg><use href="#i-shield"/></svg>
           Paiement direct MTN MoMo · Confirmation WhatsApp
-        </div>
+        </p>
 
       </div>
     </div>
 
-    <!-- SUCCÈS / INSTRUCTIONS -->
+    <!-- STEP 2: INSTRUCTIONS -->
     <div id="step-success" style="display:none">
-      <div class="m-head">
-        <div class="m-title">Instructions de paiement</div>
-        <button class="m-close" onclick="fermerModal()"><svg><use href="#ico-close"/></svg></button>
+      <div class="modal-head">
+        <div class="modal-title serif">Instructions de paiement</div>
+        <button class="modal-close" onclick="fermerModal()"><svg><use href="#i-close"/></svg></button>
       </div>
-      <div class="success">
-        <svg class="s-ico" style="color:var(--or)"><use href="#ico-mtn"/></svg>
-        <div class="s-title" id="s-title">Payer via MTN MoMo</div>
-        <p class="s-msg" id="s-msg">Suis ces étapes pour finaliser et recevoir ton produit.</p>
-        <div class="s-steps" id="s-steps"></div>
-        <button class="btn-close-s" onclick="fermerModal()">
-          <svg width="14" height="14"><use href="#ico-close"/></svg>
-          Fermer
-        </button>
+      <div class="success-wrap">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M7 6V4m10 2V4M3 11h18"/></svg>
+        </div>
+        <div class="success-title serif" id="s-title">Payer via MTN MoMo</div>
+        <p class="success-sub" id="s-sub">Suis ces 3 étapes simples pour recevoir ton produit.</p>
+        <div id="s-content"></div>
       </div>
     </div>
 
@@ -1242,248 +1359,149 @@ footer strong{color:var(--or)}
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js';
 import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js';
 
-/* ── CONFIG ── */
 const MTN_NUMERO  = '0152377640';
 const MTN_NOM     = 'Architecte IA Africa';
-const WHATSAPP_ID = '2290152377640'; // +229 0152377640 → un seul zéro final
+const WHATSAPP_ID = '2290152377640';
 
 let produit = null;
 
-const FIRESTORE_COLLECTION = 'architecture_ia_africa_site';
-const FIRESTORE_DOC = 'public_config';
+/* ── FIREBASE ── */
 const FIREBASE_CONFIG = {
-  apiKey: 'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
-  authDomain: 'omni-98377.firebaseapp.com',
-  projectId: 'omni-98377',
-  storageBucket: 'omni-98377.firebasestorage.app',
-  messagingSenderId: '1032234727205',
-  appId: '1:1032234727205:web:d53543442c9352a73b8ccc'
+  apiKey:'AIzaSyALH1SMVzjNjn62bW1_LTCG4Ub71zE6eyY',
+  authDomain:'omni-98377.firebaseapp.com',
+  projectId:'omni-98377',
+  storageBucket:'omni-98377.firebasestorage.app',
+  messagingSenderId:'1032234727205',
+  appId:'1:1032234727205:web:d53543442c9352a73b8ccc'
 };
 const db = getFirestore(initializeApp(FIREBASE_CONFIG));
-const DEFAULT_SITE_CONFIG = {
-  about: {
-    kicker: "À propos de l'architecte",
-    name: 'Architecte IA Africa',
-    role: 'Architecte concepteur · Plans africains modernes',
-    bio: "Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé. Chaque plan combine esthétique, fonctionnalité et adaptation aux réalités des chantiers africains.",
-    photoUrl: '',
-    highlights: [
-      "Plans lisibles, pratiques et prêts pour l'exécution chantier.",
-      'Conception pensée pour les climats, budgets et matériaux locaux.',
-      "Accompagnement direct du choix du plan jusqu'à la livraison PDF."
-    ]
-  },
-  services: [
-    {id:'studio-f2',section:'fixe',category:'eco',ribbon:'Populaire',ribbonClass:'rb-gold',icon:'ico-home',typeLabel:'Livraison rapide',type:'fixe',name:'Studio Économique F2',description:'Plan complet 50 m² style traditionnel africain. Idéal petit budget, couple ou personne seule.',features:['Séjour + 1 chambre + cuisine + SDB','Dimensions détaillées incluses','Devis estimatif : 6–9 millions FCFA','PDF haute résolution prêt maçon'],price:12000,oldPrice:30000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
-    {id:'familiale-3ch',section:'fixe',category:'familial',ribbon:'Familial',ribbonClass:'rb-out',icon:'ico-home2',typeLabel:'Livraison rapide',type:'fixe',name:'Maison Familiale 3 Chambres',description:'Plan 90 m² pour famille de 4 à 6 personnes. Séjour, 3 chambres, cuisine, SDB, WC, véranda.',features:['3 chambres + séjour + cuisine','Véranda 15 m² incluse','Devis estimatif : 12–18 millions FCFA','PDF haute résolution prêt maçon'],price:25000,oldPrice:50000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
-    {id:'villa-4ch',section:'fixe',category:'villa',ribbon:'Luxe',ribbonClass:'rb-green',icon:'ico-villa',typeLabel:'Livraison rapide',type:'fixe',name:'Villa Traditionnelle 4 Chambres',description:'Plan 150 m² avec suite parentale, garage, 2 SDB. Pour grande famille ou résidence principale.',features:['4 chambres + suite parentale','Garage + grande terrasse','Devis estimatif : 24–37 millions FCFA','PDF haute résolution prêt maçon'],price:45000,oldPrice:90000,unit:'FCFA',delivery:'PDF envoyé sous 1h après confirmation paiement',delai:'1h',button:'Acheter maintenant',imageUrl:''},
-    {id:'bibliotheque',section:'fixe',category:'tout',ribbon:'Pack Complet',ribbonClass:'rb-blue',icon:'ico-library',typeLabel:'Livraison rapide',type:'fixe',name:'Bibliothèque — Accès Illimité',description:'Accès à tous les plans disponibles : studios, maisons, villas, commerciales. +20 plans, téléchargements illimités.',features:['+20 plans différents inclus','Studios, F2, F3, villas, commerciales','Toutes les mises à jour futures','Accès à vie, téléchargement illimité'],price:60000,oldPrice:120000,unit:'FCFA',delivery:'Accès envoyé sous 1h après confirmation paiement',delai:'1h',button:'Accéder maintenant',imageUrl:''},
-    {id:'custom-std',section:'custom',category:'custom',ribbon:'Sur Mesure',ribbonClass:'rb-out',icon:'ico-pencil',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Standard',description:"Tu décris tes besoins, je dessine ton plan en 48h. Jusqu'à 3 chambres, surface jusqu'à 120 m².",features:["Jusqu'à 3 chambres","Surface jusqu'à 120 m²",'1 révision incluse','Livraison PDF sous 48h'],price:50000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 48h après réception commande',delai:'48h',button:'Commander sur mesure',imageUrl:''},
-    {id:'custom-prem',section:'custom',category:'custom',ribbon:'Premium',ribbonClass:'rb-gold',icon:'ico-star',typeLabel:'Je dessine après commande',type:'custom',name:'Plan Personnalisé Premium',description:'Plan complet avec élévations, façades et coupe transversale. Pour projets ambitieux et villas.',features:['4+ chambres, surface illimitée','Plan de masse + façades + coupe','2 révisions incluses','Livraison PDF sous 72h'],price:100000,oldPrice:'',unit:'FCFA',delivery:'Livraison sous 72h après réception commande',delai:'72h',button:'Commander sur mesure',imageUrl:''},
-    {id:'formation',section:'custom',category:'formation',ribbon:'Formation',ribbonClass:'rb-out',icon:'ico-grad',typeLabel:'Accès rapide',type:'fixe',name:'Formation : Construis Sans Architecte',description:'Apprends à lire un plan, superviser un chantier et éviter les arnaques. Accès vidéos à vie.',features:['Lire et comprendre un plan','Superviser son chantier seul','Éviter les arnaques maçons','Accès à vie + mises à jour'],price:25000,oldPrice:'',unit:'FCFA',delivery:'Accès envoyé sous 1h sur ton email',delai:'1h',button:"S'inscrire maintenant",imageUrl:''},
-    {id:'club',section:'custom',category:'club',ribbon:'Mensuel',ribbonClass:'rb-green',icon:'ico-trophy',typeLabel:'Accès rapide',type:'fixe',name:'Club des Bâtisseurs',description:'Abonnement mensuel : 1 plan premium + 1 vidéo conseil + accès Q&A direct chaque mois.',features:['1 plan de maison premium / mois','1 vidéo conseil chantier','Q&A direct illimité','Communauté privée WhatsApp'],price:5000,oldPrice:'',unit:'FCFA/mois',delivery:'Accès au groupe envoyé sous 1h',delai:'1h',button:'Rejoindre le Club',imageUrl:''}
-  ]
+
+function escHtml(v){return String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+const DEFAULT_ABOUT = {
+  kicker:"À propos de l'architecte",
+  name:'Architecte IA Africa',
+  role:'Architecte concepteur · Plans africains modernes',
+  bio:"Architecte IA Africa accompagne les particuliers, familles et promoteurs qui veulent construire mieux, plus vite et avec un budget maîtrisé.",
+  photoUrl:'',
+  highlights:["Plans lisibles, pratiques et prêts pour l'exécution chantier.","Conception pensée pour les climats, budgets et matériaux locaux.","Accompagnement direct du choix du plan jusqu'à la livraison PDF."]
 };
 
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderAbout(about={}) {
+  const a = {...DEFAULT_ABOUT,...about};
+  document.getElementById('about-kicker').textContent = a.kicker;
+  document.getElementById('about-name').textContent   = a.name;
+  document.getElementById('about-role').textContent   = a.role;
+  document.getElementById('about-bio').textContent    = a.bio;
+  document.getElementById('about-highlights').innerHTML = (a.highlights||[]).map(h=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${escHtml(h)}</span></li>`).join('');
+  document.getElementById('about-photo').innerHTML = a.photoUrl ? `<img src="${escHtml(a.photoUrl)}" alt="${escHtml(a.name)}">` : '<div class="about-monogram">AIA</div>';
 }
 
-function mergeSiteConfig(config) {
-  if (!config) return DEFAULT_SITE_CONFIG;
-  return {
-    ...DEFAULT_SITE_CONFIG,
-    ...config,
-    about: {...DEFAULT_SITE_CONFIG.about, ...(config.about || {})},
-    services: Array.isArray(config.services) && config.services.length ? config.services : DEFAULT_SITE_CONFIG.services
-  };
-}
+onSnapshot(doc(db,'architecture_ia_africa_site','public_config'), snap=>{
+  if(!snap.exists()) return;
+  const d = snap.data();
+  if(d.about) renderAbout(d.about);
+}, ()=>{});
 
-function listenRemoteSiteConfig() {
-  onSnapshot(doc(db, FIRESTORE_COLLECTION, FIRESTORE_DOC), snapshot => {
-    if (!snapshot.exists()) return;
-    const data = snapshot.data();
-    const config = data.config || data;
-    renderSiteContent(mergeSiteConfig(config));
-  }, error => {
-    console.warn('Configuration Firestore indisponible.', error);
-  });
-}
+renderAbout();
 
-function renderServiceCard(service, index) {
-  const isCustom = service.type === 'custom';
-  const price = Number(service.price) || 0;
-  const oldPrice = Number(service.oldPrice) || 0;
-  const features = (service.features || []).filter(Boolean).map(feature => `<li><svg class="check" style="color:var(--or)"><use href="#ico-check"/></svg>${escapeHtml(feature)}</li>`).join('');
-  const image = service.imageUrl ? `<img class="c-img" src="${escapeHtml(service.imageUrl)}" alt="${escapeHtml(service.name)}">` : '';
-  const modalData = JSON.stringify({id:service.id,name:service.name,price,type:service.type || 'fixe',delai:service.delai || '1h'}).replace(/"/g, '&quot;');
-
-  return `
-    <div class="card fi-in vis" data-cat="${escapeHtml(service.category || 'tout')}">
-      ${service.ribbon ? `<div class="c-ribbon ${escapeHtml(service.ribbonClass || 'rb-out')}">${escapeHtml(service.ribbon)}</div>` : ''}
-      <div class="c-num">${String(index + 1).padStart(2, '0')}</div>
-      ${image}
-      <svg class="c-ico" style="color:var(--or)"><use href="#${escapeHtml(service.icon || 'ico-home')}"/></svg>
-      <div class="c-type ${isCustom ? 'type-custom' : 'type-fixe'}">${escapeHtml(service.typeLabel || (isCustom ? 'Sur mesure' : 'Livraison rapide'))}</div>
-      <h3 class="c-name">${escapeHtml(service.name)}</h3>
-      <p class="c-desc">${escapeHtml(service.description)}</p>
-      <ul class="c-feat">${features}</ul>
-      <div class="c-price">
-        <span class="p-from">Dès</span><span class="p-amount">${price.toLocaleString('fr-FR')}</span>
-        <span class="p-unit">${escapeHtml(service.unit || 'FCFA')}</span>${oldPrice ? `<span class="p-old">${oldPrice.toLocaleString('fr-FR')}</span>` : ''}
-      </div>
-      <div class="c-delivery"${isCustom ? ' style="border-color:rgba(201,168,76,.15)"' : ''}>
-        <svg class="d-ico" style="color:${isCustom ? 'var(--or)' : 'var(--vert)'}"><use href="#${isCustom ? 'ico-clock' : 'ico-bolt'}"/></svg>
-        <span>${escapeHtml(service.delivery || '')}</span>
-      </div>
-      <button class="btn-buy ${isCustom ? 'btn-order' : 'btn-instant'}" onclick="ouvrirModal(${modalData})">
-        <svg class="b-ico"${isCustom ? ' style="color:var(--or)"' : ''}><use href="#${isCustom ? 'ico-pencil' : 'ico-cart'}"/></svg>${escapeHtml(service.button || 'Commander')}
-      </button>
-    </div>`;
-}
-
-function renderServices(config) {
-  const fixedGrid = document.getElementById('fixed-services-grid');
-  const customGrid = document.getElementById('custom-services-grid');
-  const services = config.services || [];
-  if (fixedGrid) fixedGrid.innerHTML = services.filter(s => s.section === 'fixe').map(renderServiceCard).join('');
-  if (customGrid) customGrid.innerHTML = services.filter(s => s.section !== 'fixe').map((service, index) => renderServiceCard(service, index + services.filter(s => s.section === 'fixe').length)).join('');
-}
-
-function renderAbout(config) {
-  const about = config.about || DEFAULT_SITE_CONFIG.about;
-  document.getElementById('about-kicker').textContent = about.kicker || DEFAULT_SITE_CONFIG.about.kicker;
-  document.getElementById('about-name').textContent = about.name || DEFAULT_SITE_CONFIG.about.name;
-  document.getElementById('about-role').textContent = about.role || DEFAULT_SITE_CONFIG.about.role;
-  document.getElementById('about-bio').textContent = about.bio || DEFAULT_SITE_CONFIG.about.bio;
-  document.getElementById('about-highlights').innerHTML = (about.highlights || []).filter(Boolean).map(item => `<li><svg><use href="#ico-check"/></svg><span>${escapeHtml(item)}</span></li>`).join('');
-  document.getElementById('about-photo').innerHTML = about.photoUrl ? `<img src="${escapeHtml(about.photoUrl)}" alt="${escapeHtml(about.name || 'Architecte')}">` : '<div class="about-placeholder">AIA</div>';
-}
-
-function renderSiteContent(config = DEFAULT_SITE_CONFIG) {
-  renderServices(config);
-  renderAbout(config);
-}
-
-renderSiteContent();
-listenRemoteSiteConfig();
-
-/* ── Hamburger ── */
-function toggleMenu() {
-  const ham  = document.getElementById('ham');
-  const menu = document.getElementById('mob-menu');
-  ham.classList.toggle('open');
-  menu.classList.toggle('open');
-}
-function closeMenu() {
+/* ── HAMBURGER ── */
+window.toggleMenu = function(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mob-drawer').classList.toggle('open');
+};
+window.closeMenu = function(){
   document.getElementById('ham').classList.remove('open');
-  document.getElementById('mob-menu').classList.remove('open');
-}
+  document.getElementById('mob-drawer').classList.remove('open');
+};
 
-/* ── Scroll anim ── */
-const obs = new IntersectionObserver(
-  e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('vis'); }),
-  {threshold:.1}
-);
-document.querySelectorAll('.fi-in').forEach(el => obs.observe(el));
+/* ── SCROLL ANIMATIONS ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('visible')});
+},{threshold:.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-/* ── Filtres ── */
-function filtrer(cat, btn) {
-  document.querySelectorAll('.tabs .tab').forEach(t => t.classList.remove('on'));
+/* ── FILTRES ── */
+window.filtrer = function(cat, btn){
+  document.querySelectorAll('.filter-btn').forEach(t=>t.classList.remove('on'));
   btn.classList.add('on');
-  document.querySelectorAll('[data-cat]').forEach(c => {
-    c.style.display = (cat === 'tout' || c.dataset.cat === cat) ? 'block' : 'none';
+  document.querySelectorAll('[data-cat]').forEach(c=>{
+    c.style.display = (cat==='tout' || c.dataset.cat===cat) ? '' : 'none';
   });
-}
+};
 
-/* ── Ouvrir modal ── */
-function ouvrirModal(p) {
+/* ── MODAL ── */
+window.ouvrirModal = function(p){
   produit = p;
   document.getElementById('m-pname').textContent = p.name;
-  document.getElementById('m-prix').textContent  = p.price.toLocaleString('fr-FR') + ' FCFA';
+  document.getElementById('m-prix').textContent  = Number(p.price).toLocaleString('fr-FR') + ' FCFA';
 
-  const delInfo = document.getElementById('m-delivery-info');
-  const delTxt  = document.getElementById('m-delivery-txt');
-
-  if (p.type === 'fixe') {
-    delInfo.className = 'm-delivery-info del-auto';
-    delTxt.innerHTML  = 'PDF envoyé <strong style="color:var(--vert)">sous ' + p.delai + '</strong> après confirmation de ton paiement MTN';
+  const banner = document.getElementById('m-delivery-banner');
+  const txt    = document.getElementById('m-delivery-txt');
+  if(p.type==='fixe'){
+    banner.className = 'delivery-banner fast';
+    txt.innerHTML = `PDF envoyé <strong>sous ${p.delai}</strong> après confirmation paiement MTN`;
     document.getElementById('champs-custom').style.display = 'none';
   } else {
-    delInfo.className = 'm-delivery-info del-custom';
-    delTxt.innerHTML  = 'Livraison <strong style="color:var(--or)">sous ' + p.delai + '</strong> — Je dessine après réception commande';
+    banner.className = 'delivery-banner slow';
+    txt.innerHTML = `Livraison <strong>sous ${p.delai}</strong> — Je dessine après réception`;
     document.getElementById('champs-custom').style.display = 'block';
   }
-
-  document.getElementById('btn-payer-txt').textContent = 'Payer ' + p.price.toLocaleString('fr-FR') + ' FCFA — Voir instructions';
+  document.getElementById('btn-payer-txt').textContent = 'Payer ' + Number(p.price).toLocaleString('fr-FR') + ' FCFA — Voir instructions';
   document.getElementById('step-form').style.display    = 'block';
   document.getElementById('step-success').style.display = 'none';
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
-}
+};
 
-function fermerModal() {
+window.fermerModal = function(){
   document.getElementById('overlay').classList.remove('open');
   document.body.style.overflow = '';
-}
-function fermerOverlay(e) {
-  if (e.target === document.getElementById('overlay')) fermerModal();
-}
+};
+window.fermerOverlay = function(e){
+  if(e.target===document.getElementById('overlay')) window.fermerModal();
+};
 
-window.toggleMenu = toggleMenu;
-window.closeMenu = closeMenu;
-window.filtrer = filtrer;
-window.ouvrirModal = ouvrirModal;
-window.fermerModal = fermerModal;
-window.fermerOverlay = fermerOverlay;
-window.payer = payer;
-
-/* ── Payer ── */
-function payer() {
+/* ── PAYER ── */
+window.payer = function(){
   const prenom = document.getElementById('f-prenom').value.trim();
   const nom    = document.getElementById('f-nom').value.trim();
   const email  = document.getElementById('f-email').value.trim();
   const tel    = document.getElementById('f-tel').value.trim();
 
-  if (!prenom || !nom)               { alert("Merci d'entrer ton prénom et nom."); return; }
-  if (!email || !email.includes('@')) { alert("Merci d'entrer un email valide."); return; }
-  if (!tel)                           { alert("Merci d'entrer ton numéro de téléphone."); return; }
+  if(!prenom||!nom)                { alert("Merci d'entrer ton prénom et nom."); return; }
+  if(!email||!email.includes('@')) { alert("Merci d'entrer un email valide."); return; }
+  if(!tel)                         { alert("Merci d'entrer ton numéro de téléphone."); return; }
 
-  if (produit.type === 'custom') {
-    if (!document.getElementById('f-chambres').value ||
-        !document.getElementById('f-surface').value.trim() ||
-        !document.getElementById('f-style').value) {
-      alert('Merci de remplir les champs du plan (chambres, surface, style).');
-      return;
-    }
+  if(produit.type==='custom'){
+    const ch = document.getElementById('f-chambres').value;
+    const su = document.getElementById('f-surface').value.trim();
+    const st = document.getElementById('f-style').value;
+    if(!ch||!su||!st){ alert('Merci de remplir les champs du plan (chambres, surface, style).'); return; }
   }
 
   afficherInstructions(prenom, nom, email, tel);
-}
+};
 
-/* ── Afficher instructions ── */
-function afficherInstructions(prenom, nom, email, tel) {
+function afficherInstructions(prenom, nom, email, tel){
   document.getElementById('step-form').style.display    = 'none';
   document.getElementById('step-success').style.display = 'block';
 
-  // Construire numéro complet avec indicatif
-  const indicatif  = document.getElementById('f-indicatif').value;
-  const telPropre  = tel.replace(/\D/g,''); // chiffres seulement
+  const indicatif = document.getElementById('f-indicatif').value;
   const telAffiche = '+' + indicatif + ' ' + tel;
-
-  const montant = produit.price.toLocaleString('fr-FR');
+  const montant = Number(produit.price).toLocaleString('fr-FR');
 
   document.getElementById('s-title').textContent = 'Comment payer, ' + prenom + ' ?';
-  document.getElementById('s-msg').textContent   = 'Suis ces 3 étapes simples pour recevoir ton produit.';
+  document.getElementById('s-sub').textContent   = 'Suis ces 3 étapes simples pour recevoir ton produit.';
 
   let infosCustom = '';
-  if (produit.type === 'custom') {
+  if(produit.type==='custom'){
     infosCustom =
       '\nNb chambres : ' + document.getElementById('f-chambres').value +
       '\nSurface : '     + document.getElementById('f-surface').value +
       '\nStyle : '       + document.getElementById('f-style').value +
-      '\nTerrain : '     + (document.getElementById('f-terrain').value || 'Non précisé') +
-      '\nNotes : '       + (document.getElementById('f-notes').value   || 'Aucune');
+      '\nTerrain : '     + (document.getElementById('f-terrain').value||'Non précisé') +
+      '\nNotes : '       + (document.getElementById('f-notes').value||'Aucune');
   }
 
   const msgRaw =
@@ -1494,36 +1512,30 @@ function afficherInstructions(prenom, nom, email, tel) {
     'Email : '   + email + '\n' +
     'Tél : '     + telAffiche +
     (infosCustom ? '\n' + infosCustom : '') +
-    '\n\nJ\'ai effectué le paiement MTN MoMo. Merci de confirmer et m\'envoyer mon produit.';
+    "\n\nJ'ai effectué le paiement MTN MoMo. Merci de confirmer et m'envoyer mon produit.";
 
-  const msgEncode = encodeURIComponent(msgRaw);
+  const msgEnc = encodeURIComponent(msgRaw);
 
-  document.getElementById('s-steps').innerHTML = `
-    <div class="num-box">
-      <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">Numéro MTN MoMo à créditer</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--or)">${MTN_NUMERO}</div>
-      <div style="font-size:12px;color:#555;margin-top:4px">${MTN_NOM}</div>
+  document.getElementById('s-content').innerHTML = `
+    <div class="pay-step-block">
+      <div class="lbl">Numéro MTN MoMo à créditer</div>
+      <div class="num">${MTN_NUMERO}</div>
+      <div class="sub">${MTN_NOM}</div>
     </div>
-    <div class="amount-box">
-      <div style="font-size:10px;color:#555;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Montant à envoyer</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:#FFC107">${montant} FCFA</div>
+    <div class="pay-amount-block">
+      <div class="lbl">Montant à envoyer</div>
+      <div class="amount">${montant} FCFA</div>
     </div>
-    <div class="s-step">
-      <span class="s-step-n">1.</span>
-      <span>Ouvre ton application <strong style="color:#FFC107">MTN MoMo</strong> et envoie <strong style="color:var(--or)">${montant} FCFA</strong> au <strong style="color:var(--or)">${MTN_NUMERO}</strong></span>
+    <div class="steps-list">
+      <div class="step-item"><span class="step-n">1</span><span class="step-text">Ouvre ton app <strong>MTN MoMo</strong> et envoie <strong>${montant} FCFA</strong> au <strong>${MTN_NUMERO}</strong></span></div>
+      <div class="step-item"><span class="step-n">2</span><span class="step-text">Dans le motif, écris : <strong>${produit.name.substring(0,30)}</strong></span></div>
+      <div class="step-item"><span class="step-n">3</span><span class="step-text">Clique le bouton WhatsApp ci-dessous — tu recevras ton produit sur <strong>${email}</strong></span></div>
     </div>
-    <div class="s-step">
-      <span class="s-step-n">2.</span>
-      <span>Dans le motif, écris : <strong style="color:var(--creme)">${produit.name.substring(0,25)}</strong></span>
-    </div>
-    <div class="s-step">
-      <span class="s-step-n">3.</span>
-      <span>Clique le bouton WhatsApp ci-dessous pour confirmer → tu recevras ton produit sur <strong style="color:var(--or)">${email}</strong></span>
-    </div>
-    <a class="wa-btn" href="https://wa.me/${WHATSAPP_ID}?text=${msgEncode}" target="_blank" rel="noopener">
-      <svg width="20" height="20"><use href="#ico-wa"/></svg>
+    <a class="wa-button" href="https://wa.me/${WHATSAPP_ID}?text=${msgEnc}" target="_blank" rel="noopener">
+      <svg width="20" height="20"><use href="#i-wa"/></svg>
       Confirmer mon paiement sur WhatsApp
     </a>
+    <button class="btn-close-success" onclick="fermerModal()">Fermer</button>
   `;
 }
 </script>
